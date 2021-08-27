@@ -6,15 +6,37 @@ class Pages extends BaseController
 {
     public function index()
     {
-        echo view('layout/header');
-        echo view('pages/home');
-        echo view('layout/footer');
+        $data = [
+            'title' => 'Home | Sistem Disposisi'
+        ];
+        return view('pages/home', $data);
     }
 
     public function about()
     {
-        echo view('layout/header');
-        echo view('pages/about');
-        echo view('layout/footer');
+        $data = [
+            'title' => 'About Me'
+        ];
+        return view('pages/about', $data);
+    }
+
+    public function contact()
+    {
+        $data = [
+            'title' => 'Contact Us',
+            'alamat' => [
+                [
+                    'tipe' => 'rumah',
+                    'alamat' => 'Jl.Baturetno',
+                    'kota' => 'Tuban'
+                ],
+                [
+                    'tipe' => 'kontrakan',
+                    'alamat' => 'Jl.Sukolilo',
+                    'kota' => 'Bandung'
+                ]
+            ]
+        ];
+        return view('pages/contact', $data);
     }
 }

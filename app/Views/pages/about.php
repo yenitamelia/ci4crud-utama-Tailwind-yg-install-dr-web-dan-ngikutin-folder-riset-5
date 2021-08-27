@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<?= $this->extend('layout/template'); ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me</title>
-    <link rel="stylesheet" href="/css/tailwind.css">
-</head>
+<?= $this->section('content'); ?>
 
-<body>
-    <h1 class="bg-red-700">About Me</h1>
-</body>
+<h1 class="bg-red-700">About Me</h1>
 
-</html>
+<?= $this->endSection(); ?>
