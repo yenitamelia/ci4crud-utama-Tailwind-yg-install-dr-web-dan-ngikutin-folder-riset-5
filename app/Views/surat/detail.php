@@ -23,7 +23,7 @@
             </tr>
             <tr>
                 <td class="w-1/2">Lampiran</td>
-                <td class="w-1/2">-</td>
+                <td class="w-1/2"><?= $surat['lampiran']; ?></td>
             </tr>
         </thead>
     </table>

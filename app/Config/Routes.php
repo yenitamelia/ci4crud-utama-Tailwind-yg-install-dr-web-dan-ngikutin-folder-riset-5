@@ -32,7 +32,7 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Pages::index');
-
+$routes->get('/surat/create', 'surat::create');
 $routes->get('/surat/(:segment)', 'Surat::detail/$1');
 
 /*
