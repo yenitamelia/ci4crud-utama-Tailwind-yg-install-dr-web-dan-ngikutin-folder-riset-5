@@ -102,7 +102,6 @@ class Surat extends BaseController
         $now = new DateTime();
         // dd($now->format('Y-m-d H:i:s'));
 
-        // $now   = new \DateTime('now');
         $this->suratModel->save([
             'tanggal' => $this->request->getVar('tanggal'),
             'nomor_surat' => $this->request->getVar('nomor_surat'),
@@ -116,12 +115,84 @@ class Surat extends BaseController
         session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
 
         return redirect()->to('/surat');
-        echo now();
     }
 
     public function delete($id)
     {
         $this->suratModel->delete($id);
+        session()->setFlashdata('pesan', 'Data berhasil dihapus.');
         return redirect()->to('surat');
+    }
+
+    public function edit($id)
+    {
+        // Pake session agar tampilan errornya muncul
+        // Biar ga lupa2 makanya dipindah aja di BaseController
+        // session();
+        $data = [
+            'title' => 'Form Ubah Surat Masuk',
+            'validation' => \Config\Services::validation(),
+            // Mengambil semua data surat sesuai id yg dipilih
+            'surat' => $this->suratModel->getSurat($id)
+        ];
+
+        return view('surat/edit', $data);
+    }
+
+    public function update($id)
+    {
+        // validasi input
+        if (!$this->validate([
+            'tanggal' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'nomor_surat' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'dari' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'perihal' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            // Mengambil pesan kesalahan
+            $validation = \Config\Services::validation();
+            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
+            return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
+        }
+
+
+        // Mengambil semua data yg telah diinput
+        // $this->request->getVar();
+        $now = new DateTime();
+        // dd($now->format('Y-m-d H:i:s'));
+
+        $this->suratModel->save([
+            'id' => $id,
+            'tanggal' => $this->request->getVar('tanggal'),
+            'nomor_surat' => $this->request->getVar('nomor_surat'),
+            'dari' => $this->request->getVar('dari'),
+            'perihal' => $this->request->getVar('perihal'),
+            'lampiran' => $this->request->getVar('lampiran'),
+            'created_at' => $now->format('Y-m-d H:i:s'),
+            'updated_at' => $now->format('Y-m-d H:i:s')
+        ]);
+
+        session()->setFlashdata('pesan', 'Data berhasil diubah.');
+
+        return redirect()->to('/surat');
     }
 }

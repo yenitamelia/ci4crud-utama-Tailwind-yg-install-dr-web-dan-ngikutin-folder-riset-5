@@ -28,8 +28,14 @@
         </thead>
     </table>
 
-    <a href="" class="bg-yellow-500 rounded-xl text-sm text-white px-3 py-1">Edit</a>
-    <a href="/surat/delete/<?= $surat['id']; ?>" class="bg-red-500 rounded-xl text-sm text-white px-3 py-1">Delete</a>
+    <a href="/surat/edit/<?= $surat['id']; ?>" class="bg-yellow-500 rounded-xl text-sm text-white px-3 py-1">Edit</a>
+
+    <form action="/surat/<?= $surat['id']; ?>" method="POST" class="inline">
+        <?= csrf_field(); ?>
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="bg-red-500 rounded-xl text-sm text-white px-3 py-1" onclick="return confirm('Apakah Anda Yakin?');">Delete</button>
+    </form>
+
     <a href="/surat" class="text-blue-500">Kembali ke daftar surat</a>
 </div>
 <?= $this->endSection(); ?>
