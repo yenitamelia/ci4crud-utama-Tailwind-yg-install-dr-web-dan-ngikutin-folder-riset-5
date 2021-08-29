@@ -50,8 +50,12 @@ class Surat extends BaseController
 
     public function create()
     {
+        // Pake session agar tampilan errornya muncul
+        // Biar ga lupa2 makanya dipindah aja di BaseController
+        // session();
         $data = [
-            'title' => 'Form Tambah Surat Masuk'
+            'title' => 'Form Tambah Surat Masuk',
+            'validation' => \Config\Services::validation()
         ];
 
         return view('surat/create', $data);
@@ -60,6 +64,39 @@ class Surat extends BaseController
     // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel
     public function save()
     {
+        // validasi input
+        if (!$this->validate([
+            'tanggal' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'nomor_surat' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'dari' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'perihal' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ]
+        ])) {
+            // Mengambil pesan kesalahan
+            $validation = \Config\Services::validation();
+            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
+            return redirect()->to('/surat/create')->withInput()->with('validation', $validation);
+        }
+
         // Mengambil semua data yg telah diinput
         // $this->request->getVar();
         $now = new DateTime();
@@ -80,5 +117,11 @@ class Surat extends BaseController
 
         return redirect()->to('/surat');
         echo now();
+    }
+
+    public function delete($id)
+    {
+        $this->suratModel->delete($id);
+        return redirect()->to('surat');
     }
 }

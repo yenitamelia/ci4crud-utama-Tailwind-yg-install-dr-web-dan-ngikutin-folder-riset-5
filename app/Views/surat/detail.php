@@ -29,7 +29,7 @@
     </table>
 
     <a href="" class="bg-yellow-500 rounded-xl text-sm text-white px-3 py-1">Edit</a>
-    <a href="" class="bg-red-500 rounded-xl text-sm text-white px-3 py-1">Delete</a>
+    <a href="/surat/delete/<?= $surat['id']; ?>" class="bg-red-500 rounded-xl text-sm text-white px-3 py-1">Delete</a>
     <a href="/surat" class="text-blue-500">Kembali ke daftar surat</a>
 </div>
 <?= $this->endSection(); ?>
