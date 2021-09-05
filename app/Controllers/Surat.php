@@ -48,6 +48,21 @@ class Surat extends BaseController
         return view('surat/detail', $data);
     }
 
+    public function lembar($id)
+    {
+        $data = [
+            'title' => 'Lembar Surat',
+            'surat' => $this->suratModel->getSurat($id)
+        ];
+
+        // Jika surat tidak ada di tabel
+        if (empty($data['surat'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
+        }
+
+        return view('surat/lembar', $data);
+    }
+
     public function create()
     {
         // Pake session agar tampilan errornya muncul
@@ -66,6 +81,24 @@ class Surat extends BaseController
     {
         // validasi input
         if (!$this->validate([
+            'nomor_agenda' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'tanggal_penerimaan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'tk_keamanan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'tanggal' => [
                 'rules' => 'required',
                 'errors' => [
@@ -89,12 +122,25 @@ class Surat extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
+            ],
+            'lampiran' => [
+                // Kalau filenya boleh null uploadednya hapus aja
+                'rules' => 'uploaded[lampiran]|max_size[lampiran, 2048]|ext_in[lampiran,doc,docx,pdf]',
+                'errors' => [
+                    // Kalau filenya boleh null uploadednya hapus aja
+                    'uploaded' => 'Pilih file terlebih dahulu',
+                    'max_size' => 'Ukuran file harus dibawah 2Mb',
+                    'ext_in' => 'File hanya boleh berupa doc, docx dan pdf'
+                ]
             ]
         ])) {
             // Mengambil pesan kesalahan
-            $validation = \Config\Services::validation();
+            // Ini ngga perlu karena sebenernya udah ada didalam session
+            // $validation = \Config\Services::validation();
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            return redirect()->to('/surat/create')->withInput()->with('validation', $validation);
+            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
+            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
+            return redirect()->to('/surat/create')->withInput();
         }
 
         // Mengambil semua data yg telah diinput
@@ -102,12 +148,23 @@ class Surat extends BaseController
         $now = new DateTime();
         // dd($now->format('Y-m-d H:i:s'));
 
+        // Ambil file
+        $fileLampiran = $this->request->getFile('lampiran');
+        // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
+        $fileLampiran->move('lampiran');
+        // Ambil nama file
+        $namaLampiran = $fileLampiran->getName();
+
         $this->suratModel->save([
+            'nomor_agenda' => $this->request->getVar('nomor_agenda'),
+            'tanggal_penerimaan' => $this->request->getVar('tanggal_penerimaan'),
+            'tk_keamanan' => $this->request->getVar('tk_keamanan'),
+            'tanggal_penyelesaian' => $this->request->getVar('tanggal_penyelesaian'),
             'tanggal' => $this->request->getVar('tanggal'),
             'nomor_surat' => $this->request->getVar('nomor_surat'),
             'dari' => $this->request->getVar('dari'),
             'perihal' => $this->request->getVar('perihal'),
-            'lampiran' => $this->request->getVar('lampiran'),
+            'lampiran' => $namaLampiran,
             'created_at' => $now->format('Y-m-d H:i:s'),
             'updated_at' => $now->format('Y-m-d H:i:s')
         ]);
@@ -119,6 +176,13 @@ class Surat extends BaseController
 
     public function delete($id)
     {
+        // Cari lampiran berdasarkan id
+        $surat = $this->suratModel->find($id);
+
+        // Hapus file lampiran yg ada di folder ci
+        // Karena kalau hapus biasa cuman ngehapus sampai phpmyadmin aja, sedangkan di folder ci-nya belum kehapus 
+        unlink('lampiran/' . $surat['lampiran']);
+
         $this->suratModel->delete($id);
         session()->setFlashdata('pesan', 'Data berhasil dihapus.');
         return redirect()->to('surat');
@@ -143,6 +207,24 @@ class Surat extends BaseController
     {
         // validasi input
         if (!$this->validate([
+            'nomor_agenda' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'tanggal_penerimaan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'tk_keamanan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
             'tanggal' => [
                 'rules' => 'required',
                 'errors' => [
@@ -166,14 +248,40 @@ class Surat extends BaseController
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
+            ],
+            'lampiran' => [
+                // Kalau filenya boleh null uploadednya hapus aja
+                'rules' => 'uploaded[lampiran]|max_size[lampiran, 2048]|ext_in[lampiran,doc,docx,pdf]',
+                'errors' => [
+                    // Kalau filenya boleh null uploadednya hapus aja
+                    'uploaded' => 'Pilih file terlebih dahulu',
+                    'max_size' => 'Ukuran file harus dibawah 2Mb',
+                    'ext_in' => 'File hanya boleh berupa doc, docx dan pdf'
+                ]
             ]
         ])) {
             // Mengambil pesan kesalahan
-            $validation = \Config\Services::validation();
+            // Ini ngga perlu karena sebenernya udah ada didalam session
+            // $validation = \Config\Services::validation();
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
+            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
+            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
+            return redirect()->to('/surat/edit/' . $id)->withInput();
         }
 
+        // Mengambil file lampiran
+        $fileLampiran = $this->request->getFile('lampiran');
+
+        // Cek lampiran, apakah tetap lampiran yg lama
+        // Dicek apakah user upload file baru ngga, kalau ngga berarti errornya 4 (filenya kosong)
+        if ($fileLampiran->getError() == 4) {
+            $namaLampiran = $this->request->getVar('lampiranLama');
+        } else {
+            // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
+            $fileLampiran->move('lampiran');
+            // Hapus file yang lama
+            unlink('lampiran/' . $this->request->getVar['lampiranLama']);
+        }
 
         // Mengambil semua data yg telah diinput
         // $this->request->getVar();
@@ -182,11 +290,15 @@ class Surat extends BaseController
 
         $this->suratModel->save([
             'id' => $id,
+            'nomor_agenda' => $this->request->getVar('nomor_agenda'),
+            'tanggal_penerimaan' => $this->request->getVar('tanggal_penerimaan'),
+            'tk_keamanan' => $this->request->getVar('tk_keamanan'),
+            'tanggal_penyelesaian' => $this->request->getVar('tanggal_penyelesaian'),
             'tanggal' => $this->request->getVar('tanggal'),
             'nomor_surat' => $this->request->getVar('nomor_surat'),
             'dari' => $this->request->getVar('dari'),
             'perihal' => $this->request->getVar('perihal'),
-            'lampiran' => $this->request->getVar('lampiran'),
+            'lampiran' => $namaLampiran,
             'created_at' => $now->format('Y-m-d H:i:s'),
             'updated_at' => $now->format('Y-m-d H:i:s')
         ]);

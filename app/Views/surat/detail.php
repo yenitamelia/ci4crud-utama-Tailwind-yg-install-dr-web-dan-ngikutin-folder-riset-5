@@ -6,6 +6,22 @@
     <table class="table-fixed text-center">
         <thead>
             <tr>
+                <td class="w-1/2">Nomor Agenda</td>
+                <td class="w-1/2"><?= $surat['nomor_agenda']; ?></td>
+            </tr>
+            <tr>
+                <td class="w-1/2">Tanggal Penerimaan</td>
+                <td class="w-1/2"><?= $surat['tanggal_penerimaan']; ?></td>
+            </tr>
+            <tr>
+                <td class="w-1/2">Tingkat Keamanan</td>
+                <td class="w-1/2"><?= $surat['tk_keamanan']; ?></td>
+            </tr>
+            <tr>
+                <td class="w-1/2">Tanggal Penyelesaian</td>
+                <td class="w-1/2"><?= $surat['tanggal_penyelesaian']; ?></td>
+            </tr>
+            <tr>
                 <td class="w-1/2">Tanggal Surat</td>
                 <td class="w-1/2"><?= $surat['tanggal']; ?></td>
             </tr>
@@ -29,7 +45,9 @@
     </table>
 
     <a href="/surat/edit/<?= $surat['id']; ?>" class="bg-yellow-500 rounded-xl text-sm text-white px-3 py-1">Edit</a>
-
+    <div>
+        <a href="/surat/lembar/<?= $surat['id']; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">Lembar</a>
+    </div>
     <form action="/surat/<?= $surat['id']; ?>" method="POST" class="inline">
         <?= csrf_field(); ?>
         <input type="hidden" name="_method" value="DELETE">
