@@ -35,6 +35,7 @@ $routes->get('/', 'Pages::index');
 $routes->get('/surat/create', 'surat::create');
 $routes->get('/surat/edit/(:segment)', 'surat::edit/$1');
 $routes->get('/surat/lembar/(:segment)', 'surat::lembar/$1');
+$routes->get('/surat/viewpdf/(:segment)', 'surat::viewpdf/$1');
 $routes->delete('/surat/(:num)', 'surat::delete/$1');
 $routes->get('/surat/(:any)', 'Surat::detail/$1');
 

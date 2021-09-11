@@ -174,6 +174,69 @@ class Surat extends BaseController
         return redirect()->to('/surat');
     }
 
+    public function saveDisposisi($id)
+    {
+        // validasi input
+        if (!$this->validate([
+            'isi_disposisi' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'diteruskan_kepada' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'gambar' => [
+                // Kalau filenya boleh null uploadednya hapus aja
+                'rules' => 'uploaded[gambar]|max_size[gambar, 1024]|is_image[gambar]|mime_in[gambar, image/jpg, image/jpeg, image/png]',
+                'errors' => [
+                    // Kalau filenya boleh null uploadednya hapus aja
+                    'uploaded' => 'Pilih gambar terlebih dahulu',
+                    'max_size' => 'Ukuran gambar harus dibawah 1Mb',
+                    'is_image' => 'File yang Anda pilih bukan gambar',
+                    'mime_in' => 'File yang Anda pilih bukan gambar'
+                ]
+            ]
+        ])) {
+            // Mengambil pesan kesalahan
+            // Ini ngga perlu karena sebenernya udah ada didalam session
+            // $validation = \Config\Services::validation();
+            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
+            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
+            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
+            return redirect()->to('/surat/viewpdf/' . $id)->withInput();
+        }
+
+        // Mengambil semua data yg telah diinput
+        // $this->request->getVar();
+        $now = new DateTime();
+        // dd($now->format('Y-m-d H:i:s'));
+
+        // Ambil file
+        $fileGambar = $this->request->getFile('gambar');
+        // Pindahkan file ke folder gambar, masuk ke folder public folder gambar
+        $fileGambar->move('gambar');
+        // Ambil nama file
+        $namaGambar = $fileGambar->getName();
+
+        $this->suratModel->save([
+            'id' => $id,
+            'isi_disposisi' => $this->request->getVar('isi_disposisi'),
+            'diteruskan_kepada' => $this->request->getVar('diteruskan_kepada'),
+            'gambar' => $namaGambar,
+            'created_at' => $now->format('Y-m-d H:i:s'),
+            'updated_at' => $now->format('Y-m-d H:i:s')
+        ]);
+
+        session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
+
+        return redirect()->to('/surat');
+    }
+
     public function delete($id)
     {
         // Cari lampiran berdasarkan id
@@ -306,5 +369,25 @@ class Surat extends BaseController
         session()->setFlashdata('pesan', 'Data berhasil diubah.');
 
         return redirect()->to('/surat');
+    }
+
+    public function viewpdf($id)
+    {
+        // Mengambil semua data dari tabel surat
+        // $surat = $this->suratModel->findAll();
+        // Diganti dibawah pake method ifelse di file SuratModel
+
+        $data = [
+            'title' => 'View Surat',
+            'validation' => \Config\Services::validation(),
+            'surat' => $this->suratModel->getSurat($id)
+        ];
+
+        // Jika surat tidak ada di tabel
+        if (empty($data['surat'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
+        }
+
+        return view('surat/viewpdf', $data);
     }
 }

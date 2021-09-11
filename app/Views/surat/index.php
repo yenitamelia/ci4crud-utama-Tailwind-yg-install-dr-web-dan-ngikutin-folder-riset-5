@@ -18,6 +18,7 @@
                 <th class="w-1/5">Status</th>
                 <th class="w-1/3">Perihal</th>
                 <th class="w-1/5">Aksi</th>
+                <th class="w-1/5">Aksi 2</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,9 @@
                     <td><?= $s['perihal']; ?></td>
                     <td>
                         <a href="/surat/<?= $s['id']; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">Detail</a>
+                    </td>
+                    <td>
+                        <a href="/surat/viewpdf/<?= $s['id']; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
