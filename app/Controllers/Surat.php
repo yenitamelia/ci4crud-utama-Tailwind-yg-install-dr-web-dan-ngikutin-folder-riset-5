@@ -37,6 +37,7 @@ class Surat extends BaseController
     {
         $data = [
             'title' => 'Detail Surat',
+            'validation' => \Config\Services::validation(),
             'surat' => $this->suratModel->getSurat($id)
         ];
 
@@ -371,23 +372,40 @@ class Surat extends BaseController
         return redirect()->to('/surat');
     }
 
-    public function viewpdf($id)
+    public function download($id)
     {
-        // Mengambil semua data dari tabel surat
-        // $surat = $this->suratModel->findAll();
-        // Diganti dibawah pake method ifelse di file SuratModel
-
-        $data = [
-            'title' => 'View Surat',
-            'validation' => \Config\Services::validation(),
-            'surat' => $this->suratModel->getSurat($id)
-        ];
-
-        // Jika surat tidak ada di tabel
-        if (empty($data['surat'])) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
-        }
-
-        return view('surat/viewpdf', $data);
+        $surat = $this->suratModel->find($id);
+        return $this->response->download('lampiran/' . $surat['lampiran'], null);
     }
+
+    // public function read($id)
+    // {
+    //     $surat = $this->suratModel->find($id);
+    //     // return $surat['lampiran'];
+    //     // $lampiran = $surat["lampiran"];
+    //     // $len = isset($lampiran) ? count($lampiran) : 0;
+    //     // dd($len);
+    //     // echo '<iframe src= "DAFTAR_ST2013_L (1)_1.pdf"</iframe>';
+    //     echo 'DAFTAR_ST2013_L (1)_1.pdf';
+    // }
+
+    // public function viewpdf($id)
+    // {
+    //     // Mengambil semua data dari tabel surat
+    //     // $surat = $this->suratModel->findAll();
+    //     // Diganti dibawah pake method ifelse di file SuratModel
+
+    //     $data = [
+    //         'title' => 'View Surat',
+    //         'validation' => \Config\Services::validation(),
+    //         'surat' => $this->suratModel->getSurat($id)
+    //     ];
+
+    //     // Jika surat tidak ada di tabel
+    //     if (empty($data['surat'])) {
+    //         throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
+    //     }
+
+    //     return view('surat/viewpdf', $data);
+    // }
 }

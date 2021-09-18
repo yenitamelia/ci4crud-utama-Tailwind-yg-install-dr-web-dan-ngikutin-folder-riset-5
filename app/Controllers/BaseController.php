@@ -36,7 +36,9 @@ class BaseController extends Controller
 	 *
 	 * @var array
 	 */
-	protected $helpers = [];
+
+	//  dikasih auth, awalnya '', karena biar bisa manggil fungsi group utk menampilkan halaman yg bisa dilihat setiap grup
+	protected $helpers = ['auth'];
 
 	/**
 	 * Constructor.

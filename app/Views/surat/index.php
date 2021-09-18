@@ -9,8 +9,12 @@
             <?= session()->getFlashdata('pesan'); ?>
         </div>
     <?php endif; ?>
-    <!-- Tombol Tambah Surat -->
-    <a href="/surat/create" class="mb-5 bg-blue-500 rounded-xl text-sm text-white px-3 py-1">Tambah Surat</a>
+
+    <?php if (in_groups('bid_umum')) : ?>
+        <!-- Tombol Tambah Surat -->
+        <a href="/surat/create" class="mb-5 bg-blue-500 rounded-xl text-sm text-white px-3 py-1">Tambah Surat</a>
+    <?php endif; ?>
+
     <table class="table-fixed text-center">
         <thead>
             <tr>
@@ -18,7 +22,7 @@
                 <th class="w-1/5">Status</th>
                 <th class="w-1/3">Perihal</th>
                 <th class="w-1/5">Aksi</th>
-                <th class="w-1/5">Aksi 2</th>
+                <!-- <th class="w-1/5">Aksi 2</th> -->
             </tr>
         </thead>
         <tbody>
@@ -26,14 +30,14 @@
             <?php foreach ($surat as $s) : ?>
                 <tr>
                     <td><?= $i++; ?></td>
-                    <td>Telah dikirim ke kepala</td>
+                    <td>Terkirim</td>
                     <td><?= $s['perihal']; ?></td>
                     <td>
                         <a href="/surat/<?= $s['id']; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">Detail</a>
                     </td>
-                    <td>
+                    <!-- <td>
                         <a href="/surat/viewpdf/<?= $s['id']; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>
-                    </td>
+                    </td> -->
                 </tr>
             <?php endforeach; ?>
         </tbody>
