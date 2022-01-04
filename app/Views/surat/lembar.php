@@ -1,4 +1,4 @@
-<?= $this->extend('layout/template'); ?>
+<?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>
 <div class="container mx-auto px-6">

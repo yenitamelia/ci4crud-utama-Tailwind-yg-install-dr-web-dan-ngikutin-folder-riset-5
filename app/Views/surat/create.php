@@ -1,4 +1,4 @@
-<?= $this->extend('layout/template'); ?>
+<?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>
 
@@ -91,7 +91,7 @@
         <p class="text-blue-500 font-bold">Unggah Lampiran</p>
         <div class="flex mt-5">
             <div class="flex justify-start items-center mb-1 w-full relative">
-                <input type="file" hidden accept=".doc, .docx, .pdf" title="Pilih File" id='lampiran' name="lampiran" onchange="label()">
+                <input type="file" hidden accept=".pdf" title="Pilih File" id='lampiran' name="lampiran" onchange="label()">
                 <label for="lampiran" title="Harus Diisi" class="bg-blue-500 text-white rounded-full w-24 py-1 text-center cursor-pointer hover:bg-blue-400 transition-colors duration-300 text-sm mr-4 outline-none">Pilih File</label>
                 <span class="customLabel text-blue-500 absolute md:left-28 left-28 select-none cursor-default cursor md:text-sm text-sm" id="labelLampiran"><?= old('lampiranLama'); ?></span>
             </div>

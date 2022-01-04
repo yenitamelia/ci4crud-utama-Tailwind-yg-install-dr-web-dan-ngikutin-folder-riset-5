@@ -1,8 +1,8 @@
-<?= $this->extend('layout/template'); ?>
+<?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>
 <div class="container mx-auto px-6">
-    <div class="text-2xl my-5">Daftar Surat</div>
+    <div class="text-2xl py-5">Data Surat Masuk</div>
     <!-- Alert jika data berhasil ditambahkan -->
     <?php if (session()->getFlashdata('pesan')) : ?>
         <div class="bg-green-200 text-green-600 text-sm py-3 px-6 rounded-lg mb-5">
@@ -12,10 +12,9 @@
 
     <?php if (in_groups('bid_umum')) : ?>
         <!-- Tombol Tambah Surat -->
-        <a href="/surat/create" class="mb-5 bg-blue-500 rounded-xl text-sm text-white px-3 py-1">Tambah Surat</a>
+        <a href="/surat/create" class="mb-5 bg-blue-500 rounded-xl text-sm text-white px-3 py-1">Tambah Surat Masuk</a>
     <?php endif; ?>
-
-    <table class="table-fixed text-center">
+    <table id="myTable" class="display" width="100%">
         <thead>
             <tr>
                 <th class="w-1/6">No</th>
@@ -43,4 +42,17 @@
         </tbody>
     </table>
 </div>
+
+
+<script type="text/javascript" charset="utf8" src="https://releases.jquery.com/git/jquery-3.x-git.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable();
+    });
+</script>
+
+
+
+
 <?= $this->endSection(); ?>

@@ -1,6 +1,7 @@
-<?= $this->extend('layout/template'); ?>
+<?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>
+
 <div class="container mx-auto px-6">
     <div class="text-2xl mt-2">Detail Surat <?= $surat['perihal']; ?></div>
     <table class="table-fixed text-center">
@@ -41,6 +42,14 @@
                 <td class="w-1/2">Lampiran</td>
                 <td class="w-1/2"><?= $surat['lampiran']; ?></td>
             </tr>
+            <tr>
+                <td class="w-1/2">Isi Disposisi</td>
+                <td class="w-1/2" id="isi_disposisi"></td>
+            </tr>
+            <tr>
+                <td class="w-1/2">Diteruskan</td>
+                <td class="w-1/2" id="diteruskan"><?= $surat['diteruskan']; ?></td>
+            </tr>
         </thead>
     </table>
 
@@ -48,7 +57,7 @@
         <div class="text-2xl mt-2">Form Disposisi</div>
         <!-- Nampilin pesan error di view -->
         <!-- <h1>$validation->ListErrors();</h1> -->
-        <form action="/surat/saveDisposisi" method="post" enctype="multipart/form-data">
+        <form action="/surat/saveDisposisi/<?= $surat['id']; ?>" method="post" enctype="multipart/form-data" id="saveDisposisi">
             <?= csrf_field(); ?>
             <!-- Menyimpan file lampiran lama biar ga bermasalah waktu yg diganti cuman judulnya aja, dst -->
             <input type="hidden" name="lampiranLama" value="<?= old('lampiran'); ?>">
@@ -64,12 +73,12 @@
             </div>
             <div class="grid grid-cols-6">
                 <label for="tanggal_penerimaan">Diteruskan kepada :</label>
-                <input type="checkbox" id="kfSosial" name="kfSosial" value="kfSosial">
-                <label for="kfSosial">Kf Bidang Sosial</label><br>
-                <input type="checkbox" id="kfEkonomi" name="kfEkonomi" value="kfEkonomi">
-                <label for="kfEkonomi">Kf Bidang Ekonomi</label><br>
-                <input type="checkbox" id="kfKependudukan" name="kfKependudukan" value="kfKependudukan">
-                <label for="kfKependudukan">Kf Bidang Kependudukan</label><br><br>
+                <?php foreach ($role as $row) : ?>
+                    <?php if (($row["id"]) > 2) : ?>
+                        <input type="checkbox" id="<?= $row["name"]; ?>" name="<?= $row["name"]; ?>" value="<?= $row["id"]; ?>">
+                        <label for="<?= $row["name"]; ?>"><?= $row["description"]; ?></label><br>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </div>
 
             <!-- <div class="mb-3 grid grid-cols-6">
@@ -79,9 +88,9 @@
             <p class="text-blue-500 font-bold">Unggah Tanda Tangan Elektronik</p>
             <div class="flex mt-5">
                 <div class="flex justify-start items-center mb-1 w-full relative">
-                    <input type="file" hidden accept=".doc, .docx, .pdf" title="Pilih File" id='gambar' name="gambar" onchange="label()">
+                    <input type="file" hidden accept="image/jpg, image/jpeg, image/png" title="Pilih File" id='gambar' name="gambar" onchange="label2()">
                     <label for="gambar" title="Harus Diisi" class="bg-blue-500 text-white rounded-full w-24 py-1 text-center cursor-pointer hover:bg-blue-400 transition-colors duration-300 text-xs mr-4 outline-none">Pilih Gambar</label>
-                    <span class="customLabel text-blue-500 absolute md:left-28 left-28 select-none cursor-default cursor md:text-sm text-sm" id="labelgambar"><?= old('gambarLama'); ?></span>
+                    <span class="customLabel text-blue-500 absolute md:left-28 left-28 select-none cursor-default cursor md:text-sm text-sm" id="labelGambar"><?= old('gambarLama'); ?></span>
                 </div>
             </div>
             <div class="font-medium tracking-wide text-red-500 text-xs ml-1 mb-2">
