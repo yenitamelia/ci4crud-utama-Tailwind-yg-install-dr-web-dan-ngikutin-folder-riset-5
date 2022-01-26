@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\SuratModel;
+use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
 use DateTime;
+use PhpParser\Node\Stmt\Echo_;
 
 // use CodeIgniter\I18n\Time;
 
@@ -12,12 +14,14 @@ class Surat extends BaseController
 {
     // protected karena biar bisa dipanggil dikelas ini maupun kelas turunannya
     protected $suratModel;
+    protected $disposisiModel;
     protected $groupsModel;
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
     {
         // Memanggil/menghubungkan dari file SuratModel
         $this->suratModel = new SuratModel();
+        $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
     }
 
@@ -29,7 +33,9 @@ class Surat extends BaseController
 
         $data = [
             'title' => 'Daftar Surat',
-            'surat' => $this->suratModel->getSurat()
+            'validation' => \Config\Services::validation(),
+            'surat' => $this->suratModel->getSurat(),
+            'role' => $this->groupsModel->getGroups()
         ];
 
         return view('surat/index', $data);
@@ -179,28 +185,28 @@ class Surat extends BaseController
         return redirect()->to('/surat');
     }
 
-    public function saveDisposisi($id)
+    public function saveDisposisi()
     {
-        // dd($this->request->getVar('gambar'));
+        // dd($this->request->getVar());
         // dd($this->request->getFile('gambar'));
         $validation = \Config\Services::validation();
         // validasi input
         if (!$this->validate([
-            'isi_disposisi' => [
+            'isi-disposisi' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'diteruskan_kepada' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
+            // 'diteruskan_kepada' => [
+            //     'rules' => 'required',
+            //     'errors' => [
+            //         'required' => '{field} harus diisi.'
+            //     ]
+            // ],
             'gambar' => [
                 // Kalau filenya boleh null uploadednya hapus aja
-                'rules' => 'uploaded[gambar]|max_size[gambar, 1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+                'rules' => 'uploaded[gambar]|max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
                 'errors' => [
                     // Kalau filenya boleh null uploadednya hapus aja
                     'uploaded' => 'Pilih gambar terlebih dahulu',
@@ -210,13 +216,14 @@ class Surat extends BaseController
                 ]
             ]
         ])) {
+
             // Mengambil pesan kesalahan
             // Ini ngga perlu karena sebenernya udah ada didalam session
             // $validation = \Config\Services::validation();
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
             // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/surat/' . $id)->withInput();
+            return redirect()->to('/surat')->withInput();
         }
 
         if ($validation->run() == FALSE) {
@@ -225,7 +232,7 @@ class Surat extends BaseController
         } else {
             // Mengambil semua data yg telah diinput
             // $this->request->getVar();
-            $now = new DateTime();
+            // $now = new DateTime();
             // dd($now->format('Y-m-d H:i:s'));
 
             // Ambil file
@@ -234,33 +241,44 @@ class Surat extends BaseController
             $fileGambar->move('gambar');
             // Ambil nama file
             $namaGambar = $fileGambar->getName();
+            $role = $this->groupsModel->getGroups();
 
-            $kfSosial = $this->request->getPost('kfSosial');
-            $kfEkonomi = $this->request->getPost('kfEkonomi');
-            $kfKependudukan = $this->request->getPost('kfKependudukan');
-            // $diteruskan = getVar();
+            foreach ($role as $row) {
+                if (($row["id"]) > 2) {
+                    // dd($this->request->getPost($row["id"]) !== null);
+                    if ($this->request->getPost($row["id"]) !== null) {
+                        // dd($this->request->getVar('isi-disposisi'));
 
+                        // $data = [
+                        //     'isi_disposisi' => $this->request->getVar('isi_disposisi'),
+                        //     'id_surat' => $this->request->getVar('id_surat'),
+                        //     'id_role' => $this->request->getVar($row["id"]),
+                        //     'gambar' => $namaGambar,
+                        // ];
+                        // $this->disposisiModel->save($data);
+                        $query = $this->disposisiModel->save([
+                            // 'id' => $id,
+                            'isi_disposisi' => $this->request->getVar('isi-disposisi'),
+                            'id_surat' => $this->request->getVar('id_surat'),
+                            'id_role' => $this->request->getVar($row["id"]),
+                            'gambar' => $namaGambar,
 
+                        ]);
 
-            $query = $this->suratModel->save([
-                // 'id' => $id,
-                'isi_disposisi' => $this->request->getVar('isi_disposisi'),
-                // 'diteruskan' => $this->request->getVar('diteruskan'),
-                'kfSosial' => $kfSosial,
-                'gambar' => $namaGambar,
-                'created_at' => $now->format('Y-m-d H:i:s'),
-                'updated_at' => $now->format('Y-m-d H:i:s')
-            ]);
+                        if ($query) {
+                            echo json_encode(['code' => 1, 'msg' => 'Data Keterangan Disposisi telah ditambahkan']);
+                        } else {
+                            echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
+                        }
 
-            if ($query) {
-                echo json_encode(['code' => 1, 'msg' => 'Data Keterangan Disposisi telah ditambahkan']);
-            } else {
-                echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
+                        // dd($this->request->getVar($row["id"]));
+                    }
+                }
             }
         }
-        // session()->setFlashdata('pesan', 'Data berhasil dilengkapi.');
+        session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
-        // return redirect()->to('/surat');
+        return redirect()->to('/surat');
     }
 
     public function getIsiDisposisi()

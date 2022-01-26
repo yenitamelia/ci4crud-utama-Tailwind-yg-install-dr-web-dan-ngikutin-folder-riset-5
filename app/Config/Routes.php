@@ -33,6 +33,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Pages::index');
 $routes->get('/surat/create', 'surat::create', ['filter' => 'role:bid_umum']);
+// $routes->get('/surat/disposisi/(:segment)', 'surat::disposisi/$1');
 $routes->get('/surat/edit/(:segment)', 'surat::edit/$1');
 $routes->get('/surat/lembar/(:segment)', 'surat::lembar/$1');
 $routes->get('/surat/download/(:segment)', 'surat::download/$1');
