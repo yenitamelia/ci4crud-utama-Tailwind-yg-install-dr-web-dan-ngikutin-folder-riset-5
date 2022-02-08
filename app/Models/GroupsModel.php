@@ -16,4 +16,10 @@ class GroupsModel extends Model
     {
         return $this->findAll();
     }
+
+    public function getRole($id)
+    {
+        $query = "SELECT * FROM auth_groups_users WHERE user_id = $id";
+        return $this->db->query($query)->getRow()->group_id;
+    }
 }

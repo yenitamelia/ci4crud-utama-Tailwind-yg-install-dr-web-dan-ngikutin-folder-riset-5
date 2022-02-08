@@ -10,7 +10,7 @@ class DisposisiModel extends Model
     protected $userTimestamps = true;
     // Karena ditabel surat ada beberapa atribut yg gadipakai misalnya id, updated_at, delete_at
     // Maka harus diberitahu mana fields yg boleh diisi
-    protected $allowedFields = ['isi_disposisi', 'id_surat', 'id_role', 'gambar'];
+    protected $allowedFields = ['isi_disposisi', 'id_surat', 'id_role', 'gambar', 'status'];
 
     // public function getSurat($id = false)
     // {

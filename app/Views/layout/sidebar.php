@@ -34,6 +34,7 @@
             <i class='bx bx-menu' id="btn"></i>
         </div>
         <ul class="nav-list">
+
             <li>
                 <i class='bx bx-search'></i>
                 <input type="text" placeholder="Search...">
@@ -68,12 +69,26 @@
                 <span class="tooltip">Analytics</span>
             </li> -->
             <li>
-                <a href="/surat">
-                    <i class='bx bx-folder'></i>
-                    <span class="links_name">Surat Masuk</span>
-                </a>
-                <span class="tooltip">Surat Masuk</span>
+                <?php if (in_groups('bid_umum')) : ?>
+                    <a href="/surat">
+                    <?php elseif (in_groups('kepala')) : ?>
+                        <a href="/surat">
+                        <?php else : ?>
+                            <a href="/tim">
+                            <?php endif; ?>
+                            <i class='bx bx-folder'></i>
+                            <span class="links_name">Surat Masuk</span>
+                            </a>
+                            <span class="tooltip">Surat Masuk</span>
             </li>
+            <li>
+                <a href="/suratKeluar">
+                    <i class='bx bx-folder'></i>
+                    <span class="links_name">Surat Keluar</span>
+                </a>
+                <span class="tooltip">Surat Keluar</span>
+            </li>
+
             <!-- <li>
                 <a href="#">
                     <i class='bx bx-cart-alt'></i>
@@ -107,6 +122,7 @@
                     <i class='bx bx-log-out' id="log_out"></i>
                 </a>
             </li>
+
         </ul>
     </div>
     <section class="home-section">
@@ -202,7 +218,7 @@
     </script>
 
     <script>
-        function modalDisposisi(id) {
+        function modalDisposisi(id, perihal, dari) {
 
             const overlay = document.querySelector('#overlay')
             const disposisiBtn = document.querySelector('#disposisi-btn' + id)
@@ -235,6 +251,8 @@
             // closeBtn.addEventListener('click', toggleModal)
 
             $("#idSurat").val(id);
+            $("#perihalSurat").val(perihal);
+            $("#dariSurat").val(dari);
         }
     </script>
 

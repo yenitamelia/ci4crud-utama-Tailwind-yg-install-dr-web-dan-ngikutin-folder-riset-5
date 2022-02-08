@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\Echo_;
 
 // use CodeIgniter\I18n\Time;
 
-class Surat extends BaseController
+class SuratKeluar extends BaseController
 {
     // protected karena biar bisa dipanggil dikelas ini maupun kelas turunannya
     protected $suratModel;
@@ -266,7 +266,6 @@ class Surat extends BaseController
                         ]);
 
                         if ($query) {
-
                             echo json_encode(['code' => 1, 'msg' => 'Data Keterangan Disposisi telah ditambahkan']);
                         } else {
                             echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
@@ -277,7 +276,6 @@ class Surat extends BaseController
                 }
             }
         }
-        $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
         return redirect()->to('/surat');

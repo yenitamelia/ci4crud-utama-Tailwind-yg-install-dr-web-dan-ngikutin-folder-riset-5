@@ -13,23 +13,23 @@
                 </svg>
             </div>
 
-            <div class="mt-5 md:mt-0">
+            <div class="mt-5 md:mt-0 md:col-span-2">
                 <form action="/surat/saveDisposisi" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
                     <div class="shadow overflow-y-auto h-96 sm:rounded-md">
                         <div class="bg-white py-4 px-6">
-                            <div class="">
-                                <div class="mb-3">
+                            <div class="grid gap-3">
+                                <div class="col-span-6 sm:col-span-4">
                                     <label for="perihal" class="block text-sm font-medium text-gray-700">Perihal</label>
                                     <!-- <div class="text-sm" id="perihalSurat"></div> -->
-                                    <input disabled class="text-sm w-full py-1 px-2" name="perihal_surat" id="perihalSurat">
+                                    <input disabled class="text-sm" name="perihal_surat" id="perihalSurat">
                                 </div>
-                                <div class="mb-3 sm:col-span-4">
+                                <div class="col-span-6 sm:col-span-4">
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Dari</label>
                                     <!-- <div class="text-sm" id="dariSurat"></div> -->
-                                    <input disabled class="text-sm w-full py-1 px-2" name="dari_surat" id="dariSurat">
+                                    <input disabled class="text-sm" name="dari_surat" id="dariSurat">
                                 </div>
-                                <div class="mb-4 sm:col-span-4">
+                                <div class="col-span-6 sm:col-span-4">
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Disposisi Kepada</label>
                                     <div class="mt-2 space-y-2">
                                         <?php foreach ($role as $row) : ?>
@@ -46,11 +46,11 @@
                                         <?php endforeach; ?>
                                     </div>
                                 </div>
-                                <div class="mb-3 sm:col-span-4">
+                                <div class="col-span-6 sm:col-span-4">
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Isi Disposisi</label>
                                     <div class="text-sm mt-2"><textarea name="isi-disposisi" id="isi-disposisi" cols="60" rows="4" class="border border-gray-400 rounded-md p-2 focus:ring focus:outline-none"></textarea></div>
                                 </div>
-                                <div class="sm:col-span-4">
+                                <div class="col-span-6 sm:col-span-4">
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Unggah Tanda Tangan</label>
                                     <div class="flex mt-5">
                                         <div class="flex justify-start items-center mb-1 w-full relative">
@@ -70,7 +70,7 @@
                                 Cancel
                             </div>
                             <button type="submit" class="inline-flex justify-center disposisiBtn ml-1 py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Kirim
+                                Simpan
                             </button>
                         </div>
                     </div>
@@ -95,12 +95,12 @@
         <table id="myTable" class="display text-sm" width="100%">
             <thead>
                 <tr>
-                    <th class="w-1/9">No</th>
-                    <th class="w-1/6">Tanggal Surat</th>
-                    <th class="w-1/6">Tanggal Diterima</th>
+                    <th class="w-1/10">No</th>
+                    <th class="w-1/8">Tanggal Surat</th>
+                    <th class="w-1/8">Tanggal Diterima</th>
                     <th class="w-1/3">Perihal</th>
-                    <th class="w-1/5">Disposisi Saat Ini</th>
-                    <th class="w-1/5">Aksi</th>
+                    <th class="w-1/4">Disposisi Saat Ini</th>
+                    <th class="w-1/7">Aksi</th>
                     <!-- <th class="w-1/5">Aksi 2</th> -->
                 </tr>
             </thead>
@@ -112,37 +112,16 @@
                         <td><?= $s['tanggal']; ?></td>
                         <td><?= $s['tanggal_penerimaan'];; ?></td>
                         <td><?= $s['perihal']; ?></td>
-                        <?php if ($s['disposisi'] == 0) : ?>
-                            <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
-                                <div class="flex items-center">
-                                    <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-yellow-500 hover:bg-yellow-600 text-gray-100 rounded shadow text-xs" id="disposisi-btn<?= $s['id']; ?>" onclick="modalDisposisi('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>')">
-                                        Disposisi
-                                    </div>
-                                    <div class="py-1 text-xs flex-auto bg-yellow-400 rounded-lg">Menunggu</div>
+                        <td class="text-center justify-center justify-content-center align-items-center">
+                            <div class="flex">
+                                <div class="px-2 py-1 w-11 cursor-pointer text-center flex-auto justify-center justify-content-center bg-yellow-500 hover:bg-yellow-600 text-gray-100 rounded shadow text-xs" id="disposisi-btn<?= $s['id']; ?>" onclick="modalDisposisi('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>')">
+                                    Disposisi
                                 </div>
-                            </td>
-                        <?php else : ?>
-                            <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
-                                <div class="flex items-center">
-                                    <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Terkirim</div>
-                                </div>
-                            </td>
-                        <?php endif; ?>
-                        <td class="text-center flex">
-                            <!-- <a href="/surat/?= $s['id']; ?>" class=" text-xs rounded text-white px-3 py-1">D</a> -->
-                            <div class="flex-auto py-2"><a href="/surat/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-                            <div class="flex-auto py-2"><a href="/surat/edit/<?= $s['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-
-                            <form action="/surat/<?= $s['id']; ?>" method="POST" class="inline">
-                                <?= csrf_field(); ?>
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="" onclick="return confirm('Apakah Anda Yakin?');">
-                                    <div class="flex-auto py-2"><a href="/surat/<?= $s['id']; ?>"><img src="/img/delete.png" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-                                </button>
-                            </form>
-
-
-
+                                <div class="text-xs flex-auto">Menunggu Disposisi</div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <a href="/surat/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
                         </td>
                         <!-- <td>
                         <a href="/surat/viewpdf/<?= $s['id']; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>
