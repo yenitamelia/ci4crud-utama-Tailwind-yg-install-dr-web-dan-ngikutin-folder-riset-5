@@ -87,7 +87,7 @@
         </div>
     <?php endif; ?>
 
-    <?php if (in_groups('bid_umum')) : ?>
+    <?php if (session('auth_groups_id') == 1) : ?>
         <!-- Tombol Tambah Surat -->
         <a href="/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
     <?php endif; ?>

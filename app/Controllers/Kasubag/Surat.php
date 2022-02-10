@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Kasubag;
 
+use App\Controllers\BaseController;
 use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
@@ -44,13 +45,7 @@ class Surat extends BaseController
 
     public function disposisiKepada($id)
     {
-        $role = $this->disposisiModel->getDisposisi($id);
-        $str = "";
-
-        foreach ($role as $row) {
-            $str = $str + '<label>' . $row['description'] . '</label><br>';
-        }
-        return $str;
+        return $this->disposisiModel->getIdRole($id);
     }
 
     // Bisa aja ngambil dari slug
