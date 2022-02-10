@@ -42,36 +42,23 @@ class Login extends BaseController
         $user = $userModel->where('email', $respond['email'])->get()->getRowArray();
         if ($user) {
             session()->set($user);
-            session()->set('log',true);
+            session()->set('log', true);
             if ($user['auth_groups_id'] == 1) {
-                
+
                 return redirect()->to(base_url('Kepala/Surat'));
             } elseif ($user['auth_groups_id'] == 2) {
-                
+
                 return redirect()->to(base_url('Kasubag/Surat'));
             } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
-                
+
                 return redirect()->to(base_url('Tim/Surat'));
             }
-        }else{
+        } else {
             $userModel = new UserModel();
             $userModel->save($respond);
-            session()->set('log',true);
+            session()->set('log', true);
             $user = $userModel->where('email', $respond['email'])->get()->getRowArray();
             if ($user['auth_groups_id'] == 1) {
-                
-                return redirect()->to(base_url('Kepala/Surat'));
-            } elseif ($user['auth_groups_id'] == 2) {
-                
-                return redirect()->to(base_url('Kasubag/Surat'));
-            } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
-                
-        $email = ($service->userinfo->get()->getEmail());
-        $userModel = new UserModel();
-        $user = $userModel->where('email', $email)->get()->getRowArray();
-        if ($user) {
-            session()->set($user);
-            if ($user['auth_groups_id'] == 1) {
 
                 return redirect()->to(base_url('Kepala/Surat'));
             } elseif ($user['auth_groups_id'] == 2) {
@@ -79,7 +66,22 @@ class Login extends BaseController
                 return redirect()->to(base_url('Kasubag/Surat'));
             } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
 
-                return redirect()->to(base_url('Tim/Surat'));
+                $email = ($service->userinfo->get()->getEmail());
+                $userModel = new UserModel();
+                $user = $userModel->where('email', $email)->get()->getRowArray();
+                if ($user) {
+                    session()->set($user);
+                    if ($user['auth_groups_id'] == 1) {
+
+                        return redirect()->to(base_url('Kepala/Surat'));
+                    } elseif ($user['auth_groups_id'] == 2) {
+
+                        return redirect()->to(base_url('Kasubag/Surat'));
+                    } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
+
+                        return redirect()->to(base_url('Tim/Surat'));
+                    }
+                }
             }
         }
     }
