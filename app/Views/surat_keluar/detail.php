@@ -146,7 +146,7 @@
 
 
 
-        <?php if (in_groups('kepala')) : ?>
+        <?php if (session('auth_groups_id') == 2) : ?>
             <div class="text-2xl mt-2">Form Disposisi</div>
             <!-- Nampilin pesan error di view -->
             <!-- <h1>$validation->ListErrors();</h1> -->
@@ -205,7 +205,7 @@
         <a href="/surat/edit/<?= $surat['id']; ?>" class="mb-5 bg-yellow-500 rounded-xl text-sm text-white px-3 py-1">Edit</a>
         <a href="/surat/lembar/<?= $surat['id']; ?>" class="mb-5 bg-blue-700 rounded-xl text-sm text-white px-3 py-1">Lembar</a>
 
-        <?php if (in_groups(['bid_umum', 'kf'])) : ?>
+        <?php if (session('auth_groups_id') != 2) : ?>
             <a href="/surat/download/<?= $surat['id']; ?>" class="mb-5 bg-blue-300 rounded-xl text-sm text-white px-3 py-1">Download File</a>
         <?php endif; ?>
 

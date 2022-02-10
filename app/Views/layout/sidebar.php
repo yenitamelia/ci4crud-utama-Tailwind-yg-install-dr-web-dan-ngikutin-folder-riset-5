@@ -69,9 +69,9 @@
                 <span class="tooltip">Analytics</span>
             </li> -->
             <li>
-                <?php if (in_groups('bid_umum')) : ?>
+                <?php if (session('auth_groups_id') == 1) : ?>
                     <a href="/surat">
-                    <?php elseif (in_groups('kepala')) : ?>
+                    <?php elseif (session('auth_groups_id') == 2) : ?>
                         <a href="/surat">
                         <?php else : ?>
                             <a href="/tim">
@@ -218,7 +218,7 @@
     </script>
 
     <script>
-        function modalDisposisi(id, perihal, dari) {
+        function modalDisposisi(id, perihal, dari, no) {
 
             const overlay = document.querySelector('#overlay')
             const disposisiBtn = document.querySelector('#disposisi-btn' + id)
@@ -253,6 +253,50 @@
             $("#idSurat").val(id);
             $("#perihalSurat").val(perihal);
             $("#dariSurat").val(dari);
+            document.getElementById("noSurat").textContent += no;
+        }
+    </script>
+
+    <script>
+        function modalDisposisiKasubag(id, perihal, dari, no) {
+
+            const overlay = document.querySelector('#overlay')
+            const disposisiBtn = document.querySelector('#disposisi-btn' + id)
+            const closeBtn = document.querySelector('#close-modal')
+            const closeBtn2 = document.querySelector('#close-modal2')
+
+
+            // When the user clicks the button, open the modal 
+            disposisiBtn.onclick = function() {
+                overlay.style.display = "flex";
+            }
+
+            // When the user clicks on <span> (x), close the overlay
+            closeBtn.onclick = function() {
+                overlay.style.display = "none";
+            }
+
+            // When the user clicks on <span> (x), close the overlay
+            closeBtn2.onclick = function() {
+                overlay.style.display = "none";
+            }
+
+            // const toggleModal = () => {
+            //     overlay.classList.toggle('hidden')
+            //     overlay.classList.toggle('flex')
+            // }
+
+            // disposisiBtn.addEventListener('click', toggleModal)
+
+            // closeBtn.addEventListener('click', toggleModal)
+
+            $("#idSurat").val(id);
+            $("#perihalSurat").val(perihal);
+            $("#dariSurat").val(dari);
+            document.getElementById("noSurat").textContent += no;
+            // belum bisa ngelist KF
+
+
         }
     </script>
 

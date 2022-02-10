@@ -10,7 +10,7 @@ class SuratModel extends Model
     protected $userTimestamps = true;
     // Karena ditabel surat ada beberapa atribut yg gadipakai misalnya id, updated_at, delete_at
     // Maka harus diberitahu mana fields yg boleh diisi
-    protected $allowedFields = ['nomor_agenda', 'tanggal_penerimaan', 'tk_keamanan', 'tanggal_penyelesaian', 'tanggal', 'nomor_surat', 'dari', 'perihal', 'lampiran', 'created_at', 'updated_at', 'disposisi'];
+    protected $allowedFields = ['nomor_agenda', 'tanggal_penerimaan', 'tk_keamanan', 'tanggal_penyelesaian', 'tanggal', 'nomor_surat', 'dari', 'perihal', 'lampiran', 'created_at', 'updated_at', 'disposisi', 'status'];
 
     public function getSurat($id = false)
     {
@@ -19,6 +19,12 @@ class SuratModel extends Model
         }
 
         return $this->where(['id' => $id])->first();
+    }
+
+    public function getSuratKasubag()
+    {
+        $query = "SELECT DISTINCT surat.*, disposisi.status as status FROM disposisi LEFT JOIN surat ON disposisi.id_surat=surat.id WHERE disposisi.status=0";
+        return $this->db->query($query)->getResult();
     }
 
     public function getSuratTim($idTim)

@@ -110,10 +110,13 @@
                 "jwt",
                 "php"
             ],
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
                 "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
             },
+=======
+>>>>>>> login
             "time": "2021-11-08T20:18:51+00:00"
         },
         {
@@ -181,10 +184,13 @@
             "keywords": [
                 "google"
             ],
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client/issues",
                 "source": "https://github.com/googleapis/google-api-php-client/tree/v2.12.1"
             },
+=======
+>>>>>>> login
             "time": "2021-12-02T03:34:25+00:00"
         },
         {
@@ -225,10 +231,13 @@
             "keywords": [
                 "google"
             ],
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
                 "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.234.0"
             },
+=======
+>>>>>>> login
             "time": "2022-02-06T12:23:03+00:00"
         },
         {
@@ -280,11 +289,14 @@
                 "google",
                 "oauth2"
             ],
+<<<<<<< HEAD
             "support": {
                 "docs": "https://googleapis.github.io/google-auth-library-php/master/",
                 "issues": "https://github.com/googleapis/google-auth-library-php/issues",
                 "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.18.0"
             },
+=======
+>>>>>>> login
             "time": "2021-08-24T18:03:18+00:00"
         },
         {
@@ -391,10 +403,13 @@
                 "rest",
                 "web service"
             ],
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
                 "source": "https://github.com/guzzle/guzzle/tree/7.4.1"
             },
+=======
+>>>>>>> login
             "funding": [
                 {
                     "url": "https://github.com/GrahamCampbell",
@@ -475,10 +490,13 @@
             "keywords": [
                 "promise"
             ],
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
                 "source": "https://github.com/guzzle/promises/tree/1.5.1"
             },
+=======
+>>>>>>> login
             "funding": [
                 {
                     "url": "https://github.com/GrahamCampbell",
@@ -590,10 +608,13 @@
                 "uri",
                 "url"
             ],
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
                 "source": "https://github.com/guzzle/psr7/tree/2.1.0"
             },
+=======
+>>>>>>> login
             "funding": [
                 {
                     "url": "https://github.com/GrahamCampbell",
@@ -817,10 +838,13 @@
                 "logging",
                 "psr-3"
             ],
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
                 "source": "https://github.com/Seldaek/monolog/tree/2.3.5"
             },
+=======
+>>>>>>> login
             "funding": [
                 {
                     "url": "https://github.com/Seldaek",
@@ -965,11 +989,14 @@
                 "hex2bin",
                 "rfc4648"
             ],
+<<<<<<< HEAD
             "support": {
                 "email": "info@paragonie.com",
                 "issues": "https://github.com/paragonie/constant_time_encoding/issues",
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
+=======
+>>>>>>> login
             "time": "2022-01-17T05:32:27+00:00"
         },
         {
@@ -1015,11 +1042,14 @@
                 "pseudorandom",
                 "random"
             ],
+<<<<<<< HEAD
             "support": {
                 "email": "info@paragonie.com",
                 "issues": "https://github.com/paragonie/random_compat/issues",
                 "source": "https://github.com/paragonie/random_compat"
             },
+=======
+>>>>>>> login
             "time": "2020-10-15T08:29:30+00:00"
         },
         {
@@ -1113,10 +1143,13 @@
                 "x.509",
                 "x509"
             ],
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
                 "source": "https://github.com/phpseclib/phpseclib/tree/3.0.13"
             },
+=======
+>>>>>>> login
             "funding": [
                 {
                     "url": "https://github.com/terrafrost",
@@ -1130,6 +1163,7 @@
                     "url": "https://tidelift.com/funding/github/packagist/phpseclib/phpseclib",
                     "type": "tidelift"
                 }
+<<<<<<< HEAD
             ],
             "time": "2022-01-30T08:50:05+00:00"
         },
@@ -1235,6 +1269,107 @@
             "time": "2020-06-29T06:28:15+00:00"
         },
         {
+=======
+            ],
+            "time": "2022-01-30T08:50:05+00:00"
+        },
+        {
+            "name": "psr/cache",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/cache.git",
+                "reference": "213f9dbc5b9bfbc4f8db86d2838dc968752ce13b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/213f9dbc5b9bfbc4f8db86d2838dc968752ce13b",
+                "reference": "213f9dbc5b9bfbc4f8db86d2838dc968752ce13b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for caching libraries",
+            "keywords": [
+                "cache",
+                "psr",
+                "psr-6"
+            ],
+            "time": "2021-02-03T23:23:37+00:00"
+        },
+        {
+            "name": "psr/http-client",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-client.git",
+                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP clients",
+            "homepage": "https://github.com/php-fig/http-client",
+            "keywords": [
+                "http",
+                "http-client",
+                "psr",
+                "psr-18"
+            ],
+            "time": "2020-06-29T06:28:15+00:00"
+        },
+        {
+>>>>>>> login
             "name": "psr/http-factory",
             "version": "1.0.1",
             "source": {
@@ -1284,9 +1419,12 @@
                 "request",
                 "response"
             ],
+<<<<<<< HEAD
             "support": {
                 "source": "https://github.com/php-fig/http-factory/tree/master"
             },
+=======
+>>>>>>> login
             "time": "2019-04-30T12:38:16+00:00"
         },
         {
@@ -1337,9 +1475,12 @@
                 "request",
                 "response"
             ],
+<<<<<<< HEAD
             "support": {
                 "source": "https://github.com/php-fig/http-message/tree/master"
             },
+=======
+>>>>>>> login
             "time": "2016-08-06T14:39:51+00:00"
         },
         {
@@ -1427,10 +1568,13 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
+<<<<<<< HEAD
             "support": {
                 "issues": "https://github.com/ralouphie/getallheaders/issues",
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
+=======
+>>>>>>> login
             "time": "2019-03-08T08:55:37+00:00"
         },
         {

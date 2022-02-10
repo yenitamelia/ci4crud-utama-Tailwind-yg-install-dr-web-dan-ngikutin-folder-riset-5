@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Kepala;
 
+use App\Controllers\BaseController;
 use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
@@ -39,7 +40,7 @@ class Surat extends BaseController
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
         ];
 
-        return view('surat/index', $data);
+        return view('kepala/index', $data);
     }
 
     public function disposisiKepada($id)
@@ -194,7 +195,7 @@ class Surat extends BaseController
 
         session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
 
-        return redirect()->to('/surat');
+        return redirect()->to('Kepala/surat');
     }
 
     public function saveDisposisi()
@@ -235,7 +236,7 @@ class Surat extends BaseController
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
             // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/surat')->withInput();
+            return redirect()->to('kepala/surat')->withInput();
         }
 
         if ($validation->run() == FALSE) {
@@ -292,7 +293,7 @@ class Surat extends BaseController
         $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
-        return redirect()->to('/surat');
+        return redirect()->to('/kepala/surat');
     }
 
     public function getIsiDisposisi()
