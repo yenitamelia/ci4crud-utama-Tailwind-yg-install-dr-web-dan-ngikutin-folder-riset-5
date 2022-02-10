@@ -31,7 +31,6 @@ class Login extends BaseController
         } else {
             return redirect()->to($client->createAuthUrl());
         }
-<<<<<<< HEAD
         $respond = [
             'email' => $service->userinfo->get()->getEmail(),
             'fullname' => $service->userinfo->get()->getName(),
@@ -67,7 +66,6 @@ class Login extends BaseController
                 return redirect()->to(base_url('Kasubag/Surat'));
             } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
                 
-=======
         $email = ($service->userinfo->get()->getEmail());
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->get()->getRowArray();
@@ -81,7 +79,6 @@ class Login extends BaseController
                 return redirect()->to(base_url('Kasubag/Surat'));
             } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
 
->>>>>>> login
                 return redirect()->to(base_url('Tim/Surat'));
             }
         }
