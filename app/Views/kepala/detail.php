@@ -12,11 +12,9 @@
 
     <div id="surat_masuk" class="w3-container city bg-white px-4 py-12 rounded-b-lg">
 
-        <div class="grid grid-cols-4 gap-4 text-sm place-content-center justify-items-center place-items-center justify-center">
-            <div class="place-content-center self-start">
-                <a href="" target='_blank'>
-                    <img src="/img/file.png" class="w-2/5 cursor-pointer" alt="gambar">
-                </a>
+        <div class="grid grid-cols-4 gap-4 text-sm place-content-center  cursor-pointer justify-items-center place-items-center justify-center">
+            <div class="place-content-center self-start cursor-pointer">
+                <button type="button" class="cursor-pointer"><img src="/img/fil.png" class="w-2/5" alt="gambar" target='_blank'></button>
             </div>
             <div class="col-span-3 ...">
                 <div class="grid grid-cols-3 gap-8 mb-2">

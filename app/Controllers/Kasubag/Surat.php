@@ -63,7 +63,7 @@ class Surat extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
         }
 
-        return view('surat/detail', $data);
+        return view('kasubag/detail', $data);
     }
 
     public function lembar($id)
@@ -91,7 +91,7 @@ class Surat extends BaseController
             'validation' => \Config\Services::validation()
         ];
 
-        return view('surat/create', $data);
+        return view('kasubag/create', $data);
     }
 
     // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel
@@ -158,7 +158,7 @@ class Surat extends BaseController
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
             // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/surat/create')->withInput();
+            return redirect()->to('/Kasubag/Surat/create')->withInput();
         }
 
         // Mengambil semua data yg telah diinput
@@ -189,7 +189,7 @@ class Surat extends BaseController
 
         session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
 
-        return redirect()->to('/surat');
+        return redirect()->to('/Kasubag/Surat');
     }
 
     public function saveDisposisi()
@@ -267,7 +267,6 @@ class Surat extends BaseController
                             // 'id' => $id,
                             'isi_disposisi' => $this->request->getVar('isi-disposisi'),
                             'id_surat' => $this->request->getVar('id_surat'),
-                            'id_role' => $this->request->getVar($row["id"]),
                             'gambar' => $namaGambar,
 
                         ]);
@@ -288,11 +287,6 @@ class Surat extends BaseController
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
         return redirect()->to('/surat');
-    }
-
-    public function getIsiDisposisi()
-    {
-        return "Total jarak yang ditempuh : ";
     }
 
     public function delete($id)
@@ -321,7 +315,7 @@ class Surat extends BaseController
             'surat' => $this->suratModel->getSurat($id)
         ];
 
-        return view('surat/edit', $data);
+        return view('kasubag/surat/edit', $data);
     }
 
     public function update($id)
@@ -387,7 +381,7 @@ class Surat extends BaseController
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
             // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/surat/edit/' . $id)->withInput();
+            return redirect()->to('/kasubag/surat/edit/' . $id)->withInput();
         }
 
         // Mengambil file lampiran
@@ -426,7 +420,7 @@ class Surat extends BaseController
 
         session()->setFlashdata('pesan', 'Data berhasil diubah.');
 
-        return redirect()->to('/surat');
+        return redirect()->to('/kasubag/surat');
     }
 
     public function download($id)

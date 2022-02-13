@@ -293,6 +293,7 @@
             $("#idSurat").val(id);
             $("#perihalSurat").val(perihal);
             $("#dariSurat").val(dari);
+            $("#showRole").val('halo');
             document.getElementById("noSurat").textContent += no;
             // belum bisa ngelist KF
 

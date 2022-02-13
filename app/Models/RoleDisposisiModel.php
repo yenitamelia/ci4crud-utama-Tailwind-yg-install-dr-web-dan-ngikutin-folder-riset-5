@@ -4,13 +4,13 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DisposisiModel extends Model
+class RoleDisposisiModel extends Model
 {
-    protected $table = 'disposisi';
-    protected $userTimestamps = true;
+    protected $table = 'role_disposisi';
+    protected $userTimestamps = false;
     // Karena ditabel surat ada beberapa atribut yg gadipakai misalnya id, updated_at, delete_at
     // Maka harus diberitahu mana fields yg boleh diisi
-    protected $allowedFields = ['isi_disposisi', 'id_surat', 'gambar'];
+    protected $allowedFields = ['id_disposisi', 'id_role'];
 
     public function getDisposisi($id = false)
     {
@@ -19,7 +19,7 @@ class DisposisiModel extends Model
 
     public function getIdRole($id)
     {
-        $builder = $this->db->table('disposisi');
+        $builder = $this->db->table('role_disposisi');
         $builder->join('auth_groups', 'disposisi.id_role=auth_groups.id');
         $builder->select('disposisi.*,auth_groups.description');
         $builder->where('disposisi.id_surat', $id);

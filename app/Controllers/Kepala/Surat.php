@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
+use App\Models\RoleDisposisiModel;
 use DateTime;
 use PhpParser\Node\Stmt\Echo_;
 
@@ -43,16 +44,16 @@ class Surat extends BaseController
         return view('kepala/index', $data);
     }
 
-    public function disposisiKepada($id)
-    {
-        $role = $this->disposisiModel->getDisposisi($id);
-        $str = "";
+    // public function disposisiKepada($id)
+    // {
+    //     $role = $this->disposisiModel->getDisposisi($id);
+    //     $str = "";
 
-        foreach ($role as $row) {
-            $str = $str + '<label>' . $row['description'] . '</label><br>';
-        }
-        return $str;
-    }
+    //     foreach ($role as $row) {
+    //         $str = $str + '<label>' . $row['description'] . '</label><br>';
+    //     }
+    //     return $str;
+    // }
 
     // Bisa aja ngambil dari slug
     public function detail($id)
@@ -69,7 +70,7 @@ class Surat extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
         }
 
-        return view('surat/detail', $data);
+        return view('kepala/detail', $data);
     }
 
     public function lembar($id)
@@ -85,117 +86,6 @@ class Surat extends BaseController
         }
 
         return view('surat/lembar', $data);
-    }
-
-    public function create()
-    {
-        // Pake session agar tampilan errornya muncul
-        // Biar ga lupa2 makanya dipindah aja di BaseController
-        // session();
-        $data = [
-            'title' => 'Form Tambah Surat Masuk',
-            'validation' => \Config\Services::validation()
-        ];
-
-        return view('surat/create', $data);
-    }
-
-    // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel
-    public function save()
-    {
-        // validasi input
-        if (!$this->validate([
-            'nomor_agenda' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tanggal_penerimaan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tk_keamanan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tanggal' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'nomor_surat' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'dari' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'perihal' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'lampiran' => [
-                // Kalau filenya boleh null uploadednya hapus aja
-                'rules' => 'uploaded[lampiran]|max_size[lampiran, 2048]|ext_in[lampiran,doc,docx,pdf]',
-                'errors' => [
-                    // Kalau filenya boleh null uploadednya hapus aja
-                    'uploaded' => 'Pilih file terlebih dahulu',
-                    'max_size' => 'Ukuran file harus dibawah 2Mb',
-                    'ext_in' => 'File hanya boleh berupa doc, docx dan pdf'
-                ]
-            ]
-        ])) {
-            // Mengambil pesan kesalahan
-            // Ini ngga perlu karena sebenernya udah ada didalam session
-            // $validation = \Config\Services::validation();
-            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
-            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/surat/create')->withInput();
-        }
-
-        // Mengambil semua data yg telah diinput
-        // $this->request->getVar();
-        $now = new DateTime();
-        // dd($now->format('Y-m-d H:i:s'));
-
-        // Ambil file
-        $fileLampiran = $this->request->getFile('lampiran');
-        // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
-        $fileLampiran->move('lampiran');
-        // Ambil nama file
-        $namaLampiran = $fileLampiran->getName();
-
-        $this->suratModel->save([
-            'nomor_agenda' => $this->request->getVar('nomor_agenda'),
-            'tanggal_penerimaan' => $this->request->getVar('tanggal_penerimaan'),
-            'tk_keamanan' => $this->request->getVar('tk_keamanan'),
-            'tanggal_penyelesaian' => $this->request->getVar('tanggal_penyelesaian'),
-            'tanggal' => $this->request->getVar('tanggal'),
-            'nomor_surat' => $this->request->getVar('nomor_surat'),
-            'dari' => $this->request->getVar('dari'),
-            'perihal' => $this->request->getVar('perihal'),
-            'lampiran' => $namaLampiran,
-            'created_at' => $now->format('Y-m-d H:i:s'),
-            'updated_at' => $now->format('Y-m-d H:i:s')
-        ]);
-
-        session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
-
-        return redirect()->to('Kepala/surat');
     }
 
     public function saveDisposisi()
@@ -236,8 +126,10 @@ class Surat extends BaseController
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
             // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('kepala/surat')->withInput();
+            // return redirect()->to('kepala/surat')->withInput();
         }
+
+
 
         if ($validation->run() == FALSE) {
             $errors = $validation->getErrors();
@@ -256,10 +148,31 @@ class Surat extends BaseController
             $namaGambar = $fileGambar->getName();
             $role = $this->groupsModel->getGroups();
 
+
+
+            $query = $this->disposisiModel->save([
+                // 'id' => $id,
+                'isi_disposisi' => $this->request->getVar('isi-disposisi'),
+                'id_surat' => $this->request->getVar('id_surat'),
+                'gambar' => $namaGambar,
+
+            ]);
+            if ($query) {
+
+                echo json_encode(['code' => 1, 'msg' => 'Data Keterangan Disposisi telah ditambahkan']);
+            } else {
+                echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
+            }
+
             foreach ($role as $row) {
                 if (($row["id"]) > 2) {
                     // dd($this->request->getPost($row["id"]) !== null);
+                    $roleDisposisiModel = new RoleDisposisiModel();
                     if ($this->request->getPost($row["id"]) !== null) {
+                        $roleDisposisiModel->insert([
+                            'id_disposisi' => $query,
+                            'id_role' => $row["id"]
+                        ]);
                         // dd($this->request->getVar('isi-disposisi'));
 
                         // $data = [
@@ -269,21 +182,8 @@ class Surat extends BaseController
                         //     'gambar' => $namaGambar,
                         // ];
                         // $this->disposisiModel->save($data);
-                        $query = $this->disposisiModel->save([
-                            // 'id' => $id,
-                            'isi_disposisi' => $this->request->getVar('isi-disposisi'),
-                            'id_surat' => $this->request->getVar('id_surat'),
-                            'id_role' => $this->request->getVar($row["id"]),
-                            'gambar' => $namaGambar,
 
-                        ]);
 
-                        if ($query) {
-
-                            echo json_encode(['code' => 1, 'msg' => 'Data Keterangan Disposisi telah ditambahkan']);
-                        } else {
-                            echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
-                        }
 
                         // dd($this->request->getVar($row["id"]));
                     }
@@ -294,145 +194,6 @@ class Surat extends BaseController
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
         return redirect()->to('/kepala/surat');
-    }
-
-    public function getIsiDisposisi()
-    {
-        return "Total jarak yang ditempuh : ";
-    }
-
-    public function delete($id)
-    {
-        // Cari lampiran berdasarkan id
-        $surat = $this->suratModel->find($id);
-
-        // Hapus file lampiran yg ada di folder ci
-        // Karena kalau hapus biasa cuman ngehapus sampai phpmyadmin aja, sedangkan di folder ci-nya belum kehapus 
-        unlink('lampiran/' . $surat['lampiran']);
-
-        $this->suratModel->delete($id);
-        session()->setFlashdata('pesan', 'Data berhasil dihapus.');
-        return redirect()->to('surat');
-    }
-
-    public function edit($id)
-    {
-        // Pake session agar tampilan errornya muncul
-        // Biar ga lupa2 makanya dipindah aja di BaseController
-        // session();
-        $data = [
-            'title' => 'Form Ubah Surat Masuk',
-            'validation' => \Config\Services::validation(),
-            // Mengambil semua data surat sesuai id yg dipilih
-            'surat' => $this->suratModel->getSurat($id)
-        ];
-
-        return view('surat/edit', $data);
-    }
-
-    public function update($id)
-    {
-        // validasi input
-        if (!$this->validate([
-            'nomor_agenda' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tanggal_penerimaan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tk_keamanan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tanggal' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'nomor_surat' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'dari' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'perihal' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'lampiran' => [
-                // Kalau filenya boleh null uploadednya hapus aja
-                'rules' => 'uploaded[lampiran]|max_size[lampiran, 2048]|ext_in[lampiran,doc,docx,pdf]',
-                'errors' => [
-                    // Kalau filenya boleh null uploadednya hapus aja
-                    'uploaded' => 'Pilih file terlebih dahulu',
-                    'max_size' => 'Ukuran file harus dibawah 2Mb',
-                    'ext_in' => 'File hanya boleh berupa doc, docx dan pdf'
-                ]
-            ]
-        ])) {
-            // Mengambil pesan kesalahan
-            // Ini ngga perlu karena sebenernya udah ada didalam session
-            // $validation = \Config\Services::validation();
-            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
-            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/surat/edit/' . $id)->withInput();
-        }
-
-        // Mengambil file lampiran
-        $fileLampiran = $this->request->getFile('lampiran');
-
-        // Cek lampiran, apakah tetap lampiran yg lama
-        // Dicek apakah user upload file baru ngga, kalau ngga berarti errornya 4 (filenya kosong)
-        if ($fileLampiran->getError() == 4) {
-            $namaLampiran = $this->request->getVar('lampiranLama');
-        } else {
-            // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
-            $fileLampiran->move('lampiran');
-            // Hapus file yang lama
-            unlink('lampiran/' . $this->request->getVar['lampiranLama']);
-        }
-
-        // Mengambil semua data yg telah diinput
-        // $this->request->getVar();
-        $now = new DateTime();
-        // dd($now->format('Y-m-d H:i:s'));
-
-        $this->suratModel->save([
-            'id' => $id,
-            'nomor_agenda' => $this->request->getVar('nomor_agenda'),
-            'tanggal_penerimaan' => $this->request->getVar('tanggal_penerimaan'),
-            'tk_keamanan' => $this->request->getVar('tk_keamanan'),
-            'tanggal_penyelesaian' => $this->request->getVar('tanggal_penyelesaian'),
-            'tanggal' => $this->request->getVar('tanggal'),
-            'nomor_surat' => $this->request->getVar('nomor_surat'),
-            'dari' => $this->request->getVar('dari'),
-            'perihal' => $this->request->getVar('perihal'),
-            'lampiran' => $namaLampiran,
-            'created_at' => $now->format('Y-m-d H:i:s'),
-            'updated_at' => $now->format('Y-m-d H:i:s')
-        ]);
-
-        session()->setFlashdata('pesan', 'Data berhasil diubah.');
-
-        return redirect()->to('/surat');
     }
 
     public function download($id)

@@ -85,7 +85,7 @@
 
     <?php if (session('auth_groups_id') == 1) : ?>
         <!-- Tombol Tambah Surat -->
-        <a href="/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
+        <a href="/Kasubag/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
     <?php endif; ?>
     <div class="mt-5">
         <table id="myTable" class="display text-sm" width="100%">
@@ -130,14 +130,14 @@
                         <?php endif; ?>
                         <td class="text-center flex">
                             <!-- <a href="/surat/?= $s->id; ?>" class=" text-xs rounded text-white px-3 py-1">D</a> -->
-                            <div class="flex-auto py-2"><a href="/surat/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-                            <div class="flex-auto py-2"><a href="/surat/edit/<?= $s['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
+                            <div class="flex-auto py-2"><a href="/Kasubag/Surat/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
+                            <div class="flex-auto py-2"><a href="/Kasubag/Surat/edit/<?= $s['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
 
                             <form action="/surat/<?= $s['id']; ?>" method="POST" class="inline">
                                 <?= csrf_field(); ?>
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit" class="" onclick="return confirm('Apakah Anda Yakin?');">
-                                    <div class="flex-auto py-2"><a href="/surat/<?= $s['id']; ?>"><img src="/img/delete.png" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
+                                    <div class="flex-auto py-2"><a href="kasubag/surat/<?= $s['id']; ?>"><img src="/img/delete.png" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
                                 </button>
                             </form>
 

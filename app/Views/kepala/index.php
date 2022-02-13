@@ -14,7 +14,7 @@
             </div>
 
             <div class="mt-5 md:mt-0">
-                <form action="/surat/saveDisposisi" method="POST" enctype="multipart/form-data">
+                <form action="/Kepala/Surat/saveDisposisi" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
                     <div class="shadow overflow-y-auto h-96 sm:rounded-md">
                         <div class="bg-white py-4 px-6">
@@ -124,7 +124,7 @@
                         <?php endif; ?>
                         <td class="text-center flex">
 
-                            <div class="flex-auto py-2"><a href="/surat/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
+                            <div class="flex-auto py-2"><a href="/Kepala/Surat/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
                         </td>
 
                     </tr>

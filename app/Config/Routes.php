@@ -32,17 +32,19 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Pages::index');
-$routes->get('/surat/create', 'surat::create', ['filter' => 'role:bid_umum']);
+$routes->get('/Kasubag/Surat/create', 'surat::create');
 $routes->get('/suratKeluar/create', 'surat::create', ['filter' => 'role:bid_umum']);
 // $routes->get('/surat/disposisi/(:segment)', 'surat::disposisi/$1');
 $routes->get('/surat/edit/(:segment)', 'surat::edit/$1');
+$routes->get('/Kasubag/Surat/edit/(:segment)', 'surat::edit/$1');
 $routes->get('/suratKeluar/edit/(:segment)', 'suratKeluar::edit/$1');
-$routes->get('/surat/lembar/(:segment)', 'surat::lembar/$1');
+$routes->get('/Kasubag/Surat/lembar/(:segment)', 'surat::lembar/$1');
 $routes->get('/surat/download/(:segment)', 'surat::download/$1');
-$routes->get('/surat/read/(:segment)', 'surat::read/$1');
+$routes->get('/kasubag/surat/read/(:segment)', 'surat::read/$1');
 // $routes->get('/surat/viewpdf/(:segment)', 'surat::viewpdf/$1');
 $routes->delete('/surat/(:num)', 'surat::delete/$1');
-$routes->get('/surat/(:any)', 'Surat::detail/$1');
+$routes->get('/Kepala/Surat/(:any)', 'Surat::detail/$1');
+$routes->get('/Kasubag/Surat/(:any)', 'Surat::detail/$1');
 
 /*
  * --------------------------------------------------------------------
