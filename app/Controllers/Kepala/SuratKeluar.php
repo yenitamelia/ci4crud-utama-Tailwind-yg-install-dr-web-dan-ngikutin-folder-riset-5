@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Kasubag;
+namespace App\Controllers\Kepala;
 
 use App\Controllers\BaseController;
 use App\Models\SuratModel;
@@ -9,12 +9,11 @@ use App\Models\GroupsModel;
 use App\Models\RoleDisposisiModel;
 use CodeIgniter\API\ResponseTrait;
 use DateTime;
-use Google\Service\HangoutsChat\OnClick;
 use PhpParser\Node\Stmt\Echo_;
 
 // use CodeIgniter\I18n\Time;
 
-class Surat extends BaseController
+class SuratKeluar extends BaseController
 {
     // protected karena biar bisa dipanggil dikelas ini maupun kelas turunannya
     use ResponseTrait;
@@ -47,25 +46,9 @@ class Surat extends BaseController
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
         ];
 
-        return view('kasubag/index', $data);
+        return view('surat_keluar/index', $data);
     }
 
-    public function indexx()
-    {
-        // Mengambil semua data dari tabel surat
-        // $surat = $this->suratModel->findAll();
-        // Diganti dibawah pake method ifelse di file SuratModel
-
-        $role = $this->groupsModel->getRole(session('id'));
-        $data = [
-            'title' => 'Daftar Surat',
-            'validation' => \Config\Services::validation(),
-            'surat' => $this->suratModel->getSuratTim($role),
-            // 'role' => $this->groupsModel->getGroups()
-        ];
-
-        return view('kasubag/indexx', $data);
-    }
 
     public function modaldisposisikepada()
     {
@@ -82,13 +65,11 @@ class Surat extends BaseController
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
-        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $this->suratModel->getSurat($id),
-            'role' => $query,
-            'disposisi' => $this->disposisiModel->where('id_surat', $id)->first()
+            'role' => $this->groupsModel->getGroups()
         ];
 
         // Jika surat tidak ada di tabel
@@ -119,31 +100,19 @@ class Surat extends BaseController
         // Pake session agar tampilan errornya muncul
         // Biar ga lupa2 makanya dipindah aja di BaseController
         // session();
+        $role = 'durung ngerti';
+        $query = "SELECT COUNT(*) AS jumlah FROM `surat` WHERE nomor_agenda Like '3523$role%'";
+        dd($query);
+        $nomor_agenda = (int) $this->suratModel->query($query)->getRow()->jumlah;
+
 
         $data = [
             'title' => 'Form Tambah Surat Masuk',
             'validation' => \Config\Services::validation(),
-            'nomor_agenda' => '3523',
-            'role' => $this->groupsModel->getGroups(),
+            'nomor_agenda' => '3523' . $role . '.0' . $nomor_agenda + 1
         ];
 
         return view('kasubag/create', $data);
-    }
-
-    public function hitungSurat($role)
-    {
-        $query = "SELECT COUNT(*) AS jumlah FROM `surat` WHERE nomor_agenda Like '3523$role%'";
-        $jumlahSurat = (int) $this->suratModel->query($query)->getRow()->jumlah;
-
-        if ($jumlahSurat < 9) {
-            $jumlahSurat = '00' . $jumlahSurat + 1;
-        } elseif ($jumlahSurat < 99) {
-            $jumlahSurat = '0' . $jumlahSurat + 1;
-        } else {
-            $jumlahSurat = $jumlahSurat + 1;
-        }
-
-        return $jumlahSurat;
     }
 
     // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel
@@ -194,19 +163,13 @@ class Surat extends BaseController
                 ]
             ],
             'lampiran' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'file_masuk' => [
                 // Kalau filenya boleh null uploadednya hapus aja
-                'rules' => 'uploaded[file_masuk]|max_size[file_masuk,2048]|ext_in[file_masuk,pdf]',
+                'rules' => 'uploaded[lampiran]|max_size[lampiran, 2048]|ext_in[lampiran,doc,docx,pdf]',
                 'errors' => [
                     // Kalau filenya boleh null uploadednya hapus aja
                     'uploaded' => 'Pilih file terlebih dahulu',
                     'max_size' => 'Ukuran file harus dibawah 2Mb',
-                    'ext_in' => 'File hanya boleh berupa pdf'
+                    'ext_in' => 'File hanya boleh berupa doc, docx dan pdf'
                 ]
             ]
         ])) {
@@ -216,8 +179,6 @@ class Surat extends BaseController
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
             // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-
-            // dd($this->request->getVar('nomor_agenda'));
             return redirect()->to('/Kasubag/Surat/create')->withInput();
         }
 
@@ -227,13 +188,13 @@ class Surat extends BaseController
         // dd($now->format('Y-m-d H:i:s'));
 
         // Ambil file
-        $fileLampiran = $this->request->getFile('file_masuk');
-        // Ambil nama file
-        $namaLampiran = $this->request->getVar('nomor_agenda') . ' ' . $fileLampiran->getName();
+        $fileLampiran = $this->request->getFile('lampiran');
         // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
-        $fileLampiran->move('file_masuk', $namaLampiran);
+        $fileLampiran->move('lampiran');
+        // Ambil nama file
+        $namaLampiran = $fileLampiran->getName();
 
-        $this->suratModel->insert([
+        $this->suratModel->save([
             'nomor_agenda' => $this->request->getVar('nomor_agenda'),
             'tanggal_penerimaan' => $this->request->getVar('tanggal_penerimaan'),
             'tk_keamanan' => $this->request->getVar('tk_keamanan'),
@@ -242,8 +203,7 @@ class Surat extends BaseController
             'nomor_surat' => $this->request->getVar('nomor_surat'),
             'dari' => $this->request->getVar('dari'),
             'perihal' => $this->request->getVar('perihal'),
-            'lampiran' => $this->request->getVar('lampiran'),
-            'file_masuk' => $namaLampiran,
+            'lampiran' => $namaLampiran,
             'created_at' => $now->format('Y-m-d H:i:s'),
             'updated_at' => $now->format('Y-m-d H:i:s')
         ]);
@@ -269,11 +229,11 @@ class Surat extends BaseController
 
         // Hapus file lampiran yg ada di folder ci
         // Karena kalau hapus biasa cuman ngehapus sampai phpmyadmin aja, sedangkan di folder ci-nya belum kehapus 
-        unlink('file_masuk/' . $surat['file_masuk']);
+        unlink('lampiran/' . $surat['lampiran']);
 
         $this->suratModel->delete($id);
         session()->setFlashdata('pesan', 'Data berhasil dihapus.');
-        return redirect()->to('/kasubag/surat');
+        return redirect()->to('surat');
     }
 
     public function edit($id)
@@ -338,18 +298,13 @@ class Surat extends BaseController
                 ]
             ],
             'lampiran' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'file_masuk' => [
                 // Kalau filenya boleh null uploadednya hapus aja
-                'rules' => 'max_size[file_masuk, 2048]|ext_in[file_masuk,pdf]',
+                'rules' => 'uploaded[lampiran]|max_size[lampiran, 2048]|ext_in[lampiran,doc,docx,pdf]',
                 'errors' => [
                     // Kalau filenya boleh null uploadednya hapus aja
+                    'uploaded' => 'Pilih file terlebih dahulu',
                     'max_size' => 'Ukuran file harus dibawah 2Mb',
-                    'ext_in' => 'File hanya boleh berupa pdf'
+                    'ext_in' => 'File hanya boleh berupa doc, docx dan pdf'
                 ]
             ]
         ])) {
@@ -363,21 +318,17 @@ class Surat extends BaseController
         }
 
         // Mengambil file lampiran
-        $fileLampiran = $this->request->getFile('file_masuk');
-        // Ambil nama file
-        $namaLampiran = $this->request->getVar('nomor_agenda') . ' ' . $fileLampiran->getName();
+        $fileLampiran = $this->request->getFile('lampiran');
 
         // Cek lampiran, apakah tetap lampiran yg lama
         // Dicek apakah user upload file baru ngga, kalau ngga berarti errornya 4 (filenya kosong)
         if ($fileLampiran->getError() == 4) {
-            $namaLampiran = $this->request->getVar('file_masukLama');
+            $namaLampiran = $this->request->getVar('lampiranLama');
         } else {
-            if (is_file('file_masuk/' . $this->request->getVar('file_masukLama'))) {
-                // Hapus file yang lama
-                unlink('file_masuk/' . $this->request->getVar('file_masukLama'));
-            }
-            // Pindahkan file ke folder file_masuk, masuk ke folder public folder lampiran
-            $fileLampiran->move('file_masuk', $namaLampiran);
+            // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
+            $fileLampiran->move('lampiran');
+            // Hapus file yang lama
+            unlink('lampiran/' . $this->request->getVar['lampiranLama']);
         }
 
         // Mengambil semua data yg telah diinput
@@ -395,8 +346,7 @@ class Surat extends BaseController
             'nomor_surat' => $this->request->getVar('nomor_surat'),
             'dari' => $this->request->getVar('dari'),
             'perihal' => $this->request->getVar('perihal'),
-            'lampiran' => $this->request->getVar('lampiran'),
-            'file_masuk' => $namaLampiran,
+            'lampiran' => $namaLampiran,
             'created_at' => $now->format('Y-m-d H:i:s'),
             'updated_at' => $now->format('Y-m-d H:i:s')
         ]);
@@ -409,7 +359,7 @@ class Surat extends BaseController
     public function download($id)
     {
         $surat = $this->suratModel->find($id);
-        return $this->response->download('file_masuk/' . $surat['file_masuk'], null);
+        return $this->response->download('lampiran/' . $surat['lampiran'], null);
     }
 
     // public function read($id)

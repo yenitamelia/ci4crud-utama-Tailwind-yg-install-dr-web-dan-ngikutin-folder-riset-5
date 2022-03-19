@@ -19,7 +19,7 @@ class GroupsModel extends Model
 
     public function getRole($id)
     {
-        $query = "SELECT * FROM auth_groups_users WHERE user_id = $id";
-        return $this->db->query($query)->getRow()->group_id;
+        $query = "SELECT * FROM users WHERE id = $id";
+        return $this->db->query($query)->getRow()->auth_groups_id;
     }
 }

@@ -17,7 +17,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Login');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -31,20 +31,20 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Pages::index');
-$routes->get('/Kasubag/Surat/create', 'surat::create');
-$routes->get('/suratKeluar/create', 'surat::create', ['filter' => 'role:bid_umum']);
-// $routes->get('/surat/disposisi/(:segment)', 'surat::disposisi/$1');
-$routes->get('/surat/edit/(:segment)', 'surat::edit/$1');
-$routes->get('/Kasubag/Surat/edit/(:segment)', 'surat::edit/$1');
-$routes->get('/suratKeluar/edit/(:segment)', 'suratKeluar::edit/$1');
-$routes->get('/Kasubag/Surat/lembar/(:segment)', 'surat::lembar/$1');
-$routes->get('/surat/download/(:segment)', 'surat::download/$1');
-$routes->get('/kasubag/surat/read/(:segment)', 'surat::read/$1');
-// $routes->get('/surat/viewpdf/(:segment)', 'surat::viewpdf/$1');
-$routes->delete('/surat/(:num)', 'surat::delete/$1');
-$routes->get('/Kepala/Surat/(:any)', 'Surat::detail/$1');
-$routes->get('/Kasubag/Surat/(:any)', 'Surat::detail/$1');
+$routes->get('/', 'Login::index');
+// $routes->get('/Kasubag/Surat/create', 'surat::create');
+// $routes->get('/suratKeluar/create', 'surat::create', ['filter' => 'role:bid_umum']);
+// // $routes->get('/surat/disposisi/(:segment)', 'surat::disposisi/$1');
+// $routes->get('/surat/edit/(:segment)', 'surat::edit/$1');
+// $routes->get('/Kasubag/Surat/edit/(:segment)', 'surat::edit/$1');
+// $routes->get('/suratKeluar/edit/(:segment)', 'suratKeluar::edit/$1');
+// $routes->get('/Kasubag/Surat/lembar/(:segment)', 'surat::lembar/$1');
+// $routes->get('/surat/download/(:segment)', 'surat::download/$1');
+// $routes->get('/kasubag/surat/read/(:segment)', 'surat::read/$1');
+// // $routes->get('/surat/viewpdf/(:segment)', 'surat::viewpdf/$1');
+// $routes->delete('/surat/(:num)', 'surat::delete/$1');
+// $routes->get('/Kepala/Surat/(:any)', 'Surat::detail/$1');
+// $routes->get('/Kasubag/Surat/(:any)', 'Surat::detail/$1');
 
 /*
  * --------------------------------------------------------------------

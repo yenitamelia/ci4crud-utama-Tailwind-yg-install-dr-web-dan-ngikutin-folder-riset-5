@@ -1,9 +1,14 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Kasubag;
+
+use App\Controllers\BaseController;
 
 use App\Models\SuratModel;
 use App\Models\SuratKeluarModel;
+use App\Models\GroupsModel;
+use App\Models\UserModel;
+
 use DateTime;
 
 class Home extends BaseController
@@ -14,9 +19,11 @@ class Home extends BaseController
 		// Memanggil/menghubungkan dari file SuratModel
 		$this->suratModel = new SuratModel();
 		$this->suratKeluarModel = new SuratKeluarModel();
+		$this->groupsModel = new GroupsModel();
+		$this->userModel = new UserModel();
 	}
 
-	public function indexx()
+	public function index()
 	{
 		// Mengambil semua data dari tabel surat
 		// $surat = $this->suratModel->findAll();
@@ -25,7 +32,8 @@ class Home extends BaseController
 		$data = [
 			'title' => 'Daftar Surat',
 			'surat' => $this->suratModel->getSurat(),
-			'surat_keluar' => $this->suratKeluarModel->getSuratKeluar()
+			'surat_keluar' => $this->suratKeluarModel->getSuratKeluar(),
+			'users' => $this->userModel->getUser()
 		];
 
 		return view('pages/home', $data);

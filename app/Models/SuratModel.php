@@ -6,11 +6,11 @@ use CodeIgniter\Model;
 
 class SuratModel extends Model
 {
-    protected $table = 'surat';
+    protected $table = 'surat_masuk';
     protected $userTimestamps = true;
     // Karena ditabel surat ada beberapa atribut yg gadipakai misalnya id, updated_at, delete_at
     // Maka harus diberitahu mana fields yg boleh diisi
-    protected $allowedFields = ['nomor_agenda', 'tanggal_penerimaan', 'tk_keamanan', 'tanggal_penyelesaian', 'tanggal', 'nomor_surat', 'dari', 'perihal', 'lampiran', 'created_at', 'updated_at', 'disposisi', 'status'];
+    protected $allowedFields = ['nomor_agenda', 'tanggal_penerimaan', 'tk_keamanan', 'tanggal_penyelesaian', 'tanggal', 'nomor_surat', 'dari', 'perihal', 'lampiran', 'file_masuk', 'created_at', 'updated_at', 'disposisi', 'status'];
 
     public function getSurat($id = false)
     {
@@ -23,13 +23,12 @@ class SuratModel extends Model
 
     public function getSuratKasubag()
     {
-        $query = "SELECT DISTINCT surat.*, disposisi.status as status FROM disposisi LEFT JOIN surat ON disposisi.id_surat=surat.id WHERE disposisi.status=0";
-        return $this->db->query($query)->getResult();
+        return $this->orderBy('status ASC, disposisi DESC, tanggal DESC')->findAll();
     }
 
     public function getSuratTim($idTim)
     {
-        $query = "SELECT surat.*,disposisi.* FROM `surat` JOIN disposisi on surat.id = disposisi.id_surat WHERE disposisi.id_role = $idTim AND disposisi.status = 1";
-        return $this->db->query($query)->getResult();
+        $query = "SELECT surat_masuk.*,disposisi.* FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN role_disposisi on disposisi.id = role_disposisi.id_disposisi WHERE role_disposisi.id_role = $idTim AND surat_masuk.status = 1";
+        return $this->db->query($query)->getResultArray();
     }
 }

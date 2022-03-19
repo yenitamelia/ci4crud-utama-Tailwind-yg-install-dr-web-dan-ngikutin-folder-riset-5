@@ -33,7 +33,7 @@
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Disposisi Kepada</label>
                                     <div class="mt-2 space-y-2">
                                         <?php foreach ($role as $row) : ?>
-                                            <?php if (($row["id"]) > 2) : ?>
+                                            <?php if (($row["id"]) > 1) : ?>
                                                 <div class="flex items-start">
                                                     <div class="flex items-center h-5">
                                                         <input type="checkbox" id="<?= $row["name"]; ?>" name="<?= $row["id"]; ?>" value="<?= $row["id"]; ?>" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">

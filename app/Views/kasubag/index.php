@@ -1,9 +1,8 @@
 <?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>
+
 <div class="container mx-auto px-6">
-
-
     <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-center items-center z-30 w-full h-sceen" id="overlay">
         <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-12 z-20">
             <div class="flex justify-between items-center p-3">
@@ -14,7 +13,7 @@
             </div>
 
             <div class="mt-5 md:mt-0">
-                <form action="/surat/saveDisposisi" method="POST" enctype="multipart/form-data">
+                <form action="/Kasubag/Surat/saveDisposisi" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
                     <div class="shadow overflow-y-auto h-96 sm:rounded-md">
                         <div class="bg-white py-4 px-6">
@@ -72,6 +71,41 @@
         </div>
     </div>
 
+    <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-center items-center z-30 w-full h-sceen" id="overlayy">
+        <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-1/4 z-20">
+            <div class="flex justify-between items-center p-3">
+                <h4 class="font-bold" id="noSurat">Confirmation Delete</h4>
+                <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal-delete" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
+
+            <div class="mt-5 md:mt-0">
+                <form id="delete_kasubag" action="/Kasubag/Surat/delete/" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id_surat" id="idSurat">
+                    <div class="shadow overflow-y-auto sm:rounded-md">
+                        <div class="bg-white py-4 px-6">
+                            <div class="">
+                                <p>Apakah Anda yakin akan menghapus surat ini?</p>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                            <div id="close-modal2-delete" class="cursor-pointer inline-flex justify-center closeBtn py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-gray-400 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Cancel
+                            </div>
+                            <?= csrf_field(); ?>
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="inline-flex justify-center deleteBtn ml-1 py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <div class="text-2xl py-5">Data Surat Masuk</div>
     <!-- Alert jika data berhasil ditambahkan -->
     <?php if (session()->getFlashdata('pesan')) : ?>
@@ -94,7 +128,6 @@
                     <th class="w-1/3">Perihal</th>
                     <th class="w-1/5">Disposisi Saat Ini</th>
                     <th class="w-1/5">Aksi</th>
-                    <!-- <th class="w-1/5">Aksi 2</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -126,24 +159,10 @@
                             </td>
                         <?php endif; ?>
                         <td class="text-center flex">
-                            <!-- <a href="/surat/?= $s->id; ?>" class=" text-xs rounded text-white px-3 py-1">D</a> -->
                             <div class="flex-auto py-2"><a href="/Kasubag/Surat/detail/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
                             <div class="flex-auto py-2"><a href="/Kasubag/Surat/edit/<?= $s['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-
-                            <form action="/surat/<?= $s['id']; ?>" method="POST" class="inline">
-                                <?= csrf_field(); ?>
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="" onclick="return confirm('Apakah Anda Yakin?');">
-                                    <div class="flex-auto py-2"><a href="kasubag/surat/<?= $s['id']; ?>"><img src="/img/delete.png" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-                                </button>
-                            </form>
-
-
-
+                            <div class="flex-auto py-2" id="delete-btn<?= $s['id']; ?>" onclick="deleteKasubag('<?= $s['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $s['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div>
                         </td>
-                        <!-- <td>
-                        <a href="/surat/viewpdf/<?= $s['id']; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>
-                    </td> -->
                     </tr>
                 <?php endforeach; ?>
             </tbody>

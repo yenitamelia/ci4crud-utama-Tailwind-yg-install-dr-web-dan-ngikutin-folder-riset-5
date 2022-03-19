@@ -148,7 +148,7 @@
 
 
 
-        <?php if (session('auth_groups_id') == 1) : ?>
+        <?php if (session('auth_groups_id') == 2) : ?>
 
             <div class="mt-5">
                 <!-- <iframe src="lampiran/" height="100%" width="100%" title="W3Schools Free Online Web Tutorials"></iframe> -->
@@ -162,7 +162,7 @@
         <!-- <a href="/surat/edit/?= $surat['id']; ?>" class="mb-5 bg-yellow-500 rounded-xl text-sm text-white px-3 py-1">Edit</a> -->
         <!-- <a href="/Kasubag/surat/lembar/?= $surat['id']; ?>" class="mb-5 bg-blue-700 rounded-xl text-sm text-white px-3 py-1">Lembar</a> -->
 
-        <?php if (session('auth_groups_id') != 2) : ?>
+        <?php if (session('auth_groups_id') != 1) : ?>
             <a href="/surat/download/<?= $surat['id']; ?>" class="mb-5 bg-blue-300 rounded-xl text-sm text-white px-3 py-1">Download File</a>
         <?php endif; ?>
 

@@ -157,6 +157,8 @@ class Surat extends BaseController
                 'gambar' => $namaGambar,
 
             ]);
+            $insert_id = $this->disposisiModel->getInsertID();
+
             if ($query) {
 
                 echo json_encode(['code' => 1, 'msg' => 'Data Keterangan Disposisi telah ditambahkan']);
@@ -165,12 +167,12 @@ class Surat extends BaseController
             }
 
             foreach ($role as $row) {
-                if (($row["id"]) > 2) {
+                if (($row["id"]) > 1) {
                     // dd($this->request->getPost($row["id"]) !== null);
                     $roleDisposisiModel = new RoleDisposisiModel();
                     if ($this->request->getPost($row["id"]) !== null) {
                         $roleDisposisiModel->insert([
-                            'id_disposisi' => $query,
+                            'id_disposisi' => $insert_id,
                             'id_role' => $row["id"]
                         ]);
                         // dd($this->request->getVar('isi-disposisi'));

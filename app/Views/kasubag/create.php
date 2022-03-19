@@ -9,17 +9,19 @@
         <!-- <h1>$validation->ListErrors();</h1> -->
         <form action="/Kasubag/Surat/save" method="post" enctype="multipart/form-data">
             <?= csrf_field(); ?>
-            <!-- Menyimpan file lampiran lama biar ga bermasalah waktu yg diganti cuman judulnya aja, dst -->
-            <input type="hidden" name="lampiranLama" value="<?= old('lampiran'); ?>">
-            <div class="grid grid-cols-3">
-                <label for="nomor_agenda">Nomor Agenda</label>
-                <input type="text" id="nomor_agenda" name="nomor_agenda" class="col-span-2 border-2 <?= ($validation->hasError('nomor_agenda')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('nomor_agenda'); ?>">
-            </div>
+            <!-- Menyimpan file file_masuk lama biar ga bermasalah waktu yg diganti cuman judulnya aja, dst -->
+            <input type="hidden" name="file_masukLama" value="<?= old('file_masuk'); ?>">
             <div class="mb-3 grid grid-cols-3">
-                <div></div>
-                <div class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                    <?= $validation->getError('nomor_agenda'); ?>
-                </div>
+                <label for="nomor_agenda">Nomor Agenda</label>
+                <label id="label_nomor_agenda"><?= $nomor_agenda; ?></label>
+                <input type="text" id="nomor_agenda" name="nomor_agenda" class="col-span-2 border-2 rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= $nomor_agenda ?>" hidden>
+                <select id="role" name="role">
+                    <?php foreach ($role as $r) : ?>
+                        <?php if ($r['id'] > 2) : ?>
+                            <option value=" <?= $r['id'] ?> "><?= $r['description'] ?></option>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                </select>
             </div>
             <div class="grid grid-cols-3">
                 <label for="tanggal_penerimaan">Tanggal Penerimaan</label>
@@ -85,20 +87,20 @@
                     <?= $validation->getError('perihal'); ?>
                 </div>
             </div>
-            <!-- <div class="mb-3 grid grid-cols-3">
-            <label for="lampiran">Lampiran</label>
-            <input type="text" id="lampiran" name="lampiran" class="col-span-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('lampiran'); ?>">
-        </div> -->
-            <p class="text-blue-500 font-bold">Unggah Lampiran</p>
+            <div class="mb-3 grid grid-cols-3">
+                <label for="lampiran">Lampiran</label>
+                <input type="text" id="lampiran" name="lampiran" class="col-span-2 border-2 border-blue-500 rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('lampiran'); ?>">
+            </div>
+            <p class="text-blue-500 font-bold">Unggah File Surat Masuk</p>
             <div class="flex mt-5">
                 <div class="flex justify-start items-center mb-1 w-full relative">
-                    <input type="file" hidden accept=".pdf" title="Pilih File" id='lampiran' name="lampiran" onchange="label()">
-                    <label for="lampiran" title="Harus Diisi" class="bg-blue-500 text-white rounded-full w-24 py-1 text-center cursor-pointer hover:bg-blue-400 transition-colors duration-300 text-sm mr-4 outline-none">Pilih File</label>
-                    <span class="customLabel text-blue-500 absolute md:left-28 left-28 select-none cursor-default cursor md:text-sm text-sm" id="labelLampiran"><?= old('lampiranLama'); ?></span>
+                    <input type="file" hidden accept=".pdf" title="Pilih File" id='file_masuk' name="file_masuk" onchange="label()">
+                    <label for="file_masuk" title="Harus Diisi" class="bg-blue-500 text-white rounded-full w-24 py-1 text-center cursor-pointer hover:bg-blue-400 transition-colors duration-300 text-sm mr-4 outline-none">Pilih File</label>
+                    <span class="customLabel text-blue-500 absolute md:left-28 left-28 select-none cursor-default cursor md:text-sm text-sm" id="labelfile_masuk"><?= old('file_masukLama'); ?></span>
                 </div>
             </div>
             <div class="font-medium tracking-wide text-red-500 text-xs ml-1 mb-2">
-                <?= $validation->getError('lampiran'); ?>
+                <?= $validation->getError('file_masuk'); ?>
             </div>
             <div class="flex justify-end">
                 <button type="submit" class="bg-yellow-500 hover:bg-yellow-400 transition-colors duration-300 rounded-xl text-sm text-white px-3 py-1">Submit</button>

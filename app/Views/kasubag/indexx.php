@@ -32,7 +32,7 @@
                         <td><?= $s['tanggal_penerimaan']; ?></td>
                         <td><?= $s['perihal']; ?></td>
                         <td class="text-center">
-                            <a href="/surat/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
+                            <a href="/Kasubag/Surat/detail/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
                         </td>
                         <!-- <td>
                         <a href="/surat/viewpdf/<= $s->id; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>
