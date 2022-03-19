@@ -90,6 +90,14 @@
                     <span class="tooltip">Dashboard</span>
                 <?php endif; ?>
             </li>
+            <li>
+                <?php if (session('auth_groups_id') == 2) : ?>
+                    <a href="/Kasubag/Role">
+                        <i class='bx bx-user'></i>
+                        <span class="links_name">Role</span>
+                    </a>
+                <?php endif; ?>
+            </li>
             <!-- <li>
                 <a href="#">
                     <i class='bx bx-user'></i>
@@ -119,7 +127,7 @@
                         <?php else : ?>
                             <a href="/tim/surat/">
                             <?php endif; ?>
-                            <i class='bx bx-folder'></i>
+                            <i class='bx bx-archive-in'></i>
                             <span class="links_name">Surat Masuk</span>
                             </a>
                         </a>
@@ -128,15 +136,15 @@
             <li>
                 <?php if (session('auth_groups_id') == 2) : ?>
                     <a href="/Kasubag/Surat/indexx">
-                        <i class='bx bx-folder'></i>
-                        <span class="links_name">Disposisi Surat Masuk</span>
+                        <i class='bx bx-archive'></i>
+                        <span class="links_name">Disposisi Surat</span>
                     </a>
                 <?php endif; ?>
             </li>
             <li>
                 <?php if (session('auth_groups_id') == 2) : ?>
                     <a href="/Kasubag/SuratKeluar">
-                        <i class='bx bx-folder'></i>
+                        <i class='bx bx-archive-out'></i>
                         <span class="links_name">Surat Keluar</span>
                     </a>
                     <span class="tooltip">Surat Keluar</span>
@@ -300,6 +308,33 @@
             }
 
             $('#delete_kasubag').attr('action', '/Kasubag/Surat/delete/' + id);
+
+        }
+    </script>
+
+    <script>
+        function deleteRole(id) {
+            const overlay = document.querySelector('#overlay2')
+            const deleteBtn = document.querySelector('#delete-btn' + id)
+            const closeBtn = document.querySelector('#close-modal-delete')
+            const closeBtn2 = document.querySelector('#close-modal2-delete')
+
+            // When the user clicks the button, open the modal 
+            deleteBtn.onclick = function() {
+                overlay.style.display = "flex";
+            }
+
+            // When the user clicks on <span> (x), close the overlay
+            closeBtn.onclick = function() {
+                overlay.style.display = "none";
+            }
+
+            // When the user clicks on <span> (x), close the overlay
+            closeBtn2.onclick = function() {
+                overlay.style.display = "none";
+            }
+
+            $('#delete_role').attr('action', '/Kasubag/Role/delete/' + id);
 
         }
     </script>

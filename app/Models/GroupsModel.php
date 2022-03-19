@@ -14,7 +14,11 @@ class GroupsModel extends Model
 
     public function getGroups($id = false)
     {
-        return $this->findAll();
+        if ($id == false) {
+            return $this->findAll();
+        }
+
+        return $this->where(['id' => $id])->first();
     }
 
     public function getRole($id)
