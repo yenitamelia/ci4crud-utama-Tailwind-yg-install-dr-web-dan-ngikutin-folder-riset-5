@@ -10,15 +10,26 @@ class UserModel extends Model
     protected $userTimestamps = true;
     // Karena ditabel surat ada beberapa atribut yg gadipakai misalnya id, updated_at, delete_at
     // Maka harus diberitahu mana fields yg boleh diisi
-    protected $allowedFields = ['email', 'fullname', 'username', 'fullname', 'user_image', 'auth_groups_id', 'active'];
-    // protected $allowedFields = ['nomor_agenda', 'tanggal_penerimaan', 'tk_keamanan', 'tanggal_penyelesaian', 'tanggal', 'nomor_surat', 'dari', 'perihal', 'lampiran', 'created_at', 'updated_at', 'disposisi'];
+    protected $allowedFields = ['email', 'fullname', 'auth_groups_id', 'created_at', 'updated_at'];
 
-    public function getUser()
+    public function getUser($id = false)
     {
+        if ($id == false) {
+            return $this->findAll();
+        }
 
-        return $this->findAll();
+        return $this->where(['id' => $id])->first();
+    }
 
+    public function getUsers()
+    {
+        $query = "SELECT auth_groups.*, users.* FROM auth_groups JOIN users on auth_groups.id = users.auth_groups_id";
+        return $this->db->query($query)->getResultArray();
+    }
 
-        return $this->first();
+    public function getCountUser()
+    {
+        return $this->countAllResults();
+        // return $this->where('id', 3)->countAllResults();
     }
 }

@@ -12,7 +12,22 @@
             <!-- Menyimpan file lampiran lama biar ga bermasalah waktu yg diganti cuman judulnya aja, dst -->
             <div class="grid grid-cols-3">
                 <label for="nomor_urut">Nomor Urut</label>
-                <input type="text" id="nomor_urut" name="nomor_urut" class="border-2 col-span-2 <?= ($validation->hasError('nomor_urut')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('nomor_urut'); ?>">
+                <label id="label_nomor_urut"><?= $nomor_urut; ?></label>
+                <input type="text" id="nomor_urut" name="nomor_urut" class="col-span-2 border-2 rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= $nomor_urut ?>" hidden>
+                <div class="grid grid-cols-2">
+                    <div class="grid grid-cols-2">
+                        <label for="bulan">Bulan</label>
+                        <select id="bulan" name="bulan">
+                            <?php for ($x = 1; $x <= 12; $x++) : ?>
+                                <option value=" <?= '0' . $x ?> "><?= $x ?></option>
+                            <?php endfor ?>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2">
+                        <label for="tahun">Tahun</label>
+                        <input type="number" min="1" id="tahun" name="tahun"></input>
+                    </div>
+                </div>
             </div>
             <div class="mb-3 grid grid-cols-3">
                 <div></div>

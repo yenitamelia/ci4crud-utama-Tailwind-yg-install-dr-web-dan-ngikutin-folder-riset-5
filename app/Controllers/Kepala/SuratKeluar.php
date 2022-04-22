@@ -4,6 +4,7 @@ namespace App\Controllers\Kepala;
 
 use App\Controllers\BaseController;
 use App\Models\SuratModel;
+use App\Models\SuratKeluarModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
 use App\Models\RoleDisposisiModel;
@@ -18,6 +19,7 @@ class SuratKeluar extends BaseController
     // protected karena biar bisa dipanggil dikelas ini maupun kelas turunannya
     use ResponseTrait;
     protected $suratModel;
+    protected $suratKeluarModel;
     protected $disposisiModel;
     protected $groupsModel;
     protected $roleDisposisiModel;
@@ -27,6 +29,7 @@ class SuratKeluar extends BaseController
     {
         // Memanggil/menghubungkan dari file SuratModel
         $this->suratModel = new SuratModel();
+        $this->suratKeluarModel = new SuratKeluarModel();
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
         $this->roleDisposisiModel = new RoleDisposisiModel();
@@ -41,7 +44,7 @@ class SuratKeluar extends BaseController
         $data = [
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
-            'surat' => $this->suratModel->getSuratKasubag(),
+            'surat_keluar' => $this->suratKeluarModel->getSuratKeluar(),
             'role' => $this->groupsModel->getGroups(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
         ];

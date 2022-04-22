@@ -29,7 +29,7 @@
                                     <input disabled class="text-sm w-full py-1 px-2" name="dari_surat" id="dariSurat">
                                 </div>
                                 <div class="mb-4 sm:col-span-4">
-                                    <label for="dari" class="block text-sm font-medium text-gray-700">Disposisi Kepada</label>
+                                    <label for="disposisi_kepada" class="block text-sm font-medium text-gray-700">Disposisi Kepada</label>
                                     <div class="mt-2 space-y-2">
                                         <div class="flex items-start">
                                             <div class="flex items-center h-5">
@@ -41,11 +41,11 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 sm:col-span-4">
-                                    <label for="dari" class="block text-sm font-medium text-gray-700">Isi Disposisi</label>
-                                    <div class="text-sm mt-2"><textarea name="isi-disposisi" id="isi-disposisi" cols="60" rows="4" class="border border-gray-400 rounded-md p-2 focus:ring focus:outline-none"></textarea></div>
+                                    <label for="isi_disposisi" class="block text-sm font-medium text-gray-700">Isi Disposisi</label>
+                                    <div class="text-sm mt-2"><textarea disabled name="isi-disposisi" id="isi-disposisi" cols="60" rows="4" class="border border-gray-400 rounded-md p-2 focus:ring focus:outline-none"></textarea></div>
                                 </div>
                                 <div class="sm:col-span-4">
-                                    <label for="dari" class="block text-sm font-medium text-gray-700">Unggah Tanda Tangan</label>
+                                    <label for="gambar" class="block text-sm font-medium text-gray-700">Tanda Tangan</label>
                                     <div class="flex mt-5">
                                         <div class="flex justify-start items-center mb-1 w-full relative">
                                             <img src="" alt="" id="gambar" class="w-20 h-20">
@@ -123,8 +123,8 @@
             <thead>
                 <tr>
                     <th class="w-1/9">No</th>
+                    <th class="w-1/6">Nomor Agenda</th>
                     <th class="w-1/6">Tanggal Surat</th>
-                    <th class="w-1/6">Tanggal Diterima</th>
                     <th class="w-1/3">Perihal</th>
                     <th class="w-1/5">Disposisi Saat Ini</th>
                     <th class="w-1/5">Aksi</th>
@@ -135,8 +135,8 @@
                 <?php foreach ($surat as $s) : ?>
                     <tr>
                         <td><?= $i++; ?></td>
+                        <td><?= $s['nomor_agenda']; ?></td>
                         <td><?= $s['tanggal']; ?></td>
-                        <td><?= $s['tanggal_penerimaan']; ?></td>
                         <td><?= $s['perihal']; ?></td>
                         <?php if ($s['disposisi'] == 0) : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">

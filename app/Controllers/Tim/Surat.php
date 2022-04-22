@@ -38,7 +38,7 @@ class Surat extends BaseController
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $this->suratModel->getSuratTim($role),
-            // 'role' => $this->groupsModel->getGroups()
+            'role' => $this->groupsModel->getGroups()
         ];
 
         return view('tim/index', $data);

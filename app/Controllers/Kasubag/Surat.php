@@ -403,7 +403,7 @@ class Surat extends BaseController
 
         session()->setFlashdata('pesan', 'Data berhasil diubah.');
 
-        return redirect()->to('/kasubag/surat');
+        return redirect()->to('/Kasubag/Surat');
     }
 
     public function download($id)

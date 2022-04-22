@@ -43,7 +43,7 @@ class SuratKeluar extends BaseController
         // Diganti dibawah pake method ifelse di file SuratModel
 
         $data = [
-            'title' => 'Daftar Surat',
+            'title' => 'Daftar Surat Keluar',
             'validation' => \Config\Services::validation(),
             'surat_keluar' => $this->suratKeluarModel->getSuratKeluar(),
             'role' => $this->groupsModel->getGroups(),
@@ -100,6 +100,7 @@ class SuratKeluar extends BaseController
         $data = [
             'title' => 'Form Tambah Surat Keluar',
             'validation' => \Config\Services::validation(),
+            'nomor_urut' => 'B.3523',
             // 'nomor_agenda' => '3523' . $role . '.0' . $nomor_agenda + 1
         ];
 

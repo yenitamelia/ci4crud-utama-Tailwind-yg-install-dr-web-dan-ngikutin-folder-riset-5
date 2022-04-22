@@ -29,11 +29,21 @@ class Home extends BaseController
 		// $surat = $this->suratModel->findAll();
 		// Diganti dibawah pake method ifelse di file SuratModel
 
+		$count = [
+			'users' => $this->userModel->getCountUser()
+		];
+
+		// dd($count['users']);
+
 		$data = [
-			'title' => 'Daftar Surat',
+			'title' => 'Dashboard',
 			'surat' => $this->suratModel->getSurat(),
 			'surat_keluar' => $this->suratKeluarModel->getSuratKeluar(),
-			'users' => $this->userModel->getUser()
+			'users' => $this->userModel->getUser(),
+			'user' => $this->userModel->getCountUser(),
+			'role' => $this->groupsModel->getCountRole(),
+			'suratMasuk' => $this->suratModel->getCountSuratMasuk(),
+			'suratKeluar' => $this->suratKeluarModel->getCountSuratKeluar()
 		];
 
 		return view('pages/home', $data);

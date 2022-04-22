@@ -5,32 +5,39 @@
 <div class="container mx-auto px-6">
     <div class="text-xl py-4"><b>Detail </b><span class="text-sm text-gray-500">Surat <?= $surat['perihal']; ?></span></div>
     <div class="w3-bar w3-border-bottom bg-gray-400 text-sm">
-        <button class="tablink w3-bar-item w3-button" onclick="openCity(event, 'surat_masuk')">Surat Masuk</button>
-        <button class="tablink w3-bar-item w3-button" onclick="openCity(event, 'disposisi')">Disposisi</button>
-        <button class="tablink w3-bar-item w3-button" onclick="openCity(event, 'lembar_disposisi')">Lembar Disposisi</button>
+        <button class="tablink w3-bar-item w3-button px-4 py-4" onclick="openCity(event, 'surat_masuk')">Surat Masuk</button>
+        <!-- <button class="tablink w3-bar-item w3-button" onclick="openCity(event, 'disposisi')">Disposisi</button> -->
+        <button class="tablink w3-bar-item w3-button px-4 py-4" onclick="openCity(event, 'lembar_disposisi')">Lembar Disposisi</button>
     </div>
 
     <div id="surat_masuk" class="w3-container city bg-white px-4 py-12 rounded-b-lg">
 
-        <div class="grid grid-cols-4 gap-4 text-sm place-content-center justify-items-center place-items-center justify-center">
+        <div class="grid grid-cols-6 gap-4 text-sm place-content-center justify-items-center place-items-center justify-center">
+            <div></div>
             <div class="place-content-center self-start">
                 <a href="" target='_blank'>
-                    <img src="/img/file.png" class="w-2/5 cursor-pointer" alt="gambar">
+                    <img src="/img/file.png" class="w-4/6 cursor-pointer" alt="gambar">
                 </a>
-                <div class="flex py-2">
-                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-3 py-1 cursor-pointer">
+                <div class="flex pt-2 ml-5">
+                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-3 py-2 cursor-pointer">
                         <img src="/img/eye.png" class="flex-auto w-5 h-5 mr-1" alt="gambar">
-                        <div class="flex-auto" id="disposisi-btn<?= $surat['id']; ?>" onclick="modalpdf('<?= $surat['id']; ?>','<?= $surat['nomor_surat']; ?>')">Lihat</div>
+                        <div class="flex-auto text-xs" id="disposisi-btn<?= $surat['id']; ?>" onclick="modalpdf('<?= $surat['id']; ?>','<?= $surat['nomor_surat']; ?>')">Lihat</div>
                     </div>
                 </div>
-                <div class=" flex">
-                    <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded px-3 py-1">
+                <div class="flex py-2 ml-1">
+                    <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
                         <img src="/img/download.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
-                        <span class="flex-auto">Download</span>
+                        <span class="flex-auto text-xs">Download</span>
+                    </a>
+                </div>
+                <div class="flex ml-5">
+                    <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
+                        <img src="/img/printing.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
+                        <span class="flex-auto text-xs">Print</span>
                     </a>
                 </div>
             </div>
-            <div class="col-span-3 ...">
+            <div class="col-span-4">
                 <div class="grid grid-cols-3 gap-8 mb-2">
                     <div class="text-right">Nomor Agenda</div>
                     <div class="col-span-2 ..."><?= $surat['nomor_agenda']; ?></div>
@@ -103,17 +110,24 @@
         </div>
     </div>
 
-
-    <div id="disposisi" class="w3-container city bg-white p-4 rounded-b-lg">
+    <!-- <div id="disposisi" class="w3-container city bg-white p-4 rounded-b-lg">
         <h1>Disposisi</h1>
         <p>Paris is the capital of France.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </div>
+    </div> -->
 
     <div id="lembar_disposisi" class="w3-container city bg-white p-4 rounded-b-lg">
         <div class="container mx-auto px-6">
-            <button class="bg-blue-300 hover:bg-blue-200 py-2 px-3 rounded-lg" onclick="window.print();">Print</button>
-            <div class="text-2xl mt-2">Lembar Disposisi Surat <?= $surat['perihal']; ?></div>
+            <div class="grid grid-cols-4 mt-5 gap-4">
+                <div class="col-span-3 text-xl text-center mt-2">Lembar Disposisi Surat <?= $surat['perihal']; ?></div>
+                <div class="py-2 ml-5 w-24">
+                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-5 py-2 cursor-pointer">
+                        <img src="/img/printing.png" class="flex-auto w-5 h-5 mr-2" alt="gambar">
+                        <div class="flex-auto text-xs" id="disposisi-btn<?= $surat['id']; ?>" onclick="window.print();">Print</div>
+                    </div>
+                </div>
+            </div>
+            <!-- <button class="bg-blue-300 hover:bg-blue-200 py-2 px-3 rounded-lg" onclick="window.print();">Print</button> -->
             <div class="my-6 mx-32">
                 <table cellspacing="0" cellpadding="0" class="table-fixed text-sm w-full print-container">
                     <thead>
@@ -169,7 +183,7 @@
                         <tr class="">
                             <td class="text-left p-3" colspan="6">
                                 <div><?= $disposisi['isi_disposisi']; ?></div>
-                                <div class="grid justify-items-center mt-10">
+                                <div class="grid justify-items-center mt-6">
                                     <div><img class="w-24 h-24 items-center justify-items-center justify-self-center" src="/gambar/<?= $disposisi['gambar']; ?>" alt=""></div>
                                 </div>
                             </td>
@@ -215,7 +229,7 @@
             <button type="submit" class="bg-red-500 rounded-xl text-sm text-white px-3 py-1" onclick="return confirm('Apakah Anda Yakin?');">Delete</button>
         </form> -->
 
-        <a href="/surat" class="text-blue-500">Kembali ke daftar surat</a>
+        <!-- <a href="/surat" class="text-blue-500">Kembali ke daftar surat</a> -->
     </div>
 
 

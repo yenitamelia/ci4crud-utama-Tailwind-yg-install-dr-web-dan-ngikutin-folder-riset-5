@@ -17,7 +17,7 @@
                 <input type="text" id="nomor_agenda" name="nomor_agenda" class="col-span-2 border-2 rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= $nomor_agenda ?>" hidden>
                 <select id="role" name="role">
                     <?php foreach ($role as $r) : ?>
-                        <?php if ($r['id'] > 2) : ?>
+                        <?php if ($r['id'] > 2 && $r['id'] < 8) : ?>
                             <option value=" <?= $r['id'] ?> "><?= $r['description'] ?></option>
                         <?php endif ?>
                     <?php endforeach ?>

@@ -90,7 +90,7 @@
                     <span class="tooltip">Dashboard</span>
                 <?php endif; ?>
             </li>
-            <li>
+            <!-- <li>
                 <?php if (session('auth_groups_id') == 2) : ?>
                     <a href="/Kasubag/Role">
                         <i class='bx bx-user'></i>
@@ -98,6 +98,14 @@
                     </a>
                 <?php endif; ?>
             </li>
+            <li>
+                <?php if (session('auth_groups_id') == 2) : ?>
+                    <a href="/Kasubag/User">
+                        <i class='bx bx-group'></i>
+                        <span class="links_name">All User</span>
+                    </a>
+                <?php endif; ?>
+            </li> -->
             <!-- <li>
                 <a href="#">
                     <i class='bx bx-user'></i>
@@ -137,18 +145,23 @@
                 <?php if (session('auth_groups_id') == 2) : ?>
                     <a href="/Kasubag/Surat/indexx">
                         <i class='bx bx-archive'></i>
-                        <span class="links_name">Disposisi Surat</span>
+                        <span class="links_name">Menerima Disposisi</span>
                     </a>
                 <?php endif; ?>
             </li>
             <li>
-                <?php if (session('auth_groups_id') == 2) : ?>
-                    <a href="/Kasubag/SuratKeluar">
-                        <i class='bx bx-archive-out'></i>
-                        <span class="links_name">Surat Keluar</span>
+                <?php if (session('auth_groups_id') == 1) : ?>
+                    <a href="/Kepala/SuratKeluar">
+                    <?php elseif (session('auth_groups_id') == 2) : ?>
+                        <a href="/Kasubag/SuratKeluar">
+                        <?php else : ?>
+                            <a href="/Tim/SuratKeluar/">
+                            <?php endif; ?>
+                            <i class='bx bx-archive-out'></i>
+                            <span class="links_name">Surat Keluar</span>
+                            </a>
+                        </a>
                     </a>
-                    <span class="tooltip">Surat Keluar</span>
-                <?php endif; ?>
             </li>
 
             <!-- <li>
@@ -176,8 +189,8 @@
                 <div class="profile-details">
                     <!--<img src="profile.jpg" alt="profileImg">-->
                     <div class="name_job">
-                        <div class="name">Yenita Amelia</div>
-                        <div class="job">Admin</div>
+                        <div class="name text-xs">kasubbag@bps.go.id</div>
+                        <div class="job text-base">Kasubbag Umum</div>
                     </div>
                 </div>
                 <a href="<?= base_url('logout'); ?>">
@@ -408,6 +421,46 @@
 
     <script>
         function modalDisposisi(id, perihal, dari, no) {
+
+            const overlay = document.querySelector('#overlay')
+            const disposisiBtn = document.querySelector('#disposisi-btn' + id)
+            const closeBtn = document.querySelector('#close-modal')
+            const closeBtn2 = document.querySelector('#close-modal2')
+
+
+            // When the user clicks the button, open the modal 
+            disposisiBtn.onclick = function() {
+                overlay.style.display = "flex";
+            }
+
+            // When the user clicks on <span> (x), close the overlay
+            closeBtn.onclick = function() {
+                overlay.style.display = "none";
+            }
+
+            // When the user clicks on <span> (x), close the overlay
+            closeBtn2.onclick = function() {
+                overlay.style.display = "none";
+            }
+
+            // const toggleModal = () => {
+            //     overlay.classList.toggle('hidden')
+            //     overlay.classList.toggle('flex')
+            // }
+
+            // disposisiBtn.addEventListener('click', toggleModal)
+
+            // closeBtn.addEventListener('click', toggleModal)
+
+            $("#idSurat").val(id);
+            $("#perihalSurat").val(perihal);
+            $("#dariSurat").val(dari);
+            document.getElementById("noSurat").textContent += no;
+        }
+    </script>
+
+    <script>
+        function modalDisposisiKetuaTim(id, perihal, dari, no) {
 
             const overlay = document.querySelector('#overlay')
             const disposisiBtn = document.querySelector('#disposisi-btn' + id)

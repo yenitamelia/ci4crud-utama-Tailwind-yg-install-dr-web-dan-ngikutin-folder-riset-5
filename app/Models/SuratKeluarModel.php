@@ -25,4 +25,10 @@ class SuratKeluarModel extends Model
 
         return $this->where(['id' => $id])->first();
     }
+
+    public function getCountSuratKeluar()
+    {
+        return $this->countAllResults();
+        // return $this->where('id', 3)->countAllResults();
+    }
 }

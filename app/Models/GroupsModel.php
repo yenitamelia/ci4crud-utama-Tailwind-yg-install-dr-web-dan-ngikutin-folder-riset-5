@@ -26,4 +26,10 @@ class GroupsModel extends Model
         $query = "SELECT * FROM users WHERE id = $id";
         return $this->db->query($query)->getRow()->auth_groups_id;
     }
+
+    public function getCountRole()
+    {
+        return $this->countAllResults();
+        // return $this->where('id', 3)->countAllResults();
+    }
 }

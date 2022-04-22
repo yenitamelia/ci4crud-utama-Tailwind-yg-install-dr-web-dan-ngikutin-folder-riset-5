@@ -91,11 +91,11 @@
             <thead>
                 <tr>
                     <th class="w-1/9">No</th>
+                    <th class="w-1/6">Nomor Agenda</th>
                     <th class="w-1/6">Tanggal Surat</th>
-                    <th class="w-1/6">Tanggal Diterima</th>
                     <th class="w-1/3">Perihal</th>
                     <th class="w-1/5">Disposisi Saat Ini</th>
-                    <th class="w-1/5">Aksi</th>
+                    <th class="w-1/9">Aksi</th>
                     <!-- <th class="w-1/5">Aksi 2</th> -->
                 </tr>
             </thead>
@@ -104,8 +104,8 @@
                 <?php foreach ($surat as $s) : ?>
                     <tr>
                         <td><?= $i++; ?></td>
+                        <td><?= $s['nomor_agenda'];; ?></td>
                         <td><?= $s['tanggal']; ?></td>
-                        <td><?= $s['tanggal_penerimaan'];; ?></td>
                         <td><?= $s['perihal']; ?></td>
                         <?php if ($s['disposisi'] == 0) : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
@@ -122,11 +122,9 @@
                                 </div>
                             </td>
                         <?php endif; ?>
-                        <td class="text-center flex">
-
-                            <div class="flex-auto py-2"><a href="/Kepala/Surat/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
+                        <td class="text-center">
+                            <a href="/Kepala/Surat/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
                         </td>
-
                     </tr>
                 <?php endforeach; ?>
             </tbody>
