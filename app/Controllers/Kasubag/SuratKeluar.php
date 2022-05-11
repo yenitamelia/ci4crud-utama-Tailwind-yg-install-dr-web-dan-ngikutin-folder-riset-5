@@ -107,6 +107,15 @@ class SuratKeluar extends BaseController
         return view('surat_keluar/create', $data);
     }
 
+    public function getNomorUrut()
+    {
+        $role = $this->request->getGet('role');
+        $query = $this->suratModel
+            ->like('nomor_agenda', 'B.3523')
+            ->countAllResults();
+        return $this->respond($query);
+    }
+
     // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel
     public function saveSuratKeluar()
     {

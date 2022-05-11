@@ -130,6 +130,15 @@ class Surat extends BaseController
         return view('kasubag/create', $data);
     }
 
+    public function getNomorAgenda()
+    {
+        $role = $this->request->getGet('role');
+        $query = $this->suratModel
+            ->like('nomor_agenda', '3523' . $role)
+            ->countAllResults();
+        return $this->respond($query);
+    }
+
     public function hitungSurat($role)
     {
         $query = "SELECT COUNT(*) AS jumlah FROM `surat` WHERE nomor_agenda Like '3523$role%'";

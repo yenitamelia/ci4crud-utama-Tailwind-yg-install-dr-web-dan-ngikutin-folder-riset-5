@@ -8,7 +8,7 @@
         <!-- Nampilin pesan error di view -->
         <!-- <h1>$validation->ListErrors();</h1> -->
         <!-- Dapet surat[id] nya dari controller -->
-        <form action="/Kasubag/User/update/<?= $users['id']; ?>" method="post" enctype="multipart/form-data">
+        <form action="/Admin/User/update/<?= $users['id']; ?>" method="post" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <!-- Menyimpan file file_masuk lama biar ga bermasalah waktu yg diganti cuman judulnya aja, dst -->
             <div class="grid grid-cols-3">

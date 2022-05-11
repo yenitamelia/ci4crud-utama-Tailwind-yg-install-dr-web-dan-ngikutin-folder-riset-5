@@ -10,7 +10,7 @@ class UserModel extends Model
     protected $userTimestamps = true;
     // Karena ditabel surat ada beberapa atribut yg gadipakai misalnya id, updated_at, delete_at
     // Maka harus diberitahu mana fields yg boleh diisi
-    protected $allowedFields = ['email', 'fullname', 'auth_groups_id', 'created_at', 'updated_at'];
+    protected $allowedFields = ['id', 'email', 'fullname', 'auth_groups_id', 'status_active', 'created_at', 'updated_at'];
 
     public function getUser($id = false)
     {

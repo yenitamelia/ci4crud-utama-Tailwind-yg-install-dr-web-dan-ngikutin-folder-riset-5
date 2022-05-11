@@ -7,7 +7,7 @@
         <div class="text-xl text-center mb-8">Form Tambah User</div>
         <!-- Nampilin pesan error di view -->
         <!-- <h1>$validation->ListErrors();</h1> -->
-        <form action="/Kasubag/User/save" method="post" enctype="multipart/form-data">
+        <form action="/Admin/User/save" method="post" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <!-- Menyimpan file file_masuk lama biar ga bermasalah waktu yg diganti cuman judulnya aja, dst -->
             <div class="grid grid-cols-3">

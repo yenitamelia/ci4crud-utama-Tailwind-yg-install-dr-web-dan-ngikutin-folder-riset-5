@@ -14,7 +14,7 @@
             </div>
 
             <div class="mt-5 md:mt-0">
-                <form id="delete_role" action="/Kasubag/Role/delete/" method="POST" enctype="multipart/form-data">
+                <form id="delete_role" action="/Admin/Role/delete/" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
                     <div class="shadow overflow-y-auto sm:rounded-md">
                         <div class="bg-white py-4 px-6">
@@ -48,7 +48,7 @@
 
     <?php if (session('auth_groups_id') == 2) : ?>
         <!-- Tombol Tambah Surat -->
-        <a href="/Kasubag/role/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Role Baru</a>
+        <a href="/Admin/role/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Role Baru</a>
     <?php endif; ?>
     <div class="mt-5">
         <table id="myTable" class="display text-sm" width="100%">
@@ -66,7 +66,7 @@
                         <td><?= $i++; ?></td>
                         <td><?= $g['description']; ?></td>
                         <td class="text-center flex">
-                            <div class="flex-auto py-2"><a href="/Kasubag/Role/edit/<?= $g['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
+                            <div class="flex-auto py-2"><a href="/Admin/Role/edit/<?= $g['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
                             <div class="flex-auto py-2" id="delete-btn<?= $g['id']; ?>" onclick="deleteRole('<?= $g['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $g['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div>
                         </td>
                     </tr>

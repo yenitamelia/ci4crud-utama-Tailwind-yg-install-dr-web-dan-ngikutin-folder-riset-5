@@ -44,7 +44,7 @@ class SuratKeluar extends BaseController
         $data = [
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
-            'surat_keluar' => $this->suratKeluarModel->getSuratKeluar(),
+            'surat_keluar' => $this->suratKeluarModel->getSuratKeluarKepala(),
             'role' => $this->groupsModel->getGroups(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
         ];

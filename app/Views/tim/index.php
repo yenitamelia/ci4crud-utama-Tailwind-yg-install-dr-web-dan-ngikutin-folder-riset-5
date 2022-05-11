@@ -12,10 +12,10 @@
                 </svg>
             </div>
 
-            <div class="mt-5 md:mt-0">
+            <div class="mt-5 md:mt-0 max-w-lg">
                 <form action="/Kepala/Surat/saveDisposisi" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
-                    <div class="shadow overflow-y-auto h-72 sm:rounded-md">
+                    <div class="shadow overflow-y-auto sm:rounded-md">
                         <div class="bg-white py-4 px-6">
                             <div class="">
                                 <div class="mb-3 w-96">
@@ -31,8 +31,15 @@
                                 <div class="mb-4 sm:col-span-4">
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Teruskan Kepada</label>
                                     <div class="mt-2 space-y-2">
-                                        <input type="text" class="border-b-4 border-indigo-500 outline-none">
+                                        <!-- <input type="text" class="border-b-4 border-indigo-500 outline-none"> -->
+                                        <!-- <div class="text-primary font-medium">Tags :</div> -->
+                                        <div id="tags-container">
+                                            <div class="control-group">
+                                                <select id="tags" class="tags font-heading text-xs" placeholder="Tandai orang"></select>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <input type="hidden" name="tags" id="tags_form">
                                 </div>
                             </div>
                         </div>
@@ -93,17 +100,69 @@
         </table>
     </div>
 </div>
+<script>
+    //buat tags
+    var formatTags = function(item) {
+        return $.trim((item.name || ''));
+    };
 
+    $('#tags').selectize({
+        plugins: ['remove_button'],
+        persist: false,
+        valueField: 'id',
+        labelField: 'name',
+        searchField: ['name'],
+        sortField: [{
+            field: 'name',
+            direction: 'asc'
+        }],
+        maxOptions: 5,
+        maxItems: 10,
+        options: [
+            <?php foreach ($users as $u) {
+                // if ($u['id'] !== session()['id'])
+                echo ("{
+                        name: \"" . $u['email'] . "\",
+                        id: \"" . $u['id'] . "\"
+                    },");
+            } ?>
+        ],
+        render: {
+            item: function(item, escape) {
+                var name = formatTags(item);
+                return '<div>' +
+                    (name ? '<span class="name">' + escape(name) + '</span>' : '') +
+                    '</div>';
+            },
+            option: function(item, escape) {
+                var name = formatTags(item);
+                var label = name;
+                var caption = name;
+                return '<div>' +
+                    '<span class="label">' + escape(label) + '</span>' +
+                    (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
+                    '</div>';
+            }
+        }
+    });
+
+    $('#tags').change(function() {
+        $tags = $('#tags').val();
+        $('#tags_form').val($tags);
+    });
+
+    $(function() {
+        $("select").selectize(options);
+    });
+</script>
 
 <script type="text/javascript" charset="utf8" src="https://releases.jquery.com/git/jquery-3.x-git.js"></script>
-<script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable();
     });
 </script>
-
 
 
 

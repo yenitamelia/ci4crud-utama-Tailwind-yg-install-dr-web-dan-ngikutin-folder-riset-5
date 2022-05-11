@@ -141,7 +141,6 @@
                         <?php if ($s['disposisi'] == 0) : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
                                 <div class="flex items-center">
-
                                     <div class="py-1 text-xs flex-auto bg-yellow-400 rounded-lg">Menunggu</div>
                                 </div>
                             </td>
@@ -161,7 +160,7 @@
                         <td class="text-center flex">
                             <div class="flex-auto py-2"><a href="/Kasubag/Surat/detail/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
                             <div class="flex-auto py-2"><a href="/Kasubag/Surat/edit/<?= $s['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-                            <div class="flex-auto py-2" id="delete-btn<?= $s['id']; ?>" onclick="deleteKasubag('<?= $s['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $s['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div>
+                            <!-- <div class="flex-auto py-2" id="delete-btn<?= $s['id']; ?>" onclick="deleteKasubag('<?= $s['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $s['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div> -->
                         </td>
                     </tr>
                 <?php endforeach; ?>

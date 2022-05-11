@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Kasubag;
+namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
@@ -11,7 +11,7 @@ use App\Models\UserModel;
 
 use DateTime;
 
-class User extends BaseController
+class Role extends BaseController
 {
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
@@ -30,14 +30,14 @@ class User extends BaseController
         // Diganti dibawah pake method ifelse di file SuratModel
 
         $data = [
-            'title' => 'Daftar Semua User',
+            'title' => 'Daftar Role',
             'surat' => $this->suratModel->getSurat(),
             'surat_keluar' => $this->suratKeluarModel->getSuratKeluar(),
-            'users' => $this->userModel->getUsers(),
+            'users' => $this->userModel->getUser(),
             'groups' => $this->groupsModel->getGroups()
         ];
 
-        return view('kasubag/user', $data);
+        return view('admin/role', $data);
     }
 
     public function create()
@@ -49,30 +49,23 @@ class User extends BaseController
         $data = [
             'title' => 'Form Tambah Role',
             'validation' => \Config\Services::validation(),
-            'groups' => $this->groupsModel->getGroups(),
-            'users' => $this->userModel->getUsers()
+            'role' => $this->groupsModel->getGroups(),
         ];
 
-        return view('kasubag/userCreate', $data);
+        return view('admin/roleCreate', $data);
     }
 
     public function save()
     {
         // validasi input
         if (!$this->validate([
-            'email' => [
+            'name' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'fullname' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'auth_groups_id' => [
+            'description' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} harus diisi.'
@@ -87,7 +80,7 @@ class User extends BaseController
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
 
             // dd($this->request->getVar('nomor_agenda'));
-            return redirect()->to('/Kasubag/User/create')->withInput();
+            return redirect()->to('/Admin/Role/create')->withInput();
         }
 
         // Mengambil semua data yg telah diinput
@@ -95,17 +88,16 @@ class User extends BaseController
         $now = new DateTime();
         // dd($now->format('Y-m-d H:i:s'));
 
-        $this->userModel->insert([
-            'email' => $this->request->getVar('email'),
-            'fullname' => $this->request->getVar('fullname'),
-            'auth_groups_id' => $this->request->getVar('auth_groups_id'),
+        $this->groupsModel->insert([
+            'name' => $this->request->getVar('name'),
+            'description' => $this->request->getVar('description'),
             'created_at' => $now->format('Y-m-d H:i:s'),
             'updated_at' => $now->format('Y-m-d H:i:s')
         ]);
 
         session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
 
-        return redirect()->to('/Kasubag/User');
+        return redirect()->to('/Admin/Role');
     }
 
     public function edit($id)
@@ -114,33 +106,26 @@ class User extends BaseController
         // Biar ga lupa2 makanya dipindah aja di BaseController
         // session();
         $data = [
-            'title' => 'Form Edit User',
+            'title' => 'Form Ubah Role',
             'validation' => \Config\Services::validation(),
             // Mengambil semua data surat sesuai id yg dipilih
-            'groups' => $this->groupsModel->getGroups(),
-            'users' => $this->userModel->getUser($id)
+            'groups' => $this->groupsModel->getGroups($id)
         ];
 
-        return view('kasubag/userEdit', $data);
+        return view('admin/roleEdit', $data);
     }
 
     public function update($id)
     {
         // validasi input
         if (!$this->validate([
-            'email' => [
+            'name' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'fullname' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'auth_groups_id' => [
+            'description' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} harus diisi.'
@@ -153,37 +138,24 @@ class User extends BaseController
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
             // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/Kasubag/User/edit/' . $id)->withInput();
+            return redirect()->to('/admin/role/edit/' . $id)->withInput();
         }
 
         // Mengambil semua data yg telah diinput
         // $this->request->getVar();
         $now = new DateTime();
         // dd($now->format('Y-m-d H:i:s'));
-        $this->userModel->save([
+
+        $this->groupsModel->save([
             'id' => $id,
-            'email' => $this->request->getVar('email'),
-            'fullname' => $this->request->getVar('fullname'),
-            'auth_groups_id' => $this->request->getVar('auth_groups_id'),
+            'name' => $this->request->getVar('name'),
+            'description' => $this->request->getVar('description'),
+            'created_at' => $now->format('Y-m-d H:i:s'),
             'updated_at' => $now->format('Y-m-d H:i:s')
         ]);
 
         session()->setFlashdata('pesan', 'Data berhasil diubah.');
 
-        return redirect()->to('Kasubag/User');
-    }
-
-    public function deactive($id)
-    {
-        $user = $this->userModel->getUser($id);
-        if ($user['status_active'] == 0) {
-            $this->userModel->set('status_active', 1)->where('id', $id)->update();
-            session()->setFlashdata('pesan', 'User berhasil <b>diaktifkan</b>');
-        } else {
-            $this->userModel->set('status_active', 0)->where('id', $id)->update();
-            session()->setFlashdata('pesan', 'User berhasil <b>dinonaktifkan</b>');
-        }
-
-        return redirect()->to('/Kasubag/User');
+        return redirect()->to('/Admin/Role');
     }
 }

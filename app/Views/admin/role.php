@@ -14,7 +14,7 @@
             </div>
 
             <div class="mt-5 md:mt-0">
-                <form id="delete_role" action="/Kasubag/Role/delete/" method="POST" enctype="multipart/form-data">
+                <form id="delete_role" action="/Admin/Role/delete/" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
                     <div class="shadow overflow-y-auto sm:rounded-md">
                         <div class="bg-white py-4 px-6">
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="text-2xl py-5">All User</div>
+    <div class="text-2xl py-5">Role</div>
     <!-- Alert jika data berhasil ditambahkan -->
     <?php if (session()->getFlashdata('pesan')) : ?>
         <div class="bg-green-200 text-green-600 text-sm py-3 px-6 rounded-lg mb-5">
@@ -48,30 +48,26 @@
 
     <?php if (session('auth_groups_id') == 2) : ?>
         <!-- Tombol Tambah Surat -->
-        <a href="/Kasubag/user/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah User Baru</a>
+        <a href="/Admin/role/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Role Baru</a>
     <?php endif; ?>
     <div class="mt-5">
         <table id="myTable" class="display text-sm" width="100%">
             <thead>
                 <tr>
                     <th class="w-1/12">No</th>
-                    <th class="w-4/12">Email</th>
-                    <th class="w-3/12">Full Name</th>
-                    <th class="w-3/12">Role</th>
+                    <th class="w-10/12">Role</th>
                     <th class="w-1/12">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $i = 1; ?>
-                <?php foreach ($users as $u) : ?>
+                <?php foreach ($groups as $g) : ?>
                     <tr>
                         <td><?= $i++; ?></td>
-                        <td><?= $u['email']; ?></td>
-                        <td><?= $u['fullname']; ?></td>
-                        <td><?= $u['description']; ?></td>
+                        <td><?= $g['description']; ?></td>
                         <td class="text-center flex">
-                            <div class="flex-auto py-2"><a href="/Kasubag/User/edit/<?= $u['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-                            <div class="flex-auto py-2" id="delete-btn<?= $u['id']; ?>" onclick="deleteRole('<?= $u['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $u['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div>
+                            <div class="flex-auto py-2"><a href="/Admin/Role/edit/<?= $g['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
+                            <div class="flex-auto py-2" id="delete-btn<?= $g['id']; ?>" onclick="deleteRole('<?= $g['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $g['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div>
                         </td>
                     </tr>
                 <?php endforeach; ?>

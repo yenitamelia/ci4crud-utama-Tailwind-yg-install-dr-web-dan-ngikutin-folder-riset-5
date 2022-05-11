@@ -49,9 +49,12 @@ class Login extends BaseController
             } elseif ($user['auth_groups_id'] == 2) {
 
                 return redirect()->to(base_url('Kasubag/Surat'));
-            } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
+            } elseif (in_array($user['auth_groups_id'], [3, 4, 5, 6, 7, 8])) {
 
                 return redirect()->to(base_url('Tim/Surat'));
+            } elseif ($user['auth_groups_id'] == 9) {
+
+                return redirect()->to(base_url('Admin/User'));
             }
         } else {
             $userModel = new UserModel();
@@ -64,7 +67,7 @@ class Login extends BaseController
             } elseif ($user['auth_groups_id'] == 2) {
 
                 return redirect()->to(base_url('Kasubag/Surat'));
-            } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
+            } elseif (in_array($user['auth_groups_id'], [3, 4, 5, 6, 7, 8])) {
 
                 $email = ($service->userinfo->get()->getEmail());
                 $userModel = new UserModel();
@@ -80,6 +83,9 @@ class Login extends BaseController
                     } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
 
                         return redirect()->to(base_url('Tim/Surat'));
+                    } elseif ($user['auth_groups_id'] == 9) {
+
+                        return redirect()->to(base_url('Admin/User'));
                     }
                 }
             }

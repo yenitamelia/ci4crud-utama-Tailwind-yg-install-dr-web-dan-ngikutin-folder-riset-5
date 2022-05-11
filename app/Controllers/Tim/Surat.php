@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
+use App\Models\UserModel;
 use App\Models\RoleDisposisiModel;
 use DateTime;
 use PhpParser\Node\Stmt\Echo_;
@@ -18,6 +19,7 @@ class Surat extends BaseController
     protected $suratModel;
     protected $disposisiModel;
     protected $groupsModel;
+    protected $userModel;
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
     {
@@ -25,6 +27,7 @@ class Surat extends BaseController
         $this->suratModel = new SuratModel();
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
+        $this->userModel = new UserModel();
     }
 
     public function index()
@@ -38,7 +41,8 @@ class Surat extends BaseController
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $this->suratModel->getSuratTim($role),
-            'role' => $this->groupsModel->getGroups()
+            'role' => $this->groupsModel->getGroups(),
+            'users' => $this->userModel->getUser()
         ];
 
         return view('tim/index', $data);

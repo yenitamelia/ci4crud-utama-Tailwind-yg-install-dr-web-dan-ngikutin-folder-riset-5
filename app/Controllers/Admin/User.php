@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Kasubag;
+namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
@@ -37,7 +37,7 @@ class User extends BaseController
             'groups' => $this->groupsModel->getGroups()
         ];
 
-        return view('kasubag/user', $data);
+        return view('admin/user', $data);
     }
 
     public function create()
@@ -53,7 +53,7 @@ class User extends BaseController
             'users' => $this->userModel->getUsers()
         ];
 
-        return view('kasubag/userCreate', $data);
+        return view('admin/userCreate', $data);
     }
 
     public function save()
@@ -87,7 +87,7 @@ class User extends BaseController
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
 
             // dd($this->request->getVar('nomor_agenda'));
-            return redirect()->to('/Kasubag/User/create')->withInput();
+            return redirect()->to('/Admin/User/create')->withInput();
         }
 
         // Mengambil semua data yg telah diinput
@@ -105,7 +105,7 @@ class User extends BaseController
 
         session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
 
-        return redirect()->to('/Kasubag/User');
+        return redirect()->to('/Admin/User');
     }
 
     public function edit($id)
@@ -121,7 +121,7 @@ class User extends BaseController
             'users' => $this->userModel->getUser($id)
         ];
 
-        return view('kasubag/userEdit', $data);
+        return view('admin/userEdit', $data);
     }
 
     public function update($id)
@@ -153,7 +153,7 @@ class User extends BaseController
             // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
             // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
             // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/Kasubag/User/edit/' . $id)->withInput();
+            return redirect()->to('/Admin/User/edit/' . $id)->withInput();
         }
 
         // Mengambil semua data yg telah diinput
@@ -170,7 +170,7 @@ class User extends BaseController
 
         session()->setFlashdata('pesan', 'Data berhasil diubah.');
 
-        return redirect()->to('Kasubag/User');
+        return redirect()->to('Admin/User');
     }
 
     public function deactive($id)
@@ -184,6 +184,6 @@ class User extends BaseController
             session()->setFlashdata('pesan', 'User berhasil <b>dinonaktifkan</b>');
         }
 
-        return redirect()->to('/Kasubag/User');
+        return redirect()->to('/Admin/User');
     }
 }
