@@ -11,63 +11,6 @@
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
             </div>
-
-            <div class="mt-5 md:mt-0">
-                <form action="/Kasubag/Surat/saveDisposisi" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_surat" id="idSurat">
-                    <div class="shadow overflow-y-auto h-96 sm:rounded-md">
-                        <div class="bg-white py-4 px-6">
-                            <div class="">
-                                <div class="mb-3">
-                                    <label for="perihal" class="block text-sm font-medium text-gray-700">Perihal</label>
-                                    <!-- <div class="text-sm" id="perihalSurat"></div> -->
-                                    <input disabled class="text-sm w-full py-1 px-2" name="perihal_surat" id="perihalSurat">
-                                </div>
-                                <div class="mb-3 sm:col-span-4">
-                                    <label for="dari" class="block text-sm font-medium text-gray-700">Dari</label>
-                                    <!-- <div class="text-sm" id="dariSurat"></div> -->
-                                    <input disabled class="text-sm w-full py-1 px-2" name="dari_surat" id="dariSurat">
-                                </div>
-                                <div class="mb-4 sm:col-span-4">
-                                    <label for="disposisi_kepada" class="block text-sm font-medium text-gray-700">Disposisi Kepada</label>
-                                    <div class="mt-2 space-y-2">
-                                        <div class="flex items-start">
-                                            <div class="flex items-center h-5">
-                                            </div>
-                                            <div class="ml-3 text-sm" id="showRole">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="mb-3 sm:col-span-4">
-                                    <label for="isi_disposisi" class="block text-sm font-medium text-gray-700">Isi Disposisi</label>
-                                    <div class="text-sm mt-2"><textarea disabled name="isi-disposisi" id="isi-disposisi" cols="60" rows="4" class="border border-gray-400 rounded-md p-2 focus:ring focus:outline-none"></textarea></div>
-                                </div>
-                                <div class="sm:col-span-4">
-                                    <label for="gambar" class="block text-sm font-medium text-gray-700">Tanda Tangan</label>
-                                    <div class="flex mt-5">
-                                        <div class="flex justify-start items-center mb-1 w-full relative">
-                                            <img src="" alt="" id="gambar" class="w-20 h-20">
-                                        </div>
-                                    </div>
-                                    <div class="font-medium tracking-wide text-red-500 text-xs ml-1 mb-2">
-                                        <?= $validation->getError('gambar'); ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                            <div id="close-modal2" class="cursor-pointer inline-flex justify-center closeBtn py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-gray-400 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Cancel
-                            </div>
-                            <button type="submit" class="inline-flex justify-center disposisiBtn ml-1 py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Kirim
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 
@@ -114,10 +57,8 @@
         </div>
     <?php endif; ?>
 
-    <?php if (session('auth_groups_id') == 2) : ?>
-        <!-- Tombol Tambah Surat -->
-        <a href="/Kasubag/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
-    <?php endif; ?>
+    <!-- Tombol Tambah Surat -->
+    <a href="/Kasubag/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
     <div class="mt-5">
         <table id="myTable" class="display text-sm" width="100%">
             <thead>
@@ -147,9 +88,7 @@
                         <?php else : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
                                 <?php if ($s['status'] == 0) : ?>
-                                    <div class="px-2 py-1 cursor-pointer text-center flex-auto justify-center justify-content-center bg-blue-400 hover:bg-blue-600 text-gray-100 rounded-lg shadow text-xs" id="disposisi-btn<?= $s['id']; ?>" onclick="modalDisposisiKasubag('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">
-                                        Kirim
-                                    </div>
+                                    <div class="py-1 text-xs flex-auto bg-yellow-400 rounded-lg">Menunggu</div>
                                 <?php else : ?>
                                     <div class="flex items-center">
                                         <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Terkirim</div>
@@ -160,7 +99,7 @@
                         <td class="text-center flex">
                             <div class="flex-auto py-2"><a href="/Kasubag/Surat/detail/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
                             <div class="flex-auto py-2"><a href="/Kasubag/Surat/edit/<?= $s['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
-                            <div class="flex-auto py-2" id="delete-btn<?= $s['id']; ?>" onclick="deleteKasubag('<?= $s['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $s['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div>
+                            <!-- <div class="flex-auto py-2" id="delete-btn<?= $s['id']; ?>" onclick="deleteKasubag('<?= $s['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $s['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div> -->
                         </td>
                     </tr>
                 <?php endforeach; ?>

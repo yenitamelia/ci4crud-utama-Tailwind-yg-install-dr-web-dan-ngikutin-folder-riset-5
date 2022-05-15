@@ -18,6 +18,7 @@ class Surat extends BaseController
     protected $suratModel;
     protected $disposisiModel;
     protected $groupsModel;
+    protected $roleDisposisiModel;
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
     {
@@ -25,6 +26,7 @@ class Surat extends BaseController
         $this->suratModel = new SuratModel();
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
+        $this->roleDisposisiModel = new RoleDisposisiModel();
     }
 
     public function index()
@@ -58,11 +60,13 @@ class Surat extends BaseController
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
+        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $this->suratModel->getSurat($id),
-            'role' => $this->groupsModel->getGroups()
+            'role' => $query,
+            'disposisi' => $this->disposisiModel->where('id_surat', $id)->first()
         ];
 
         // Jika surat tidak ada di tabel

@@ -15,25 +15,19 @@
         <div class="grid grid-cols-6 gap-4 text-sm place-content-center justify-items-center place-items-center justify-center">
             <div></div>
             <div class="place-content-center self-start">
-                <a href="" target='_blank'>
-                    <img src="/img/file.png" class="w-4/6 cursor-pointer" alt="gambar">
-                </a>
+                <div>
+                    <img src="/img/file.png" class="w-4/6 cursor-pointer" id="lihat-btn<?= $surat['id']; ?>" onclick="modalpdf('<?= $surat['id']; ?>','<?= $surat['nomor_surat']; ?>')" alt="gambar">
+                </div>
                 <div class="flex pt-2 ml-5">
-                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-3 py-2 cursor-pointer">
+                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-3 py-2 cursor-pointer" id="disposisi-btn<?= $surat['id']; ?>" onclick="modalpdf('<?= $surat['id']; ?>','<?= $surat['nomor_surat']; ?>')">
                         <img src="/img/eye.png" class="flex-auto w-5 h-5 mr-1" alt="gambar">
-                        <div class="flex-auto text-xs" id="disposisi-btn<?= $surat['id']; ?>" onclick="modalpdf('<?= $surat['id']; ?>','<?= $surat['nomor_surat']; ?>')">Lihat</div>
+                        <div class="flex-auto text-xs">Lihat</div>
                     </div>
                 </div>
                 <div class="flex py-2 ml-1">
                     <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
                         <img src="/img/download.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
                         <span class="flex-auto text-xs">Download</span>
-                    </a>
-                </div>
-                <div class="flex ml-5">
-                    <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
-                        <img src="/img/printing.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
-                        <span class="flex-auto text-xs">Print</span>
                     </a>
                 </div>
             </div>
@@ -121,9 +115,9 @@
             <div class="grid grid-cols-4 mt-5 gap-4">
                 <div class="col-span-3 text-xl text-center mt-2">Lembar Disposisi Surat <?= $surat['perihal']; ?></div>
                 <div class="py-2 ml-5 w-24">
-                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-5 py-2 cursor-pointer">
+                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-5 py-2 cursor-pointer" id="disposisi-btn<?= $surat['id']; ?>" onclick="window.print();">
                         <img src="/img/printing.png" class="flex-auto w-5 h-5 mr-2" alt="gambar">
-                        <div class="flex-auto text-xs" id="disposisi-btn<?= $surat['id']; ?>" onclick="window.print();">Print</div>
+                        <div class="flex-auto text-xs">Print</div>
                     </div>
                 </div>
             </div>

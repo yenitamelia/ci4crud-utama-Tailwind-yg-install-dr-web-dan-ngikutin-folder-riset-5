@@ -28,7 +28,7 @@ class SuratModel extends Model
 
     public function getSuratTim($idTim)
     {
-        $query = "SELECT surat_masuk.*,disposisi.* FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN role_disposisi on disposisi.id = role_disposisi.id_disposisi WHERE role_disposisi.id_role = $idTim AND surat_masuk.status = 1";
+        $query = "SELECT disposisi.*,surat_masuk.* FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN role_disposisi on disposisi.id = role_disposisi.id_disposisi WHERE role_disposisi.id_role = $idTim AND surat_masuk.status = 1";
         return $this->db->query($query)->getResultArray();
     }
 

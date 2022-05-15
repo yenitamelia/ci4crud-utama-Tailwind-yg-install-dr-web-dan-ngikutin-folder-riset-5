@@ -145,9 +145,14 @@
                                 <i class='bx bx-archive-in'></i>
                                 <span class="links_name">Surat Masuk</span>
                             <?php elseif (session('auth_groups_id') == 8) : ?>
-                                <a href="/tim/surat/">
+                                <a href="/anggotaTim/surat/">
                                     <i class='bx bx-archive-in'></i>
                                     <span class="links_name">Surat Masuk</span>
+                                <?php elseif (session('auth_groups_id') == 10) : ?>
+                                    <a href="/operator/surat/">
+                                        <i class='bx bx-archive-in'></i>
+                                        <span class="links_name">Surat Masuk</span>
+                                    </a>
                                 </a>
                             </a>
                         </a>
@@ -373,12 +378,16 @@
     function modalpdf(id, no) {
         const overlay = document.querySelector('#overlay')
         const disposisiBtn = document.querySelector('#disposisi-btn' + id)
+        const lihatBtn = document.querySelector('#lihat-btn' + id)
         const closeBtn = document.querySelector('#close-modal')
         const closeBtn2 = document.querySelector('#close-modal2')
 
 
         // When the user clicks the button, open the modal 
         disposisiBtn.onclick = function() {
+            overlay.style.display = "flex";
+        }
+        lihatBtn.onclick = function() {
             overlay.style.display = "flex";
         }
 

@@ -49,12 +49,18 @@ class Login extends BaseController
             } elseif ($user['auth_groups_id'] == 2) {
 
                 return redirect()->to(base_url('Kasubag/Surat'));
-            } elseif (in_array($user['auth_groups_id'], [3, 4, 5, 6, 7, 8])) {
+            } elseif (in_array($user['auth_groups_id'], [3, 4, 5, 6, 7])) {
 
                 return redirect()->to(base_url('Tim/Surat'));
+            } elseif ($user['auth_groups_id'] == 8) {
+
+                return redirect()->to(base_url('AnggotaTim/Surat'));
             } elseif ($user['auth_groups_id'] == 9) {
 
                 return redirect()->to(base_url('Admin/User'));
+            } elseif ($user['auth_groups_id'] == 10) {
+
+                return redirect()->to(base_url('Operator/Surat'));
             }
         } else {
             $userModel = new UserModel();
@@ -67,7 +73,7 @@ class Login extends BaseController
             } elseif ($user['auth_groups_id'] == 2) {
 
                 return redirect()->to(base_url('Kasubag/Surat'));
-            } elseif (in_array($user['auth_groups_id'], [3, 4, 5, 6, 7, 8])) {
+            } elseif (in_array($user['auth_groups_id'], [3, 4, 5, 6, 7, 8, 10])) {
 
                 $email = ($service->userinfo->get()->getEmail());
                 $userModel = new UserModel();
@@ -80,12 +86,18 @@ class Login extends BaseController
                     } elseif ($user['auth_groups_id'] == 2) {
 
                         return redirect()->to(base_url('Kasubag/Surat'));
-                    } elseif (in_array($user['auth_groups_id'], [3, 4, 5])) {
+                    } elseif (in_array($user['auth_groups_id'], [3, 4, 5, 6, 7])) {
 
                         return redirect()->to(base_url('Tim/Surat'));
+                    } elseif ($user['auth_groups_id'] == 8) {
+
+                        return redirect()->to(base_url('AnggotaTim/Surat'));
                     } elseif ($user['auth_groups_id'] == 9) {
 
                         return redirect()->to(base_url('Admin/User'));
+                    } elseif ($user['auth_groups_id'] == 10) {
+
+                        return redirect()->to(base_url('Operator/Surat'));
                     }
                 }
             }

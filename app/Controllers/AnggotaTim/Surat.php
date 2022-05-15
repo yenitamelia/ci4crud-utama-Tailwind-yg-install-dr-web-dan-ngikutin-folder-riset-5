@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Tim;
+namespace App\Controllers\AnggotaTim;
 
 use App\Controllers\BaseController;
 use App\Models\SuratModel;
@@ -20,7 +20,6 @@ class Surat extends BaseController
     protected $disposisiModel;
     protected $groupsModel;
     protected $userModel;
-    protected $roleDisposisiModel;
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
     {
@@ -29,7 +28,6 @@ class Surat extends BaseController
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
         $this->userModel = new UserModel();
-        $this->roleDisposisiModel = new RoleDisposisiModel();
     }
 
     public function index()
@@ -47,19 +45,17 @@ class Surat extends BaseController
             'users' => $this->userModel->getUser()
         ];
 
-        return view('tim/index', $data);
+        return view('anggotaTim/index', $data);
     }
 
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
-        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $this->suratModel->getSurat($id),
-            'role' => $query,
-            'disposisi' => $this->disposisiModel->where('id_surat', $id)->first()
+            'role' => $this->groupsModel->getGroups()
         ];
 
         // Jika surat tidak ada di tabel
@@ -67,7 +63,7 @@ class Surat extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
         }
 
-        return view('tim/detail', $data);
+        return view('anggotaTim/detail', $data);
     }
 
     public function lembar($id)
@@ -82,7 +78,7 @@ class Surat extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
         }
 
-        return view('tim/lembar', $data);
+        return view('anggotaTim/lembar', $data);
     }
 
     public function download($id)

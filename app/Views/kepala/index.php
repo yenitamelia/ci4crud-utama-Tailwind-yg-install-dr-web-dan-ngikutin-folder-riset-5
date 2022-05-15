@@ -33,7 +33,7 @@
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Disposisi Kepada</label>
                                     <div class="mt-2 space-y-2">
                                         <?php foreach ($role as $row) : ?>
-                                            <?php if (($row["id"]) > 1) : ?>
+                                            <?php if (($row["id"]) > 1 && ($row["id"]) < 8) : ?>
                                                 <div class="flex items-start">
                                                     <div class="flex items-center h-5">
                                                         <input type="checkbox" id="<?= $row["name"]; ?>" name="<?= $row["id"]; ?>" value="<?= $row["id"]; ?>" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
@@ -96,7 +96,6 @@
                     <th class="w-1/3">Perihal</th>
                     <th class="w-1/5">Disposisi Saat Ini</th>
                     <th class="w-1/9">Aksi</th>
-                    <!-- <th class="w-1/5">Aksi 2</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -123,7 +122,7 @@
                             </td>
                         <?php endif; ?>
                         <td class="text-center">
-                            <a href="/Kepala/Surat/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
+                            <a href="/Kepala/Surat/detail/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

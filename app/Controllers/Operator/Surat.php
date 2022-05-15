@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Controllers\Kasubag;
+namespace App\Controllers\Operator;
 
 use App\Controllers\BaseController;
 use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
-use App\Models\UserModel;
 use App\Models\RoleDisposisiModel;
 use CodeIgniter\API\ResponseTrait;
 use DateTime;
@@ -22,7 +21,6 @@ class Surat extends BaseController
     protected $suratModel;
     protected $disposisiModel;
     protected $groupsModel;
-    protected $userModel;
     protected $roleDisposisiModel;
 
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
@@ -32,7 +30,6 @@ class Surat extends BaseController
         $this->suratModel = new SuratModel();
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
-        $this->userModel = new UserModel();
         $this->roleDisposisiModel = new RoleDisposisiModel();
     }
 
@@ -50,38 +47,9 @@ class Surat extends BaseController
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
         ];
 
-        return view('kasubag/index', $data);
+        return view('operator/indexSuratMasuk', $data);
     }
 
-    public function indexx()
-    {
-        // Mengambil semua data dari tabel surat
-        // $surat = $this->suratModel->findAll();
-        // Diganti dibawah pake method ifelse di file SuratModel
-
-        $role = $this->groupsModel->getRole(session('id'));
-        $data = [
-            'title' => 'Daftar Surat',
-            'validation' => \Config\Services::validation(),
-            'surat' => $this->suratModel->getSuratTim($role),
-            'users' => $this->userModel->getUser()
-            // 'role' => $this->groupsModel->getGroups()
-        ];
-
-        return view('kasubag/indexx', $data);
-    }
-
-    public function modaldisposisikepada()
-    {
-        $surat_id = $this->request->getGet('surat_id');
-        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $surat_id)->get()->getResultArray();
-        return $this->respond($query);
-    }
-
-    public function disposisiKepada($id)
-    {
-        return $this->disposisiModel->getIdRole($id);
-    }
 
     // Bisa aja ngambil dari slug
     public function detail($id)
@@ -100,7 +68,7 @@ class Surat extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
         }
 
-        return view('kasubag/detail', $data);
+        return view('operator/detailSuratMasuk', $data);
     }
 
     public function lembar($id)
@@ -131,7 +99,7 @@ class Surat extends BaseController
             'role' => $this->groupsModel->getGroups(),
         ];
 
-        return view('kasubag/create', $data);
+        return view('operator/create', $data);
     }
 
     public function getNomorAgenda()
@@ -223,15 +191,9 @@ class Surat extends BaseController
                 ]
             ]
         ])) {
-            // Mengambil pesan kesalahan
-            // Ini ngga perlu karena sebenernya udah ada didalam session
-            // $validation = \Config\Services::validation();
-            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
-            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
 
             // dd($this->request->getVar('nomor_agenda'));
-            return redirect()->to('/Kasubag/Surat/create')->withInput();
+            return redirect()->to('/Operator/Surat/create')->withInput();
         }
 
         // Mengambil semua data yg telah diinput
@@ -263,30 +225,7 @@ class Surat extends BaseController
 
         session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
 
-        return redirect()->to('/Kasubag/Surat');
-    }
-
-    public function saveDisposisi()
-    {
-
-        $this->suratModel->set('status', '1')->where('id', $this->request->getVar('id_surat'))->update();
-        session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
-
-        return redirect()->to('/kasubag/surat');
-    }
-
-    public function delete($id)
-    {
-        // Cari lampiran berdasarkan id
-        $surat = $this->suratModel->find($id);
-
-        // Hapus file lampiran yg ada di folder ci
-        // Karena kalau hapus biasa cuman ngehapus sampai phpmyadmin aja, sedangkan di folder ci-nya belum kehapus 
-        unlink('file_masuk/' . $surat['file_masuk']);
-
-        $this->suratModel->delete($id);
-        session()->setFlashdata('pesan', 'Data berhasil dihapus.');
-        return redirect()->to('/kasubag/surat');
+        return redirect()->to('/Operator/Surat');
     }
 
     public function edit($id)
@@ -301,7 +240,7 @@ class Surat extends BaseController
             'surat' => $this->suratModel->getSurat($id)
         ];
 
-        return view('kasubag/edit', $data);
+        return view('operator/edit', $data);
     }
 
     public function update($id)
@@ -366,13 +305,8 @@ class Surat extends BaseController
                 ]
             ]
         ])) {
-            // Mengambil pesan kesalahan
-            // Ini ngga perlu karena sebenernya udah ada didalam session
-            // $validation = \Config\Services::validation();
-            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
-            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/kasubag/surat/edit/' . $id)->withInput();
+
+            return redirect()->to('/operator/surat/edit/' . $id)->withInput();
         }
 
         // Mengambil file lampiran
@@ -416,7 +350,7 @@ class Surat extends BaseController
 
         session()->setFlashdata('pesan', 'Data berhasil diubah.');
 
-        return redirect()->to('/Kasubag/Surat');
+        return redirect()->to('/Operator/Surat');
     }
 
     public function download($id)
@@ -424,35 +358,4 @@ class Surat extends BaseController
         $surat = $this->suratModel->find($id);
         return $this->response->download('file_masuk/' . $surat['file_masuk'], null);
     }
-
-    // public function read($id)
-    // {
-    //     $surat = $this->suratModel->find($id);
-    //     // return $surat['lampiran'];
-    //     // $lampiran = $surat["lampiran"];
-    //     // $len = isset($lampiran) ? count($lampiran) : 0;
-    //     // dd($len);
-    //     // echo '<iframe src= "DAFTAR_ST2013_L (1)_1.pdf"</iframe>';
-    //     echo 'DAFTAR_ST2013_L (1)_1.pdf';
-    // }
-
-    // public function viewpdf($id)
-    // {
-    //     // Mengambil semua data dari tabel surat
-    //     // $surat = $this->suratModel->findAll();
-    //     // Diganti dibawah pake method ifelse di file SuratModel
-
-    //     $data = [
-    //         'title' => 'View Surat',
-    //         'validation' => \Config\Services::validation(),
-    //         'surat' => $this->suratModel->getSurat($id)
-    //     ];
-
-    //     // Jika surat tidak ada di tabel
-    //     if (empty($data['surat'])) {
-    //         throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
-    //     }
-
-    //     return view('surat/viewpdf', $data);
-    // }
 }
