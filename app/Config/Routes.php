@@ -31,8 +31,9 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Authentication::login');
-$routes->get('/Login', 'Authentication::login');
+$routes->get('/', 'Authentication::viewLogin');
+$routes->get('/Login', 'Authentication::viewLogin');
+$routes->get('/Login/Google', 'Authentication::googleLogin');
 $routes->get('/Logout', 'Authentication::logout');
 // $routes->get('/Kasubag/Surat/create', 'surat::create');
 // $routes->get('/suratKeluar/create', 'surat::create', ['filter' => 'role:bid_umum']);

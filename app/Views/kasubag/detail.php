@@ -74,9 +74,11 @@
                 </div>
                 <div class="grid grid-cols-3 gap-8 mb-2">
                     <div class="text-right">Isi Disposisi</div>
-                    <div id="isi_disposisi">
-                        <?= $disposisi['isi_disposisi']; ?>
-                    </div>
+                    <?php if (isset($disposisi['isi_disposisi'])) { ?>
+                        <div id="isi_disposisi">
+                            <?= $disposisi['isi_disposisi']; ?>
+                        </div>
+                    <?php } ?>
                 </div>
                 <div class="grid grid-cols-3 gap-8 mb-2">
                     <div class="text-right">Diteruskan</div>
@@ -175,12 +177,14 @@
                             <td class="text-center py-1" colspan="6">Diteruskan kepada :</td>
                         </tr>
                         <tr class="">
-                            <td class="text-left p-3" colspan="6">
-                                <div><?= $disposisi['isi_disposisi']; ?></div>
-                                <div class="grid justify-items-center mt-6">
-                                    <div><img class="w-24 h-24 items-center justify-items-center justify-self-center" src="/gambar/<?= $disposisi['gambar']; ?>" alt=""></div>
-                                </div>
-                            </td>
+                            <?php if (isset($disposisi)) { ?>
+                                <td class="text-left p-3" colspan="6">
+                                    <div><?= $disposisi['isi_disposisi']; ?></div>
+                                    <div class="grid justify-items-center mt-6">
+                                        <div><img class="w-24 h-24 items-center justify-items-center justify-self-center" src="/gambar/<?= $disposisi['gambar']; ?>" alt=""></div>
+                                    </div>
+                                </td>
+                            <?php } ?>
                             <td class="text-left p-3 content-start items-start" colspan="6">
                                 <?php $i = 1;
                                 foreach ($role as $r) : ?>

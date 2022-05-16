@@ -10,12 +10,21 @@ use Google_Service_Oauth2;
 class Authentication extends BaseController
 {
 
-    public function login()
+    public function viewLogin()
+    {
+        $data = [
+            'title' => 'Halaman Login',
+        ];
+
+        return view('login/login', $data);
+    }
+
+    public function googleLogin()
     {
         $client = new Google_Client();
         $clientId = '737735284563-n8o0p7nhqq49vkhjoq7qadctmg5ke810.apps.googleusercontent.com';
         $clientSecret = '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';
-        $redirectUri = base_url('Login');
+        $redirectUri = base_url('Login/Google');
 
         $client->setClientId($clientId);
         $client->setClientSecret($clientSecret);

@@ -268,16 +268,20 @@ class Surat extends BaseController
 
     public function saveDisposisi()
     {
-        // $this->suratModel->set('status', '1')->where('id', $this->request->getVar('id_surat'))->update();
-        $raw = $this->suratModel->getUserFromSuratDisposisi($this->request->getVar('id_surat'));
+        $id = $this->request->getVar('id_surat');
+        $this->suratModel->set('status', '1')->where('id', $id)->update();
+        $raw = $this->suratModel->getUserFromSuratDisposisi($id);
         $emails = [];
         foreach ($raw as $r) {
-            array_push($emails, $r);
+            array_push($emails, $r['email']);
         }
 
-        // $this->sendBulkEmail('Tindak Lanjut Disposisi', 'Ada Tindak Lanjut Disposisi yang harus diselesaikan', $emails);
+        $surat = $this->suratModel->getSurat($id);
 
+        $judulPesan = 'Tindak Lanjut Disposisi';
+        $isiPesan = "Ada Tindak Lanjut Disposisi yang harus diselesaikan terhadap " . $surat['perihal'];
 
+        $this->sendBulkEmail($judulPesan, $isiPesan, $emails);
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
         return redirect()->to('/kasubag/surat');
@@ -285,37 +289,11 @@ class Surat extends BaseController
 
     public function sendBulkEmail($title, $body, $targets)
     {
-        $this->load->library('email');
-        $config = [
-            'mailtype'  => 'html',
-            'charset'   => 'utf-8',
-            'protocol'  => 'smtp',
-            'smtp_host' => 'smtp.gmail.com',
-            'smtp_user' => 'yenitamelia2@gmail.com',  // Email gmail
-            'smtp_pass'   => '12345yenitaika',  // Password gmail
-            'smtp_crypto' => 'ssl',
-            'smtp_port'   => 465,
-            'crlf'    => "\r\n",
-            'newline' => "\r\n"
-        ];
-
-        // Load library email dan konfigurasinya
-        $this->load->library('email', $config);
-
-        // Email dan nama pengirim
-        $this->email->from('yenitamelia2@gmail.com', 'Yenita Amelia');
-        $this->email->to($targets); // Ganti dengan email tujuan
-
-        // Subject email
-        $this->email->subject($title);
-
-        // Isi email
-        $this->email->message($body);
-        if ($this->email->send()) {
-            echo 'Sukses! email berhasil dikirim.';
-        } else {
-            echo 'Error! email tidak dapat dikirim.';
-        }
+        $email = \Config\Services::email();
+        $email->setTo($targets);
+        $email->setSubject($title);
+        $email->setMessage($body);
+        $email->send();
     }
 
     public function delete($id)

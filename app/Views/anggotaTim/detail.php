@@ -128,7 +128,7 @@
                         <tr>
                             <td class="" colspan="12">
                                 <div class="flex items-center">
-                                    <div class="flex-none"><img class="w-28 h-20" src="/img/bps.png" alt=""></div>
+                                    <div class="flex-none"><img class="w-28 h-20" src="/img/bps.png" alt="logo BPS"></div>
                                     <div class="flex-auto text-base ml-2"><b><i>BADAN PUSAT STATISTIK <br> KABUPATEN TUBAN</i></b></div>
                                 </div>
                             </td>

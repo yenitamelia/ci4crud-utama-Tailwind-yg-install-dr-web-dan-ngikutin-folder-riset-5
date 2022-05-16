@@ -42,6 +42,25 @@ class SuratModel extends Model
         return $this->findAll();
     }
 
+    public function getCountSuratTerdisposisi()
+    {
+        $this->where('disposisi', 1);
+        return $this->countAllResults();
+    }
+
+    public function getCountMenungguDisposisi()
+    {
+        $this->where('disposisi', 0);
+        return $this->countAllResults();
+    }
+
+    public function getCountMenungguDikirim()
+    {
+        $this->where('disposisi', 1);
+        $this->where('status', 0);
+        return $this->countAllResults();
+    }
+
     public function getCountSuratMasuk()
     {
         return $this->countAllResults();

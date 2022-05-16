@@ -43,7 +43,10 @@ class Home extends BaseController
 			'user' => $this->userModel->getCountUser(),
 			'role' => $this->groupsModel->getCountRole(),
 			'suratMasuk' => $this->suratModel->getCountSuratMasuk(),
-			'suratKeluar' => $this->suratKeluarModel->getCountSuratKeluar()
+			'suratKeluar' => $this->suratKeluarModel->getCountSuratKeluar(),
+			'suratTerdisposisi' => $this->suratModel->getCountSuratTerdisposisi(),
+			'menungguDisposisi' => $this->suratModel->getCountMenungguDisposisi(),
+			'menungguDikirim' => $this->suratModel->getCountMenungguDikirim()
 		];
 
 		return view('pages/home', $data);

@@ -56,7 +56,7 @@
                         </div>
                         <div>
                             <div class="grid grid-rows-2 items-center gap-4">
-                                <div class="text-3xl text-right text-blue-400">33</div>
+                                <div class="text-3xl text-right text-blue-400"><?= $suratTerdisposisi; ?></div>
                                 <div class="text-right">Surat Terdisposisi</div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                         </div>
                         <div>
                             <div class="grid grid-rows-2 items-center gap-4">
-                                <div class="text-3xl text-right text-indigo-400">40</div>
+                                <div class="text-3xl text-right text-indigo-400"><?= $menungguDisposisi; ?></div>
                                 <div class="text-right">Menunggu Disposisi</div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                         </div>
                         <div>
                             <div class="grid grid-rows-2 items-center gap-4">
-                                <div class="text-3xl text-right text-yellow-400">40</div>
+                                <div class="text-3xl text-right text-yellow-400"><?= $menungguDikirim; ?></div>
                                 <div class="text-right">Menunggu Dikirim</div>
                             </div>
                         </div>
