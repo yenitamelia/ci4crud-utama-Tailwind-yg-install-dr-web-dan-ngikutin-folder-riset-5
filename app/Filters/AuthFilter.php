@@ -19,9 +19,13 @@ class AuthFilter implements FilterInterface
                 if ($request->getUri()->getSegment(1) != 'Kasubag') {
                     return redirect()->to(base_url('Kasubag/Surat'));
                 }
-            } elseif (in_array(session()->auth_groups_id, [3, 4, 5, 6, 7, 8])) {
+            } elseif (in_array(session()->auth_groups_id, [3, 4, 5, 6, 7])) {
                 if ($request->getUri()->getSegment(1) != 'Tim') {
                     return redirect()->to(base_url('Tim/Surat'));
+                }
+            } elseif (session()->auth_groups_id == 8) {
+                if ($request->getUri()->getSegment(1) != 'AnggotaTim') {
+                    return redirect()->to(base_url('AnggotaTim/Surat'));
                 }
             } elseif (session()->auth_groups_id == 9) {
                 if ($request->getUri()->getSegment(1) != 'Admin') {

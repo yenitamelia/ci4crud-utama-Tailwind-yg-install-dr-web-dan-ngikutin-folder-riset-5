@@ -189,11 +189,11 @@
                 <div class="profile-details">
                     <!--<img src="profile.jpg" alt="profileImg">-->
                     <div class="name_job">
-                        <div class="name text-xs">kasubbag@bps.go.id</div>
-                        <div class="job text-base">Kasubbag Umum</div>
+                        <div class="name text-xs"><?php echo session('email') ?></div>
+                        <div class="job text-base"><?php echo session('role_name') ?></div>
                     </div>
                 </div>
-                <a href="<?= base_url('logout'); ?>">
+                <a href="<?= base_url('Logout'); ?>">
                     <i class='bx bx-log-out' id="log_out"></i>
                 </a>
             </li>
@@ -458,10 +458,10 @@
 </script>
 
 <script>
-    function modalDisposisiKetuaTim(id, perihal, dari, no) {
+    function modalDisposisiKetuaTim(idDisposisi, perihal, dari, no) {
 
         const overlay = document.querySelector('#overlay')
-        const disposisiBtn = document.querySelector('#disposisi-btn' + id)
+        const disposisiBtn = document.querySelector('#disposisi-btn' + idDisposisi)
         const closeBtn = document.querySelector('#close-modal')
         const closeBtn2 = document.querySelector('#close-modal2')
 
@@ -490,7 +490,7 @@
 
         // closeBtn.addEventListener('click', toggleModal)
 
-        $("#idSurat").val(id);
+        $("#idDisposisi").val(idDisposisi);
         $("#perihalSurat").val(perihal);
         $("#dariSurat").val(dari);
         document.getElementById("noSurat").textContent += no;
@@ -598,7 +598,26 @@
 
 <script>
     $('#bulan').change(() => {
-        now = new Date()
+        updateNomorUrut();
+    })
+
+    $('#role').change(() => {
+        updateNomorUrut();
+    })
+
+    $('#tahun').on('keyup', () => {
+        updateNomorUrut();
+    })
+
+    function updateNomorUrut() {
+        if (!$('#tahun').val()) {
+            return;
+        }
+
+        let now = new Date()
+        let tahun = $('#tahun').val();
+        let bulan = $('#bulan').val();
+        let role = $('#role').val();
 
         $.get('/Kasubag/SuratKeluar/getNomorUrut', {
             bulan: $('#bulan').val()
@@ -612,11 +631,20 @@
             } else {
                 nomor = data
             }
-            $('#label_nomor_urut').html(`B.3523.${nomor}/928${$('#role').val()}/${$('#bulan').val()}/${$('#tahun').val()}`)
+
+            let isLate = false;
+            if (now.getYear() > tahun) {
+                isLate = true;
+            } else if (now.getMonth() + 1 > bulan) {
+                isLate = true;
+            }
+
+
+            $('#label_nomor_urut').html(`B.3523.${nomor}${isLate ? '.A' : ''}/928${role}/${bulan}/${tahun}`)
             // $('#label_nomor_urut').val("3523" + $('#role').val() + "." + nomor)
-            $('#nomor_urut').val(`3523${$('#role').val()}.${nomor}`)
+            $('#nomor_urut').val(`3523${role}.${nomor}${isLate ? '.A' : ''}`)
         })
-    })
+    }
 </script>
 
 </script>

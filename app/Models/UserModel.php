@@ -21,6 +21,22 @@ class UserModel extends Model
         return $this->where(['id' => $id])->first();
     }
 
+    public function getUsersByRoleId($roleId)
+    {
+        $builder = $this->db->table('users');
+        $builder->select('*');
+        $builder->where('auth_groups_id', $roleId);
+        return $builder->get()->getResultArray();
+    }
+
+    public function getUserByEmail($email)
+    {
+        $this->join('auth_groups', 'users.auth_groups_id=auth_groups.id');
+        $this->select('users.*, auth_groups.description as role_name');
+        $this->where('email', $email);
+        return $this->first();
+    }
+
     public function getUsers()
     {
         $query = "SELECT auth_groups.*, users.* FROM auth_groups JOIN users on auth_groups.id = users.auth_groups_id";

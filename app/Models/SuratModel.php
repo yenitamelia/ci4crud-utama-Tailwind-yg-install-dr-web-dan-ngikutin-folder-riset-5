@@ -28,8 +28,18 @@ class SuratModel extends Model
 
     public function getSuratTim($idTim)
     {
-        $query = "SELECT disposisi.*,surat_masuk.* FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN role_disposisi on disposisi.id = role_disposisi.id_disposisi WHERE role_disposisi.id_role = $idTim AND surat_masuk.status = 1";
+        $query = "SELECT surat_masuk.*, disposisi.id as id_disposisi FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN role_disposisi on disposisi.id = role_disposisi.id_disposisi WHERE role_disposisi.id_role = $idTim AND surat_masuk.status = 1";
         return $this->db->query($query)->getResultArray();
+    }
+
+    public function getUserFromSuratDisposisi($idSurat)
+    {
+        $this->where('surat_masuk.id', $idSurat);
+        $this->join('disposisi', 'surat_masuk.id=disposisi.id_surat');
+        $this->join('role_disposisi', 'disposisi.id=role_disposisi.id_disposisi');
+        $this->join('users', 'role_disposisi.id_role=users.auth_groups_id');
+        $this->select('users.email');
+        return $this->findAll();
     }
 
     public function getCountSuratMasuk()

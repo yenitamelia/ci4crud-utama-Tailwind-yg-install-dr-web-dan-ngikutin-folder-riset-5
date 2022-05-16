@@ -89,7 +89,6 @@
                         <td><?= $s['perihal']; ?></td>
                         <td class="text-center flex">
                             <a href="/surat/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
-                            <div id="disposisi-btn<?= $s['id']; ?>" class="flex items-center bg-green-500 cursor-pointer hover:bg-green-600 text-xs rounded text-white px-3 py-1" onclick="modalDisposisiKetuaTim('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">Teruskan</div>
                         </td>
                         <!-- <td>
                         <a href="/surat/viewpdf/<= $s->id; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>

@@ -7,6 +7,7 @@ use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
 use App\Models\UserModel;
+use App\Models\DisposisiUserModel;
 use App\Models\RoleDisposisiModel;
 use DateTime;
 use PhpParser\Node\Stmt\Echo_;
@@ -20,6 +21,7 @@ class Surat extends BaseController
     protected $disposisiModel;
     protected $groupsModel;
     protected $userModel;
+    protected $disposisiUserModel;
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
     {
@@ -28,19 +30,15 @@ class Surat extends BaseController
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
         $this->userModel = new UserModel();
+        $this->disposisiUserModel = new DisposisiUserModel();
     }
 
     public function index()
     {
-        // Mengambil semua data dari tabel surat
-        // $surat = $this->suratModel->findAll();
-        // Diganti dibawah pake method ifelse di file SuratModel
-
-        $role = $this->groupsModel->getRole(session('id'));
         $data = [
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
-            'surat' => $this->suratModel->getSuratTim($role),
+            'surat' => $this->disposisiUserModel->getByUserId(session('id')),
             'role' => $this->groupsModel->getGroups(),
             'users' => $this->userModel->getUser()
         ];
