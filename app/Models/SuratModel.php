@@ -21,8 +21,11 @@ class SuratModel extends Model
         return $this->where(['id' => $id])->first();
     }
 
-    public function getSuratKasubag()
+    public function getSuratKasubag($role = '')
     {
+        if ($role != '') {
+            $this->like('nomor_agenda', '3523' . $role . '%');
+        }
         return $this->orderBy('status ASC, disposisi DESC, tanggal DESC')->findAll();
     }
 

@@ -46,17 +46,6 @@ class Surat extends BaseController
         return view('kepala/index', $data);
     }
 
-    // public function disposisiKepada($id)
-    // {
-    //     $role = $this->disposisiModel->getDisposisi($id);
-    //     $str = "";
-
-    //     foreach ($role as $row) {
-    //         $str = $str + '<label>' . $row['description'] . '</label><br>';
-    //     }
-    //     return $str;
-    // }
-
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
@@ -105,12 +94,6 @@ class Surat extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            // 'diteruskan_kepada' => [
-            //     'rules' => 'required',
-            //     'errors' => [
-            //         'required' => '{field} harus diisi.'
-            //     ]
-            // ],
             'gambar' => [
                 // Kalau filenya boleh null uploadednya hapus aja
                 'rules' => 'uploaded[gambar]|max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
@@ -179,19 +162,6 @@ class Surat extends BaseController
                             'id_disposisi' => $insert_id,
                             'id_role' => $row["id"]
                         ]);
-                        // dd($this->request->getVar('isi-disposisi'));
-
-                        // $data = [
-                        //     'isi_disposisi' => $this->request->getVar('isi_disposisi'),
-                        //     'id_surat' => $this->request->getVar('id_surat'),
-                        //     'id_role' => $this->request->getVar($row["id"]),
-                        //     'gambar' => $namaGambar,
-                        // ];
-                        // $this->disposisiModel->save($data);
-
-
-
-                        // dd($this->request->getVar($row["id"]));
                     }
                 }
             }

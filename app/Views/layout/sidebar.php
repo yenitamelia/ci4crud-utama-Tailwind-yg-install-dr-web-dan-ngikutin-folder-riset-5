@@ -375,6 +375,14 @@
 </script>
 
 <script>
+    function mintaPersetujuan(id) {
+        $('#mintaPersetujuan').change(() => {
+            $.get('/Kasubag/SuratKeluar/saveRevisi')
+        })
+    }
+</script>
+
+<script>
     function modalpdf(id, no) {
         const overlay = document.querySelector('#overlay')
         const disposisiBtn = document.querySelector('#disposisi-btn' + id)
@@ -548,6 +556,99 @@
         // $("#showRole").html('halo');
         document.getElementById("noSurat").textContent += no;
         // belum bisa ngelist KF
+    }
+</script>
+
+
+<script>
+    function modalSetujui(id, perihal, alamat, nomor_urut) {
+
+        const overlay = document.querySelector('#overlay')
+        const setujuiBtn = document.querySelector('#setujui-btn' + id)
+        const closeBtn = document.querySelector('#close-modal')
+        const closeBtn2 = document.querySelector('#close-modal2')
+
+
+        // When the user clicks the button, open the modal 
+        setujuiBtn.onclick = function() {
+            overlay.style.display = "flex";
+        }
+
+        // When the user clicks on <span> (x), close the overlay
+        closeBtn.onclick = function() {
+            overlay.style.display = "none";
+        }
+
+        // When the user clicks on <span> (x), close the overlay
+        closeBtn2.onclick = function() {
+            overlay.style.display = "none";
+        }
+
+        $("#idSurat").val(id);
+        $("#perihalSurat").val(perihal);
+        $("#alamat").val(alamat);
+        document.getElementById("noSurat").textContent += no;
+    }
+</script>
+
+<script>
+    function modalRevisi(id, perihal, alamat, nomor_urut) {
+
+        const overlay = document.querySelector('#overlay2')
+        const revisiBtn = document.querySelector('#revisi-btn' + id)
+        const closeBtn = document.querySelector('#close-modal-revisi')
+        const closeBtn2 = document.querySelector('#close-modal2-revisi')
+
+
+        // When the user clicks the button, open the modal 
+        revisiBtn.onclick = function() {
+            overlay.style.display = "flex";
+        }
+
+        // When the user clicks on <span> (x), close the overlay
+        closeBtn.onclick = function() {
+            overlay.style.display = "none";
+        }
+
+        // When the user clicks on <span> (x), close the overlay
+        closeBtn2.onclick = function() {
+            overlay.style.display = "none";
+        }
+
+        $("#idSurat").val(id);
+        $("#perihalSurat2").val(perihal);
+        $("#alamat2").val(alamat);
+        document.getElementById("noSurat").textContent += no;
+    }
+</script>
+
+<script>
+    function modalUploadRevisi(id, perihal, nomor_urut) {
+
+        const overlay = document.querySelector('#overlay')
+        const revisiBtn = document.querySelector('#revisi-btn' + id)
+        const closeBtn = document.querySelector('#close-modal')
+        const closeBtn2 = document.querySelector('#close-modal2')
+
+
+        // When the user clicks the button, open the modal 
+        revisiBtn.onclick = function() {
+            overlay.style.display = "flex";
+        }
+
+        // When the user clicks on <span> (x), close the overlay
+        closeBtn.onclick = function() {
+            overlay.style.display = "none";
+        }
+
+        // When the user clicks on <span> (x), close the overlay
+        closeBtn2.onclick = function() {
+            overlay.style.display = "none";
+        }
+
+        $("#idSurat").val(id);
+        $("#perihalSurat").val(perihal);
+        document.getElementById("noSurat").textContent += no;
     }
 </script>
 

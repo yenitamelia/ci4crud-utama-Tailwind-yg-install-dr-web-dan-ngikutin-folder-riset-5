@@ -3,6 +3,7 @@
 namespace App\Controllers\Kasubag;
 
 use App\Controllers\BaseController;
+use App\Helpers\EmailHelper;
 use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
@@ -42,12 +43,16 @@ class Surat extends BaseController
         // $surat = $this->suratModel->findAll();
         // Diganti dibawah pake method ifelse di file SuratModel
 
+        $roleId = $this->request->getVar("role");
+        $surat = $this->suratModel->getSuratKasubag($roleId);
+
         $data = [
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
-            'surat' => $this->suratModel->getSuratKasubag(),
+            'surat' => $surat,
             'role' => $this->groupsModel->getGroups(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
+            'roleId' => $roleId
         ];
 
         return view('kasubag/index', $data);
@@ -64,7 +69,7 @@ class Surat extends BaseController
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $this->suratModel->getSuratTim($role),
-            'users' => $this->userModel->getUser()
+            'users' => $this->userModel->getUserAnggota()
             // 'role' => $this->groupsModel->getGroups()
         ];
 
@@ -279,22 +284,15 @@ class Surat extends BaseController
         $surat = $this->suratModel->getSurat($id);
 
         $judulPesan = 'Tindak Lanjut Disposisi';
-        $isiPesan = "Ada Tindak Lanjut Disposisi yang harus diselesaikan terhadap " . $surat['perihal'];
+        $isiPesan = "Mohon segera ditindaklanjuti disposisi surat perihal " . $surat['perihal'];
 
-        $this->sendBulkEmail($judulPesan, $isiPesan, $emails);
+        EmailHelper::sendBulkEmail($judulPesan, $isiPesan, $emails);
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
         return redirect()->to('/kasubag/surat');
     }
 
-    public function sendBulkEmail($title, $body, $targets)
-    {
-        $email = \Config\Services::email();
-        $email->setTo($targets);
-        $email->setSubject($title);
-        $email->setMessage($body);
-        $email->send();
-    }
+
 
     public function delete($id)
     {

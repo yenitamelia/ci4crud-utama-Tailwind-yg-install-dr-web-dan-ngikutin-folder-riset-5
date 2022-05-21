@@ -366,6 +366,14 @@ class SuratKeluar extends BaseController
         return $this->response->download('file_keluar/' . $surat_keluar['file_keluar'], null);
     }
 
+    public function mintaPersetujuan()
+    {
+        $this->suratKeluarModel->set('status_pengiriman', '1')->where('id', $this->request->getVar('id_surat'))->update();
+        session()->setFlashdata('pesan', 'Surat berhasil dikirim untuk meminta persetujuan.');
+
+        return redirect()->to('/kasubag/suratKeluar');
+    }
+
     // public function read($id)
     // {
     //     $surat = $this->suratModel->find($id);

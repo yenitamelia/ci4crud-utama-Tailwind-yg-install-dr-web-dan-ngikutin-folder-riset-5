@@ -21,6 +21,13 @@ class UserModel extends Model
         return $this->where(['id' => $id])->first();
     }
 
+    public function getUserAnggota()
+    {
+        $builder = $this->db->table('users');
+        $builder->where('auth_groups_id', 8);
+        return $builder->get()->getResultArray();
+    }
+
     public function getUsersByRoleId($roleId)
     {
         $builder = $this->db->table('users');
@@ -41,6 +48,12 @@ class UserModel extends Model
     {
         $query = "SELECT auth_groups.*, users.* FROM auth_groups JOIN users on auth_groups.id = users.auth_groups_id";
         return $this->db->query($query)->getResultArray();
+    }
+
+    public function getUserWhereIdIn($ids)
+    {
+        $this->whereIn('id', $ids);
+        return $this->findAll();
     }
 
     public function getCountUser()

@@ -25,6 +25,14 @@ class DisposisiModel extends Model
         $builder->where('disposisi.id_surat', $id);
         return $builder->get()->getResultArray();
     }
+
+    public function getSuratByDisposisiId($id_disposisi)
+    {
+        $this->where('disposisi.id', $id_disposisi);
+        $this->join('surat_masuk', 'surat_masuk.id=disposisi.id_surat');
+        $this->select('*');
+        return $this->first();
+    }
     // public function getSurat($id = false)
     // {
     //     if ($id == false) {

@@ -3,33 +3,33 @@
 <?= $this->section('content'); ?>
 <div class="container mx-auto px-6">
 
-
+    <!-- Modal Setujui -->
     <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-center items-center z-30 w-full h-sceen" id="overlay">
         <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-12 z-20">
             <div class="flex justify-between items-center p-3">
-                <h4 class="font-bold">Disposisi Surat No. A218271892</h4>
+                <h4 class="font-bold">Nomor Urut ....</h4>
                 <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
             </div>
 
-            <div class="mt-5 md:mt-0 md:col-span-2">
-                <form action="/surat/saveDisposisi" method="POST" enctype="multipart/form-data">
+            <div class="mt-5 md:mt-0">
+                <form action="/Kepala/Surat/saveDisposisi" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
-                    <div class="shadow overflow-y-auto h-96 sm:rounded-md">
-                        <div class="bg-white py-4 px-6">
-                            <div class="grid gap-3">
-                                <div class="col-span-6 sm:col-span-4">
+                    <div class="shadow overflow-y-auto h-80 sm:rounded-md">
+                        <div class="bg-white w-96 py-4 px-6">
+                            <div class="">
+                                <div class="mb-3">
                                     <label for="perihal" class="block text-sm font-medium text-gray-700">Perihal</label>
                                     <!-- <div class="text-sm" id="perihalSurat"></div> -->
-                                    <input type="disabled" name="perihal_surat" id="perihalSurat">
+                                    <input disabled class="text-sm w-full py-1 px-2" name="perihal_surat" id="perihalSurat">
                                 </div>
-                                <div class="col-span-6 sm:col-span-4">
-                                    <label for="dari" class="block text-sm font-medium text-gray-700">Tujuan</label>
+                                <div class="mb-3 sm:col-span-4">
+                                    <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
                                     <!-- <div class="text-sm" id="dariSurat"></div> -->
-                                    <input type="disabled" name="alamat" id="alamat">
+                                    <input disabled class="text-sm w-full py-1 px-2" name="alamat" id="alamat">
                                 </div>
-                                <div class="col-span-6 sm:col-span-4">
+                                <div class="sm:col-span-4">
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Unggah Tanda Tangan</label>
                                     <div class="flex mt-5">
                                         <div class="flex justify-start items-center mb-1 w-full relative">
@@ -44,12 +44,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                        <div class="px-4 py-3 text-right sm:px-6">
                             <div id="close-modal2" class="cursor-pointer inline-flex justify-center closeBtn py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-gray-400 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Cancel
                             </div>
                             <button type="submit" class="inline-flex justify-center disposisiBtn ml-1 py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Kirim
+                                Simpan
                             </button>
                         </div>
                     </div>
@@ -58,32 +58,44 @@
         </div>
     </div>
 
-    <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-center items-center z-30 w-full h-sceen" id="overlayy2">
-        <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-1/4 z-20">
+    <!-- Modal Revisi -->
+    <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-center items-center z-30 w-full h-sceen" id="overlay2">
+        <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-12 z-20">
             <div class="flex justify-between items-center p-3">
-                <h4 class="font-bold" id="noSurat">Confirmation Delete</h4>
-                <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal-delete2" fill="currentColor" viewBox="0 0 20 20">
+                <h4 class="font-bold" id="noSurat">Nomor Urut </h4>
+                <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal-revisi" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
             </div>
 
             <div class="mt-5 md:mt-0">
-                <form id="delete_kasubag_keluar" action="/Kasubag/SuratKeluar/delete/" method="POST" enctype="multipart/form-data">
+                <form action="/Kepala/Surat/saveRevisi" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
                     <div class="shadow overflow-y-auto sm:rounded-md">
                         <div class="bg-white py-4 px-6">
                             <div class="">
-                                <p>Apakah Anda yakin akan menghapus surat ini?</p>
+                                <div class="mb-3">
+                                    <label for="perihal" class="block text-sm font-medium text-gray-700">Perihal</label>
+                                    <!-- <div class="text-sm" id="perihalSurat"></div> -->
+                                    <input disabled class="text-sm w-full py-1 px-2" name="perihal_surat" id="perihalSurat2">
+                                </div>
+                                <div class="mb-3 sm:col-span-4">
+                                    <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
+                                    <!-- <div class="text-sm" id="dariSurat"></div> -->
+                                    <input disabled class="text-sm w-full py-1 px-2" name="alamat" id="alamat2">
+                                </div>
+                                <div class="mb-3 sm:col-span-4">
+                                    <label for="pesan-revisi" class="block text-sm font-medium text-gray-700">Pesan Revisi</label>
+                                    <div class="text-sm mt-2"><textarea name="pesan-revisi" id="pesan-revisi" cols="60" rows="4" class="border border-gray-400 rounded-md p-2 focus:ring focus:outline-none"></textarea></div>
+                                </div>
                             </div>
                         </div>
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                            <div id="close-modal2-delete2" class="cursor-pointer inline-flex justify-center closeBtn py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-gray-400 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <div id="close-modal2-revisi" class="cursor-pointer inline-flex justify-center closeBtn py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-gray-400 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Cancel
                             </div>
-                            <?= csrf_field(); ?>
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="inline-flex justify-center deleteBtn ml-1 py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Delete
+                            <button type="submit" class="inline-flex justify-center disposisiBtn ml-1 py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Simpan
                             </button>
                         </div>
                     </div>
@@ -91,6 +103,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <div class="text-2xl py-5">Data Surat Keluar</div>
     <!-- Alert jika data berhasil ditambahkan -->
@@ -129,8 +144,11 @@
                         <?php if ($s['status_persetujuan'] == 0) : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
                                 <div class="flex items-center">
-                                    <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-yellow-500 hover:bg-yellow-600 text-gray-100 rounded-lg shadow text-xs" id="disposisi-btn<?= $s['id']; ?>" onclick="modalSetujui('<?= $s['id']; ?>','<?= $s['nomor_urut']; ?>')">
+                                    <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-yellow-500 hover:bg-yellow-600 text-gray-100 rounded-lg shadow text-xs" id="setujui-btn<?= $s['id']; ?>" onclick="modalSetujui('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['alamat']; ?>','<?= $s['nomor_urut']; ?>')">
                                         Setujui
+                                    </div>
+                                    <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-red-500 hover:bg-red-600 text-gray-100 rounded-lg shadow text-xs" id="revisi-btn<?= $s['id']; ?>" onclick="modalRevisi('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['alamat']; ?>','<?= $s['nomor_urut']; ?>')">
+                                        Revisi
                                     </div>
                                 </div>
                             <?php else : ?>

@@ -49,7 +49,7 @@ class SuratKeluar extends BaseController
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
         ];
 
-        return view('surat_keluar/index', $data);
+        return view('kepala/index_suratkeluar', $data);
     }
 
 
@@ -216,13 +216,95 @@ class SuratKeluar extends BaseController
         return redirect()->to('/Kasubag/Surat');
     }
 
-    public function saveDisposisi()
+    public function saveRevisi()
     {
+        // dd($this->request->getVar());
+        // dd($this->request->getFile('gambar'));
+        $validation = \Config\Services::validation();
+        // validasi input
+        if (!$this->validate([
+            'isi-disposisi' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '{field} harus diisi.'
+                ]
+            ],
+            'gambar' => [
+                // Kalau filenya boleh null uploadednya hapus aja
+                'rules' => 'uploaded[gambar]|max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    // Kalau filenya boleh null uploadednya hapus aja
+                    'uploaded' => 'Pilih gambar terlebih dahulu',
+                    'max_size' => 'Ukuran gambar harus dibawah 1Mb',
+                    'is_image' => 'File yang Anda pilih bukan gambar',
+                    'mime_in' => 'File yang Anda pilih bukan gambar'
+                ]
+            ]
+        ])) {
 
-        $this->suratModel->set('status', '1')->where('id', $this->request->getVar('id_surat'))->update();
+            // Mengambil pesan kesalahan
+            // Ini ngga perlu karena sebenernya udah ada didalam session
+            // $validation = \Config\Services::validation();
+            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
+            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
+            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
+            // return redirect()->to('kepala/surat')->withInput();
+        }
+
+
+
+        if ($validation->run() == FALSE) {
+            $errors = $validation->getErrors();
+            echo json_encode(['code' => 0, 'error' => $errors]);
+        } else {
+            // Mengambil semua data yg telah diinput
+            // $this->request->getVar();
+            // $now = new DateTime();
+            // dd($now->format('Y-m-d H:i:s'));
+
+            // Ambil file
+            $fileGambar = $this->request->getFile('gambar');
+            // Pindahkan file ke folder gambar, masuk ke folder public folder gambar
+            $fileGambar->move('gambar');
+            // Ambil nama file
+            $namaGambar = $fileGambar->getName();
+            $role = $this->groupsModel->getGroups();
+
+
+
+            $query = $this->disposisiModel->save([
+                // 'id' => $id,
+                'isi_disposisi' => $this->request->getVar('isi-disposisi'),
+                'id_surat' => $this->request->getVar('id_surat'),
+                'gambar' => $namaGambar,
+
+            ]);
+            $insert_id = $this->disposisiModel->getInsertID();
+
+            if ($query) {
+
+                echo json_encode(['code' => 1, 'msg' => 'Data Keterangan Disposisi telah ditambahkan']);
+            } else {
+                echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
+            }
+
+            foreach ($role as $row) {
+                if (($row["id"]) > 1) {
+                    // dd($this->request->getPost($row["id"]) !== null);
+                    $roleDisposisiModel = new RoleDisposisiModel();
+                    if ($this->request->getPost($row["id"]) !== null) {
+                        $roleDisposisiModel->insert([
+                            'id_disposisi' => $insert_id,
+                            'id_role' => $row["id"]
+                        ]);
+                    }
+                }
+            }
+        }
+        $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
-        return redirect()->to('/kasubag/surat');
+        return redirect()->to('/kepala/surat');
     }
 
     public function delete($id)

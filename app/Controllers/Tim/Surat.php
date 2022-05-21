@@ -3,6 +3,7 @@
 namespace App\Controllers\Tim;
 
 use App\Controllers\BaseController;
+use App\Helpers\EmailHelper;
 use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
@@ -151,6 +152,20 @@ class Surat extends BaseController
                 ]);
             }
         }
+
+        $users = $this->userModel->getUserWhereIdIn($tags);
+        $emails = [];
+        foreach ($users as $r) {
+            array_push($emails, $r['email']);
+        }
+
+
+        $surat = $this->disposisiModel->getSuratByDisposisiId($id_disposisi);
+
+        $judulPesan = 'Tindak Lanjut Disposisi';
+        $isiPesan = "Mohon segera ditindaklanjuti disposisi surat perihal " . $surat['perihal'];
+
+        EmailHelper::sendBulkEmail($judulPesan, $isiPesan, $emails);
 
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 

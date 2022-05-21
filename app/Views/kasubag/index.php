@@ -114,10 +114,26 @@
         </div>
     <?php endif; ?>
 
-    <?php if (session('auth_groups_id') == 2) : ?>
-        <!-- Tombol Tambah Surat -->
-        <a href="/Kasubag/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
-    <?php endif; ?>
+    <div class="flex justify-between">
+        <div>
+            <label for="filterRole">Filter</label>
+            <select id="filterRole" name="role" class="rounded-md">
+                <option value="" class="rounded-md">Semua</option>
+                <?php foreach ($role as $r) : ?>
+                    <?php if ($r['id'] > 1 && $r['id'] < 8) : ?>
+                        <option value="<?= $r['id'] ?>" <?php if ($r['id'] == $roleId) {
+                                                            echo 'selected';
+                                                        } ?>><?= $r['description'] ?>
+                        </option>
+                    <?php endif ?>
+                <?php endforeach ?>
+            </select>
+        </div>
+        <?php if (session('auth_groups_id') == 2) : ?>
+            <!-- Tombol Tambah Surat -->
+            <a href="/Kasubag/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
+        <?php endif; ?>
+    </div>
     <div class="mt-5">
         <table id="myTable" class="display text-sm" width="100%">
             <thead>
@@ -176,6 +192,15 @@
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable();
+    });
+
+
+    $('#filterRole').on('change', function(e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        const parser = new URL(window.location);
+        parser.searchParams.set('role', valueSelected);
+        window.location = parser.href;
     });
 </script>
 
