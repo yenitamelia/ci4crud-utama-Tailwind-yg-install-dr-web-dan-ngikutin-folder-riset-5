@@ -172,18 +172,22 @@
                     <a href="/Kepala/SuratKeluar">
                         <i class='bx bx-archive-out'></i>
                         <span class="links_name">Surat Keluar</span>
-                    <?php elseif (in_array(session()->auth_groups_id, [2, 3, 4, 5, 6, 7])) : ?>
+                    <?php elseif (session('auth_groups_id') == 2) : ?>
                         <a href="/Kasubag/SuratKeluar">
-                            <i class='bx bx-archive-out'></i>
+                            <i class='bx bx-archive-in'></i>
                             <span class="links_name">Surat Keluar</span>
-                        <?php elseif (session('auth_groups_id') == 10) : ?>
-                            <a href="/Operator/SuratKeluar/">
-                                <i class='bx bx-archive-out'></i>
+                        <?php elseif (in_array(session()->auth_groups_id, [3, 4, 5, 6, 7])) : ?>
+                            <a href="/Tim/SuratKeluar/">
+                                <i class='bx bx-archive-in'></i>
                                 <span class="links_name">Surat Keluar</span>
+                            <?php elseif (session('auth_groups_id') == 10) : ?>
+                                <a href="/Operator/SuratKeluar/">
+                                    <i class='bx bx-archive-out'></i>
+                                    <span class="links_name">Surat Keluar</span>
+                                </a>
                             </a>
                         </a>
-                    </a>
-                <?php endif; ?>
+                    <?php endif; ?>
             </li>
             <li class="profile">
                 <div class="profile-details">
@@ -409,18 +413,37 @@
             overlay.style.display = "none";
         }
 
-        // const toggleModal = () => {
-        //     overlay.classList.toggle('hidden')
-        //     overlay.classList.toggle('flex')
-        // }
-
-        // disposisiBtn.addEventListener('click', toggleModal)
-
-        // closeBtn.addEventListener('click', toggleModal)
-
         $("#idSurat").val(id);
         $("#perihalSurat").val(perihal);
         $("#dariSurat").val(dari);
+        document.getElementById("noSurat").textContent += no;
+    }
+</script>
+
+<script>
+    function modalpdfSuratKeluar(id, no) {
+        const overlay = document.querySelector('#overlay')
+        const lihatBtn = document.querySelector('#lihat-btn' + id)
+        const closeBtn = document.querySelector('#close-modal-keluar')
+        const closeBtn2 = document.querySelector('#close-modal2')
+
+
+        // When the user clicks the button, open the modal 
+        lihatBtn.onclick = function() {
+            overlay.style.display = "flex";
+        }
+
+        // When the user clicks on <span> (x), close the overlay
+        closeBtn.onclick = function() {
+            overlay.style.display = "none";
+        }
+
+        // When the user clicks on <span> (x), close the overlay
+        closeBtn2.onclick = function() {
+            overlay.style.display = "none";
+        }
+
+        $("#idSurat").val(id);
         document.getElementById("noSurat").textContent += no;
     }
 </script>
@@ -488,15 +511,6 @@
         closeBtn2.onclick = function() {
             overlay.style.display = "none";
         }
-
-        // const toggleModal = () => {
-        //     overlay.classList.toggle('hidden')
-        //     overlay.classList.toggle('flex')
-        // }
-
-        // disposisiBtn.addEventListener('click', toggleModal)
-
-        // closeBtn.addEventListener('click', toggleModal)
 
         $("#idDisposisi").val(idDisposisi);
         $("#perihalSurat").val(perihal);

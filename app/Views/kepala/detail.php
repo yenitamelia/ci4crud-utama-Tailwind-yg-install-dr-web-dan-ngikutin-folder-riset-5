@@ -68,9 +68,11 @@
                 </div>
                 <div class="grid grid-cols-3 gap-8 mb-2">
                     <div class="text-right">Isi Disposisi</div>
-                    <div id="isi_disposisi">
-                        <?= $disposisi['isi_disposisi']; ?>
-                    </div>
+                    <?php if (isset($disposisi['isi_disposisi'])) { ?>
+                        <div id="isi_disposisi">
+                            <?= $disposisi['isi_disposisi']; ?>
+                        </div>
+                    <?php } ?>
                 </div>
                 <div class="grid grid-cols-3 gap-8 mb-2">
                     <div class="text-right">Diteruskan</div>
@@ -109,9 +111,9 @@
             <div class="grid grid-cols-4 mt-5 gap-4">
                 <div class="col-span-3 text-xl text-center mt-2">Lembar Disposisi Surat <?= $surat['perihal']; ?></div>
                 <div class="py-2 ml-5 w-24">
-                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-5 py-2 cursor-pointer">
+                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-5 py-2 cursor-pointer" id="disposisi-btn<?= $surat['id']; ?>" onclick="window.print();">
                         <img src="/img/printing.png" class="flex-auto w-5 h-5 mr-2" alt="gambar">
-                        <div class="flex-auto text-xs" id="disposisi-btn<?= $surat['id']; ?>" onclick="window.print();">Print</div>
+                        <div class="flex-auto text-xs">Print</div>
                     </div>
                 </div>
             </div>
@@ -169,12 +171,14 @@
                             <td class="text-center py-1" colspan="6">Diteruskan kepada :</td>
                         </tr>
                         <tr class="">
-                            <td class="text-left p-3" colspan="6">
-                                <div><?= $disposisi['isi_disposisi']; ?></div>
-                                <div class="grid justify-items-center mt-6">
-                                    <div><img class="w-24 h-24 items-center justify-items-center justify-self-center" src="/gambar/<?= $disposisi['gambar']; ?>" alt=""></div>
-                                </div>
-                            </td>
+                            <?php if (isset($disposisi)) { ?>
+                                <td class="text-left p-3" colspan="6">
+                                    <div><?= $disposisi['isi_disposisi']; ?></div>
+                                    <div class="grid justify-items-center mt-6">
+                                        <div><img class="w-24 h-24 items-center justify-items-center justify-self-center" src="/gambar/<?= $disposisi['gambar']; ?>" alt=""></div>
+                                    </div>
+                                </td>
+                            <?php } ?>
                             <td class="text-left p-3 content-start items-start" colspan="6">
                                 <?php $i = 1;
                                 foreach ($role as $r) : ?>

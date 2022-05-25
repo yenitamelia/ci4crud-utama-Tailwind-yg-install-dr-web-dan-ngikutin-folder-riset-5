@@ -22,6 +22,7 @@ class Surat extends BaseController
     protected $groupsModel;
     protected $userModel;
     protected $disposisiUserModel;
+    protected $roleDisposisiModel;
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
     {
@@ -31,6 +32,7 @@ class Surat extends BaseController
         $this->groupsModel = new GroupsModel();
         $this->userModel = new UserModel();
         $this->disposisiUserModel = new DisposisiUserModel();
+        $this->roleDisposisiModel = new RoleDisposisiModel();
     }
 
     public function index()
@@ -49,11 +51,13 @@ class Surat extends BaseController
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
+        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $this->suratModel->getSurat($id),
-            'role' => $this->groupsModel->getGroups()
+            'role' => $query,
+            'disposisi' => $this->disposisiModel->where('id_surat', $id)->first()
         ];
 
         // Jika surat tidak ada di tabel
@@ -82,7 +86,7 @@ class Surat extends BaseController
     public function download($id)
     {
         $surat = $this->suratModel->find($id);
-        return $this->response->download('lampiran/' . $surat['lampiran'], null);
+        return $this->response->download('file_masuk/' . $surat['file_masuk'], null);
     }
 
     // public function read($id)

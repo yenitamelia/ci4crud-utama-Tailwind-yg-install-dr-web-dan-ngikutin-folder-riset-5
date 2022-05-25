@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="flex py-2 ml-1">
-                    <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
+                    <a href="/AnggotaTim/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
                         <img src="/img/download.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
                         <span class="flex-auto text-xs">Download</span>
                     </a>
@@ -74,9 +74,11 @@
                 </div>
                 <div class="grid grid-cols-3 gap-8 mb-2">
                     <div class="text-right">Isi Disposisi</div>
-                    <div id="isi_disposisi">
-                        <?= $disposisi['isi_disposisi']; ?>
-                    </div>
+                    <?php if (isset($disposisi['isi_disposisi'])) { ?>
+                        <div id="isi_disposisi">
+                            <?= $disposisi['isi_disposisi']; ?>
+                        </div>
+                    <?php } ?>
                 </div>
                 <div class="grid grid-cols-3 gap-8 mb-2">
                     <div class="text-right">Diteruskan</div>
@@ -128,7 +130,7 @@
                         <tr>
                             <td class="" colspan="12">
                                 <div class="flex items-center">
-                                    <div class="flex-none"><img class="w-28 h-20" src="/img/bps.png" alt="logo BPS"></div>
+                                    <div class="flex-none"><img class="w-28 h-20" src="/img/bps.png" alt=""></div>
                                     <div class="flex-auto text-base ml-2"><b><i>BADAN PUSAT STATISTIK <br> KABUPATEN TUBAN</i></b></div>
                                 </div>
                             </td>
@@ -175,12 +177,14 @@
                             <td class="text-center py-1" colspan="6">Diteruskan kepada :</td>
                         </tr>
                         <tr class="">
-                            <td class="text-left p-3" colspan="6">
-                                <div><?= $disposisi['isi_disposisi']; ?></div>
-                                <div class="grid justify-items-center mt-6">
-                                    <div><img class="w-24 h-24 items-center justify-items-center justify-self-center" src="/gambar/<?= $disposisi['gambar']; ?>" alt=""></div>
-                                </div>
-                            </td>
+                            <?php if (isset($disposisi)) { ?>
+                                <td class="text-left p-3" colspan="6">
+                                    <div><?= $disposisi['isi_disposisi']; ?></div>
+                                    <div class="grid justify-items-center mt-6">
+                                        <div><img class="w-24 h-24 items-center justify-items-center justify-self-center" src="/gambar/<?= $disposisi['gambar']; ?>" alt=""></div>
+                                    </div>
+                                </td>
+                            <?php } ?>
                             <td class="text-left p-3 content-start items-start" colspan="6">
                                 <?php $i = 1;
                                 foreach ($role as $r) : ?>

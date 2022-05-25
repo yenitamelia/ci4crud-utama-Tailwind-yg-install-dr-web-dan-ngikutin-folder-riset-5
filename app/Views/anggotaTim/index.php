@@ -88,7 +88,7 @@
                         <td><?= $s['dari']; ?></td>
                         <td><?= $s['perihal']; ?></td>
                         <td class="text-center flex">
-                            <a href="/surat/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
+                            <a href="/AnggotaTim/Surat/detail/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
                         </td>
                         <!-- <td>
                         <a href="/surat/viewpdf/<= $s->id; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>
@@ -99,61 +99,7 @@
         </table>
     </div>
 </div>
-<script>
-    //buat tags
-    var formatTags = function(item) {
-        return $.trim((item.name || ''));
-    };
 
-    $('#tags').selectize({
-        plugins: ['remove_button'],
-        persist: false,
-        valueField: 'id',
-        labelField: 'name',
-        searchField: ['name'],
-        sortField: [{
-            field: 'name',
-            direction: 'asc'
-        }],
-        maxOptions: 5,
-        maxItems: 10,
-        options: [
-            <?php foreach ($users as $u) {
-                // if ($u['id'] !== session()['id'])
-                echo ("{
-                        name: \"" . $u['email'] . "\",
-                        id: \"" . $u['id'] . "\"
-                    },");
-            } ?>
-        ],
-        render: {
-            item: function(item, escape) {
-                var name = formatTags(item);
-                return '<div>' +
-                    (name ? '<span class="name">' + escape(name) + '</span>' : '') +
-                    '</div>';
-            },
-            option: function(item, escape) {
-                var name = formatTags(item);
-                var label = name;
-                var caption = name;
-                return '<div>' +
-                    '<span class="label">' + escape(label) + '</span>' +
-                    (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
-                    '</div>';
-            }
-        }
-    });
-
-    $('#tags').change(function() {
-        $tags = $('#tags').val();
-        $('#tags_form').val($tags);
-    });
-
-    $(function() {
-        $("select").selectize(options);
-    });
-</script>
 
 <script type="text/javascript" charset="utf8" src="https://releases.jquery.com/git/jquery-3.x-git.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>

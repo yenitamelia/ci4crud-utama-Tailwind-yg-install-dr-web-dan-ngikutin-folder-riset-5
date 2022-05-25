@@ -71,16 +71,16 @@ class SuratKeluar extends BaseController
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
-            'surat' => $this->suratModel->getSurat($id),
+            'surat_keluar' => $this->suratKeluarModel->getSuratKeluarDetail($id),
             'role' => $this->groupsModel->getGroups()
         ];
 
         // Jika surat tidak ada di tabel
-        if (empty($data['surat'])) {
+        if (empty($data['surat_keluar'])) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
         }
 
-        return view('kasubag/detail', $data);
+        return view('kepala/detail_suratkeluar', $data);
     }
 
     public function lembar($id)
@@ -443,8 +443,8 @@ class SuratKeluar extends BaseController
 
     public function download($id)
     {
-        $surat = $this->suratModel->find($id);
-        return $this->response->download('lampiran/' . $surat['lampiran'], null);
+        $surat_keluar = $this->suratKeluarModel->find($id);
+        return $this->response->download('file_keluar/' . $surat_keluar['file_keluar'], null);
     }
 
     // public function read($id)

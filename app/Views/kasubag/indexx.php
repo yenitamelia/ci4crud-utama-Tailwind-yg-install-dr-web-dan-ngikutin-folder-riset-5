@@ -13,8 +13,8 @@
             </div>
 
             <div class="mt-5 md:mt-0 max-w-lg">
-                <form action="/Kepala/Surat/saveDisposisi" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_surat" id="idSurat">
+                <form action="/Kasubag/Surat/saveTandai" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id_disposisi" id="idDisposisi">
                     <div class="shadow overflow-y-auto sm:rounded-md">
                         <div class="bg-white py-4 px-6">
                             <div class="">
@@ -89,7 +89,9 @@
                         <td><?= $s['perihal']; ?></td>
                         <td class="text-center flex">
                             <a href="/Kasubag/Surat/detail/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
-                            <div id="disposisi-btn<?= $s['id']; ?>" class="flex items-center bg-green-500 cursor-pointer hover:bg-green-600 text-xs rounded text-white px-3 py-1" onclick="modalDisposisiKetuaTim('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">Teruskan</div>
+                            <?php if ($s['sudah_diteruskan'] == false) { ?>
+                                <div id="disposisi-btn<?= $s['id_disposisi']; ?>" class="flex items-center bg-green-500 cursor-pointer hover:bg-green-600 text-xs rounded text-white px-3 py-1" onclick="modalDisposisiKetuaTim('<?= $s['id_disposisi']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">Teruskan</div>
+                            <?php } ?>
                         </td>
                         <!-- <td>
                         <a href="/surat/viewpdf/<= $s->id; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>

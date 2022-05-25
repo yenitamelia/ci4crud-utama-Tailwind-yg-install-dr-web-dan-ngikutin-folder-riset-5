@@ -371,7 +371,7 @@ class SuratKeluar extends BaseController
         $this->suratKeluarModel->set('status_pengiriman', '1')->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil dikirim untuk meminta persetujuan.');
 
-        return redirect()->to('/kasubag/suratKeluar');
+        return redirect()->to('/Kasubag/SuratKeluar');
     }
 
     // public function read($id)

@@ -161,7 +161,7 @@
                         </td>
                         <td class="text-center flex">
                             <!-- <a href="/surat/?= $s->id; ?>" class=" text-xs rounded text-white px-3 py-1">D</a> -->
-                            <div class="flex-auto py-2"><a href="/Kasubag/SuratKeluar/detail/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
+                            <div class="flex-auto py-2"><a href="/Kepala/SuratKeluar/detail/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>
                             <!-- <div class="flex-auto py-2"><a href="/Kasubag/SuratKeluar/edit/<?= $s['id']; ?>"><img src="/img/edit.png" class="w-7 h-7 bg-yellow-500 hover:bg-yellow-600 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div> -->
                             <!-- <div class="flex-auto py-2" id="delete-btn<?= $s['id']; ?>" onclick="deleteKasubagKeluar('<?= $s['id']; ?>')"><img src="/img/delete.png" id="delete-btn<?= $s['id']; ?>" class="w-7 h-7 bg-red-500 hover:bg-red-600 text-xs rounded cursor-pointer text-white px-1 py-1" alt="gambar"></a></div> -->
                         </td>
