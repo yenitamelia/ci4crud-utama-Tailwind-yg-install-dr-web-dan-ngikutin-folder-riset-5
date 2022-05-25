@@ -10,7 +10,7 @@ class SuratKeluarModel extends Model
     protected $userTimestamps = true;
     // Karena ditabel surat ada beberapa atribut yg gadipakai misalnya id, updated_at, delete_at
     // Maka harus diberitahu mana fields yg boleh diisi
-    protected $allowedFields = ['nomor_urut', 'alamat', 'perihal', 'tanggal_keluar', 'lampiran', 'nomor_petunjuk', 'keterangan', 'file_keluar', 'status_pengiriman', 'status_persetujuan', 'status_revisi', 'created_at', 'updated_at'];
+    protected $allowedFields = ['nomor_urut', 'alamat', 'perihal', 'tanggal_keluar', 'lampiran', 'nomor_petunjuk', 'keterangan', 'file_keluar', 'status_pengiriman', 'status_persetujuan', 'status_revisi', 'role', 'tanda_tangan', 'created_at', 'updated_at'];
 
     public function getSuratKeluar()
     {
@@ -35,6 +35,12 @@ class SuratKeluarModel extends Model
     public function getSuratKeluarKepala()
     {
         $query = "SELECT surat_keluar.* FROM `surat_keluar` WHERE surat_keluar.status_pengiriman = 1";
+        return $this->db->query($query)->getResultArray();
+    }
+
+    public function getSuratKeluarRole($id_role)
+    {
+        $query = "SELECT surat_keluar.* FROM `surat_keluar` WHERE surat_keluar.role = $id_role";
         return $this->db->query($query)->getResultArray();
     }
 }

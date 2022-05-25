@@ -10,6 +10,7 @@
         <form action="/Kasubag/SuratKeluar/saveSuratKeluar" method="post" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <!-- Menyimpan file lampiran lama biar ga bermasalah waktu yg diganti cuman judulnya aja, dst -->
+            <input type="text" id="id_role" name="id_role" value="<?= session('role_id') ?>" hidden>
             <div class="grid grid-cols-5">
                 <label for="nomor_urut">Nomor Urut</label>
                 <label class="col-span-2 " id="label_nomor_urut"><?= $nomor_urut; ?></label>

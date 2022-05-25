@@ -40,6 +40,7 @@ class UserModel extends Model
     {
         $this->join('auth_groups', 'users.auth_groups_id=auth_groups.id');
         $this->select('users.*, auth_groups.description as role_name');
+        $this->select('users.*, auth_groups.id as role_id');
         $this->where('email', $email);
         return $this->first();
     }

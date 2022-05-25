@@ -210,12 +210,6 @@ class Surat extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            // 'diteruskan_kepada' => [
-            //     'rules' => 'required',
-            //     'errors' => [
-            //         'required' => '{field} harus diisi.'
-            //     ]
-            // ],
             'gambar' => [
                 // Kalau filenya boleh null uploadednya hapus aja
                 'rules' => 'uploaded[gambar]|max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',

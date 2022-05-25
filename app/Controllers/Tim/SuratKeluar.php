@@ -41,11 +41,12 @@ class SuratKeluar extends BaseController
         // Mengambil semua data dari tabel surat
         // $surat = $this->suratModel->findAll();
         // Diganti dibawah pake method ifelse di file SuratModel
-
+        $role = $this->groupsModel->getRole(session('id'));
+        $surats = $this->suratKeluarModel->getSuratKeluarRole($role);
         $data = [
             'title' => 'Daftar Surat Keluar',
             'validation' => \Config\Services::validation(),
-            'surat_keluar' => $this->suratKeluarModel->getSuratKeluar(),
+            'surat_keluar' => $surats,
             'role' => $this->groupsModel->getGroups(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
         ];
