@@ -14,8 +14,8 @@
             </div>
 
             <div class="mt-5 md:mt-0">
-                <form action="/Kepala/Surat/saveDisposisi" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_surat" id="idSurat">
+                <form action="/Kepala/SuratKeluar/setujui" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="surat_id" id="Suratid">
                     <div class="shadow overflow-y-auto h-80 sm:rounded-md">
                         <div class="bg-white w-96 py-4 px-6">
                             <div class="">
@@ -30,7 +30,7 @@
                                     <input disabled class="text-sm w-full py-1 px-2" name="alamat" id="alamat">
                                 </div>
                                 <div class="sm:col-span-4">
-                                    <label for="dari" class="block text-sm font-medium text-gray-700">Unggah Tanda Tangan</label>
+                                    <label for="ttd" class="block text-sm font-medium text-gray-700">Unggah Tanda Tangan</label>
                                     <div class="flex mt-5">
                                         <div class="flex justify-start items-center mb-1 w-full relative">
                                             <input type="file" hidden accept="image/jpg,image/jpeg,image/png" title="Pilih File" id='gambar' name="gambar" onchange="label2()">
@@ -69,7 +69,7 @@
             </div>
 
             <div class="mt-5 md:mt-0">
-                <form action="/Kepala/Surat/saveRevisi" method="POST" enctype="multipart/form-data">
+                <form action="/Kepala/SuratKeluar/saveRevisi" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_surat" id="idSurat">
                     <div class="shadow overflow-y-auto sm:rounded-md">
                         <div class="bg-white py-4 px-6">
@@ -143,22 +143,30 @@
                         <td><?= $s['tanggal_keluar']; ?></td>
                         <?php if ($s['status_persetujuan'] == 0) : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
-                                <div class="flex items-center">
-                                    <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-yellow-500 hover:bg-yellow-600 text-gray-100 rounded-lg shadow text-xs" id="setujui-btn<?= $s['id']; ?>" onclick="modalSetujui('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['alamat']; ?>','<?= $s['nomor_urut']; ?>')">
-                                        Setujui
+                                <?php if ($s['status_revisi'] == 1) : ?>
+                                    <div class="flex items-center">
+                                        <div class="py-1 text-xs flex-auto text-gray-100 bg-red-500 rounded-lg">Menuggu Revisi</div>
                                     </div>
-                                    <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-red-500 hover:bg-red-600 text-gray-100 rounded-lg shadow text-xs" id="revisi-btn<?= $s['id']; ?>" onclick="modalRevisi('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['alamat']; ?>','<?= $s['nomor_urut']; ?>')">
-                                        Revisi
+                                <?php else : ?>
+                                    <div class="flex items-center">
+                                        <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-yellow-500 hover:bg-yellow-600 text-gray-100 rounded-lg shadow text-xs" id="setujui-btn<?= $s['id']; ?>" onclick="modalSetujui('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['alamat']; ?>','<?= $s['nomor_urut']; ?>')">
+                                            Setujui
+                                        </div>
+                                        <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-red-500 hover:bg-red-600 text-gray-100 rounded-lg shadow text-xs" id="revisi-btn<?= $s['id']; ?>" onclick="modalRevisi('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['alamat']; ?>','<?= $s['nomor_urut']; ?>')">
+                                            Revisi
+                                        </div>
                                     </div>
-                                </div>
-                            <?php else : ?>
+                                <?php endif; ?>
+                            </td>
+                        <?php else : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
-                                <div class="flex items-center">
-                                    <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Disetujui</div>
-                                </div>
+                                <?php if ($s['status_revisi'] == 0) : ?>
+                                    <div class="flex items-center">
+                                        <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Disetujui</div>
+                                    </div>
+                                <?php endif; ?>
                             </td>
                         <?php endif; ?>
-                        </td>
                         <td class="text-center flex">
                             <!-- <a href="/surat/?= $s->id; ?>" class=" text-xs rounded text-white px-3 py-1">D</a> -->
                             <div class="flex-auto py-2"><a href="/Kepala/SuratKeluar/detail/<?= $s['id']; ?>"><img src="/img/detail.png" class="w-7 h-7 bg-blue-300 hover:bg-blue-500 text-xs rounded text-white px-1 py-1" alt="gambar"></a></div>

@@ -399,6 +399,7 @@
         disposisiBtn.onclick = function() {
             overlay.style.display = "flex";
         }
+
         lihatBtn.onclick = function() {
             overlay.style.display = "flex";
         }
@@ -423,12 +424,17 @@
 <script>
     function modalpdfSuratKeluar(id, no) {
         const overlay = document.querySelector('#overlay')
+        const disposisiBtn = document.querySelector('#disposisi-btn' + id)
         const lihatBtn = document.querySelector('#lihat-btn' + id)
         const closeBtn = document.querySelector('#close-modal-keluar')
         const closeBtn2 = document.querySelector('#close-modal2')
 
 
         // When the user clicks the button, open the modal 
+        disposisiBtn.onclick = function() {
+            overlay.style.display = "flex";
+        }
+
         lihatBtn.onclick = function() {
             overlay.style.display = "flex";
         }
@@ -598,7 +604,7 @@
             overlay.style.display = "none";
         }
 
-        $("#idSurat").val(id);
+        $("#Suratid").val(id);
         $("#perihalSurat").val(perihal);
         $("#alamat").val(alamat);
         document.getElementById("noSurat").textContent += no;
@@ -660,7 +666,8 @@
             overlay.style.display = "none";
         }
 
-        $("#idSurat").val(id);
+        $("#Suratid").val(id);
+        $("#nomor_urut").val(nomor_urut);
         $("#perihalSurat").val(perihal);
         document.getElementById("noSurat").textContent += no;
     }
@@ -734,17 +741,24 @@
         let bulan = $('#bulan').val();
         let role = $('#role').val();
 
-        $.get('/Kasubag/SuratKeluar/getNomorUrut', {
+        <?php if (session('auth_groups_id') == 2) { ?>
+            let url = '/Kasubag/SuratKeluar/getNomorUrut'
+        <?php } else if ((in_array(session('auth_groups_id'), [3, 4, 5, 6, 7]))) { ?>
+            let url = '/Tim/SuratKeluar/getNomorUrut'
+        <?php } ?>
+        $.get(url, {
             bulan: $('#bulan').val()
         }, (data) => {
             if (data == 0) {
                 nomor = "001"
-            } else if (data < 10) {
-                nomor = "00" + data
-            } else if (data < 100) {
-                nomor = "0" + data
+            } else if (data < 9) {
+                nomor = parseInt(data) + 1
+                nomor = "00" + nomor
+            } else if (data < 99) {
+                nomor = parseInt(data) + 1
+                nomor = "0" + nomor
             } else {
-                nomor = data
+                nomor = parseInt(data) + 1
             }
 
             let isLate = false;
@@ -757,7 +771,7 @@
 
             $('#label_nomor_urut').html(`B.3523.${nomor}${isLate ? '.A' : ''}/928${role}/${bulan}/${tahun}`)
             // $('#label_nomor_urut').val("3523" + $('#role').val() + "." + nomor)
-            $('#nomor_urut').val(`3523${role}.${nomor}${isLate ? '.A' : ''}`)
+            $('#nomor_urut').val(`B.3523${role}.${nomor}${isLate ? '.A' : ''}/928${role}/${bulan}/${tahun}`)
         })
     }
 </script>

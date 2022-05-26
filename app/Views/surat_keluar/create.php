@@ -31,7 +31,7 @@
                         <label for="bulan">Bulan</label>
                         <select id="bulan" name="bulan">
                             <?php for ($x = 1; $x <= 12; $x++) : ?>
-                                <option value=" <?= '0' . $x ?> "><?= $x ?></option>
+                                <option value="<?= '0' . $x ?>"><?= $x ?></option>
                             <?php endfor ?>
                         </select>
                     </div>

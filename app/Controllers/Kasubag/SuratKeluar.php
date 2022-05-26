@@ -110,9 +110,7 @@ class SuratKeluar extends BaseController
 
     public function getNomorUrut()
     {
-        $role = $this->request->getGet('role');
-        $query = $this->suratModel
-            ->like('nomor_agenda', 'B.3523')
+        $query = $this->suratKeluarModel
             ->countAllResults();
         return $this->respond($query);
     }
@@ -193,7 +191,7 @@ class SuratKeluar extends BaseController
         // Ambil file
         $fileLampiran = $this->request->getFile('file_keluar');
         // Ambil nama file
-        $namaLampiran = $this->request->getVar('nomor_urut') . ' ' . $fileLampiran->getName();
+        $namaLampiran =  str_replace("/", "", $this->request->getVar('nomor_urut')) . ' ' . $fileLampiran->getName();
         // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
         $fileLampiran->move('file_keluar', $namaLampiran);
 
@@ -300,16 +298,7 @@ class SuratKeluar extends BaseController
                     'ext_in' => 'File hanya boleh berupa pdf'
                 ]
             ]
-            // 'lampiran' => [
-            //     // Kalau filenya boleh null uploadednya hapus aja
-            //     'rules' => 'uploaded[lampiran]|max_size[lampiran, 2048]|ext_in[lampiran,doc,docx,pdf]',
-            //     'errors' => [
-            //         // Kalau filenya boleh null uploadednya hapus aja
-            //         'uploaded' => 'Pilih file terlebih dahulu',
-            //         'max_size' => 'Ukuran file harus dibawah 2Mb',
-            //         'ext_in' => 'File hanya boleh berupa doc, docx dan pdf'
-            //     ]
-            // ]
+
         ])) {
             // Mengambil pesan kesalahan
             // Ini ngga perlu karena sebenernya udah ada didalam session
@@ -372,6 +361,39 @@ class SuratKeluar extends BaseController
     {
         $this->suratKeluarModel->set('status_pengiriman', '1')->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil dikirim untuk meminta persetujuan.');
+
+        return redirect()->to('/Kasubag/SuratKeluar');
+    }
+
+    public function saveUploadRevisi()
+    {
+        // validasi input
+        if (!$this->validate([
+            'file_keluar' => [
+                // Kalau filenya boleh null uploadednya hapus aja
+                'rules' => 'max_size[file_keluar, 2048]|ext_in[file_keluar,pdf]',
+                'errors' => [
+                    // Kalau filenya boleh null uploadednya hapus aja
+                    'max_size' => 'Ukuran file harus dibawah 2Mb',
+                    'ext_in' => 'File hanya boleh berupa pdf'
+                ]
+            ]
+
+        ])) {
+        }
+
+        // Mengambil file lampiran
+        $fileLampiran = $this->request->getFile('file_keluar');
+        // Ambil nama file
+        $namaLampiran = $this->request->getVar('nomor_urut') . ' ' . $fileLampiran->getName();
+
+        // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
+        $fileLampiran->move('file_keluar/', $namaLampiran);
+
+        $this->suratKeluarModel->set(['status_revisi' => 0, 'file_keluar' => $namaLampiran])
+            ->where('id', $this->request->getVar('surat_id'))->update();
+
+        session()->setFlashdata('pesan', 'Revisi surat berhasil dikirim.');
 
         return redirect()->to('/Kasubag/SuratKeluar');
     }

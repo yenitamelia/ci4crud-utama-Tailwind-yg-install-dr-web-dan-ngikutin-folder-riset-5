@@ -15,7 +15,8 @@
 
             <div class="mt-5 md:mt-0 md:col-span-2">
                 <form action="/Kasubag/SuratKeluar/saveUploadRevisi" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_surat" id="idSurat">
+                    <input type="hidden" name="surat_id" id="Suratid">
+                    <input type="hidden" name="nomor_urut" id="nomor_urut">
                     <div class="shadow overflow-y-auto h-96 sm:rounded-md">
                         <div class="bg-white py-4 px-6">
                             <div class="grid gap-3">
@@ -47,7 +48,7 @@
                                 Cancel
                             </div>
                             <button type="submit" class="inline-flex justify-center disposisiBtn ml-1 py-2 px-4 border border-transparent shadow-sm text-sm rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Kirim
+                                Revisi
                             </button>
                         </div>
                     </div>
@@ -148,8 +149,8 @@
                                     <div class="flex items-center">
                                         <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Disetujui</div>
                                         <div class="flex-auto py-2">
-                                            <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="flex bg-yellow-500 hover:bg-yellow-400 rounded pl-3 pr-4 py-2">
-                                                <img src="/img/download.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
+                                            <a href="/Kasubag/SuratKeluar/download/<?= $s['id']; ?>" class="flex bg-yellow-500 hover:bg-yellow-400 rounded pl-3 pr-4 py-2">
+                                                <img src="/img/download.png" class="flex-auto w-1 h-3 mr-1" alt="gambar">
                                             </a>
                                         </div>
                                     </div>

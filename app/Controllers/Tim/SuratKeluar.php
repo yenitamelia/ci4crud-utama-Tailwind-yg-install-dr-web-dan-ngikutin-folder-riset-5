@@ -72,6 +72,13 @@ class SuratKeluar extends BaseController
         return view('surat_keluar/detail', $data);
     }
 
+    public function getNomorUrut()
+    {
+        $query = $this->suratKeluarModel
+            ->countAllResults();
+        return $this->respond($query);
+    }
+
     public function lembar($id)
     {
         $data = [
@@ -106,15 +113,6 @@ class SuratKeluar extends BaseController
         ];
 
         return view('surat_keluar/create', $data);
-    }
-
-    public function getNomorUrut()
-    {
-        $role = $this->request->getGet('role');
-        $query = $this->suratModel
-            ->like('nomor_agenda', 'B.3523')
-            ->countAllResults();
-        return $this->respond($query);
     }
 
     // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel
@@ -356,6 +354,12 @@ class SuratKeluar extends BaseController
     {
         $surat_keluar = $this->suratKeluarModel->find($id);
         return $this->response->download('file_keluar/' . $surat_keluar['file_keluar'], null);
+    }
+
+    public function downloadttd($id)
+    {
+        $surat_keluar = $this->suratKeluarModel->find($id);
+        return $this->response->download('gambar/' . $surat_keluar['tanda_tangan'], null);
     }
 
     public function mintaPersetujuan()

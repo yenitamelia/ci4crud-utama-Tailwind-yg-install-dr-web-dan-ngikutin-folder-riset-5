@@ -8,6 +8,7 @@ use App\Models\SuratKeluarModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
 use App\Models\RoleDisposisiModel;
+use App\Models\SuratKeluarRevisiModel;
 use CodeIgniter\API\ResponseTrait;
 use DateTime;
 use PhpParser\Node\Stmt\Echo_;
@@ -23,6 +24,7 @@ class SuratKeluar extends BaseController
     protected $disposisiModel;
     protected $groupsModel;
     protected $roleDisposisiModel;
+    protected $suratKeluarRevisiModel;
 
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
@@ -33,6 +35,7 @@ class SuratKeluar extends BaseController
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
         $this->roleDisposisiModel = new RoleDisposisiModel();
+        $this->suratKeluarRevisiModel = new SuratKeluarRevisiModel();
     }
 
     public function index()
@@ -45,6 +48,7 @@ class SuratKeluar extends BaseController
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
             'surat_keluar' => $this->suratKeluarModel->getSuratKeluarKepala(),
+            'surat_keluar_revisi' => $this->suratKeluarRevisiModel->getSuratKeluarRevisi(),
             'role' => $this->groupsModel->getGroups(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
         ];
@@ -218,39 +222,20 @@ class SuratKeluar extends BaseController
 
     public function saveRevisi()
     {
-        // dd($this->request->getVar());
+
         // dd($this->request->getFile('gambar'));
         $validation = \Config\Services::validation();
         // validasi input
         if (!$this->validate([
-            'isi-disposisi' => [
+            'pesan-revisi' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} harus diisi.'
                 ]
-            ],
-            'gambar' => [
-                // Kalau filenya boleh null uploadednya hapus aja
-                'rules' => 'uploaded[gambar]|max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
-                'errors' => [
-                    // Kalau filenya boleh null uploadednya hapus aja
-                    'uploaded' => 'Pilih gambar terlebih dahulu',
-                    'max_size' => 'Ukuran gambar harus dibawah 1Mb',
-                    'is_image' => 'File yang Anda pilih bukan gambar',
-                    'mime_in' => 'File yang Anda pilih bukan gambar'
-                ]
             ]
+
         ])) {
-
-            // Mengambil pesan kesalahan
-            // Ini ngga perlu karena sebenernya udah ada didalam session
-            // $validation = \Config\Services::validation();
-            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
-            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            // return redirect()->to('kepala/surat')->withInput();
         }
-
 
 
         if ($validation->run() == FALSE) {
@@ -258,53 +243,19 @@ class SuratKeluar extends BaseController
             echo json_encode(['code' => 0, 'error' => $errors]);
         } else {
             // Mengambil semua data yg telah diinput
-            // $this->request->getVar();
-            // $now = new DateTime();
-            // dd($now->format('Y-m-d H:i:s'));
 
-            // Ambil file
-            $fileGambar = $this->request->getFile('gambar');
-            // Pindahkan file ke folder gambar, masuk ke folder public folder gambar
-            $fileGambar->move('gambar');
-            // Ambil nama file
-            $namaGambar = $fileGambar->getName();
-            $role = $this->groupsModel->getGroups();
-
-
-
-            $query = $this->disposisiModel->save([
+            // dd($this->request->getVar());
+            $this->suratKeluarRevisiModel->save([
                 // 'id' => $id,
-                'isi_disposisi' => $this->request->getVar('isi-disposisi'),
-                'id_surat' => $this->request->getVar('id_surat'),
-                'gambar' => $namaGambar,
-
+                'id_surat_keluar' => $this->request->getVar('id_surat'),
+                'pesan_revisi' => $this->request->getVar('pesan-revisi'),
             ]);
-            $insert_id = $this->disposisiModel->getInsertID();
-
-            if ($query) {
-
-                echo json_encode(['code' => 1, 'msg' => 'Data Keterangan Disposisi telah ditambahkan']);
-            } else {
-                echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
-            }
-
-            foreach ($role as $row) {
-                if (($row["id"]) > 1) {
-                    // dd($this->request->getPost($row["id"]) !== null);
-                    $roleDisposisiModel = new RoleDisposisiModel();
-                    if ($this->request->getPost($row["id"]) !== null) {
-                        $roleDisposisiModel->insert([
-                            'id_disposisi' => $insert_id,
-                            'id_role' => $row["id"]
-                        ]);
-                    }
-                }
-            }
         }
-        $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
-        session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
-        return redirect()->to('/kepala/surat');
+        $this->suratKeluarModel->set('status_revisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
+        session()->setFlashdata('pesan', 'Pesan revisi berhasil disimpan, tunggu update revisi');
+
+        return redirect()->to('/Kepala/SuratKeluar');
     }
 
     public function delete($id)
@@ -440,6 +391,80 @@ class SuratKeluar extends BaseController
 
         return redirect()->to('/kasubag/surat');
     }
+
+    public function getSetujui($id)
+    {
+        // Pake session agar tampilan errornya muncul
+        // Biar ga lupa2 makanya dipindah aja di BaseController
+        // session();
+        $data = [
+            'validation' => \Config\Services::validation(),
+            // Mengambil semua data surat sesuai id yg dipilih
+            'surat_keluar' => $this->suratKeluarModel->getSuratKeluarDetail($id)
+        ];
+
+        return view('kepala/index_suratkeluar', $data);
+    }
+
+    public function setujui()
+    {
+        // dd($this->request->getVar());
+        // dd($this->request->getFile('gambar'));
+
+        $validation = \Config\Services::validation();
+        // validasi input
+        if (!$this->validate([
+            'gambar' => [
+                // Kalau filenya boleh null uploadednya hapus aja
+                'rules' => 'uploaded[gambar]|max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+                'errors' => [
+                    // Kalau filenya boleh null uploadednya hapus aja
+                    'uploaded' => 'Pilih gambar terlebih dahulu',
+                    'max_size' => 'Ukuran gambar harus dibawah 1Mb',
+                    'is_image' => 'File yang Anda pilih bukan gambar',
+                    'mime_in' => 'File yang Anda pilih bukan gambar'
+                ]
+            ]
+        ])) {
+        }
+
+        if ($validation->run() == FALSE) {
+            $errors = $validation->getErrors();
+            echo json_encode(['code' => 0, 'error' => $errors]);
+        } else {
+            // Mengambil semua data yg telah diinput
+            // $this->request->getVar();
+            // $now = new DateTime();
+            // dd($now->format('Y-m-d H:i:s'));
+
+            // Ambil file
+            $fileGambar = $this->request->getFile('gambar');
+            // Pindahkan file ke folder gambar, masuk ke folder public folder gambar
+            $fileGambar->move('gambar');
+            // Ambil nama file
+            $namaGambar = $fileGambar->getName();
+            $role = $this->groupsModel->getGroups();
+            $id = $this->request->getVar('surat_id');
+            $query = $this->suratKeluarModel->save([
+                'id' => $id,
+                'tanda_tangan' => $namaGambar,
+
+            ]);
+
+            if ($query) {
+
+                echo json_encode(['code' => 1, 'msg' => 'Surat berhasil disetujui']);
+            } else {
+                echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
+            }
+        }
+        $id = $this->request->getVar('surat_id');
+        $this->suratKeluarModel->set('status_persetujuan', 1)->where('id', $id)->update();
+        session()->setFlashdata('pesan', 'Surat berhasil disetujui.');
+
+        return redirect()->to('/Kepala/SuratKeluar');
+    }
+
 
     public function download($id)
     {

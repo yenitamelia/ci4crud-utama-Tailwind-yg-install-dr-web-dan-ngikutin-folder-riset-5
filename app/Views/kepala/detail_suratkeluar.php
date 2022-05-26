@@ -16,9 +16,9 @@
                     <img src="/img/file.png" class="w-4/6 cursor-pointer" id="lihat-btn<?= $surat_keluar['id']; ?>" onclick="modalpdfSuratKeluar('<?= $surat_keluar['id']; ?>','<?= $surat_keluar['nomor_urut']; ?>')" alt="gambar">
                 </div>
                 <div class="flex pt-2 ml-5">
-                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-3 py-1 cursor-pointer">
+                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-3 py-2 cursor-pointer" id="disposisi-btn<?= $surat_keluar['id']; ?>" onclick="modalpdfSuratKeluar('<?= $surat_keluar['id']; ?>','<?= $surat_keluar['nomor_urut']; ?>')">
                         <img src="/img/eye.png" class="flex-auto w-5 h-5 mr-1" alt="gambar">
-                        <div class="flex-auto" id="lihat-btn<?= $surat_keluar['id']; ?>" onclick="modalpdfSuratKeluar('<?= $surat_keluar['id']; ?>','<?= $surat_keluar['nomor_urut']; ?>')">Lihat</div>
+                        <div class="flex-auto text-xs">Lihat</div>
                     </div>
                 </div>
                 <div class="flex py-2 ml-1">
