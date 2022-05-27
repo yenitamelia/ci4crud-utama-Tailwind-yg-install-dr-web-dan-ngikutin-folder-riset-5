@@ -29,6 +29,14 @@ class SuratModel extends Model
         return $this->orderBy('status ASC, disposisi DESC, tanggal DESC')->findAll();
     }
 
+    public function getSuratKepala($role = '')
+    {
+        if ($role != '') {
+            $this->like('nomor_agenda', '3523' . $role . '%');
+        }
+        return $this->orderBy('disposisi ASC, tanggal DESC')->findAll();
+    }
+
     public function getSuratTim($idTim)
     {
         $query = "SELECT surat_masuk.*, disposisi.id as id_disposisi FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN role_disposisi on disposisi.id = role_disposisi.id_disposisi WHERE role_disposisi.id_role = $idTim AND surat_masuk.status = 1";
@@ -41,6 +49,16 @@ class SuratModel extends Model
         $this->join('disposisi', 'surat_masuk.id=disposisi.id_surat');
         $this->join('role_disposisi', 'disposisi.id=role_disposisi.id_disposisi');
         $this->join('users', 'role_disposisi.id_role=users.auth_groups_id');
+        $this->select('users.email');
+        return $this->findAll();
+    }
+
+    public function getUserUserFromSuratDisposisi($idSurat)
+    {
+        $this->where('surat_masuk.id', $idSurat);
+        $this->join('disposisi', 'surat_masuk.id=disposisi.id_surat');
+        $this->join('role_disposisi', 'disposisi.id=role_disposisi.id_disposisi');
+        $this->join('users', 'role_disposisi.id_role=users.id');
         $this->select('users.email');
         return $this->findAll();
     }

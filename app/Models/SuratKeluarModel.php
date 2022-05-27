@@ -32,10 +32,13 @@ class SuratKeluarModel extends Model
         // return $this->where('id', 3)->countAllResults();
     }
 
-    public function getSuratKeluarKepala()
+    public function getSuratKeluarKepala($role = '')
     {
         $query = "SELECT surat_keluar.* FROM `surat_keluar` WHERE surat_keluar.status_pengiriman = 1";
-        return $this->db->query($query)->getResultArray();
+        if ($role != '') {
+            $this->like('role', $role);
+        }
+        return $this->orderBy('status_persetujuan ASC, status_revisi ASC')->findAll();
     }
 
     public function getSuratKeluarRole($id_role)

@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\SuratModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
+use App\Models\UserModel;
 use App\Models\RoleDisposisiModel;
 use DateTime;
 use PhpParser\Node\Stmt\Echo_;
@@ -18,6 +19,7 @@ class Surat extends BaseController
     protected $suratModel;
     protected $disposisiModel;
     protected $groupsModel;
+    protected $userModel;
     protected $roleDisposisiModel;
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
@@ -26,6 +28,7 @@ class Surat extends BaseController
         $this->suratModel = new SuratModel();
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
+        $this->userModel = new UserModel();
         $this->roleDisposisiModel = new RoleDisposisiModel();
     }
 
@@ -34,13 +37,17 @@ class Surat extends BaseController
         // Mengambil semua data dari tabel surat
         // $surat = $this->suratModel->findAll();
         // Diganti dibawah pake method ifelse di file SuratModel
+        $roleId = $this->request->getVar("role");
+        $surat = $this->suratModel->getSuratKepala($roleId);
 
         $data = [
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
-            'surat' => $this->suratModel->getSurat(),
+            'surat' => $surat,
             'role' => $this->groupsModel->getGroups(),
+            'users' => $this->userModel->getUserAnggota(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
+            'roleId' => $roleId
         ];
 
         return view('kepala/index', $data);
@@ -106,17 +113,7 @@ class Surat extends BaseController
                 ]
             ]
         ])) {
-
-            // Mengambil pesan kesalahan
-            // Ini ngga perlu karena sebenernya udah ada didalam session
-            // $validation = \Config\Services::validation();
-            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
-            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            // return redirect()->to('kepala/surat')->withInput();
         }
-
-
 
         if ($validation->run() == FALSE) {
             $errors = $validation->getErrors();
@@ -164,6 +161,16 @@ class Surat extends BaseController
                         ]);
                     }
                 }
+            }
+
+            $tags = explode(",", $this->request->getVar('tags'));
+
+            foreach ($tags as $tag) {
+                $roleDisposisiModel = new RoleDisposisiModel();
+                $this->roleDisposisiModel->insert([
+                    "id_disposisi" => $insert_id,
+                    "id_user" => $tag,
+                ]);
             }
         }
         $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();

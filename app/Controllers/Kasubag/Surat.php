@@ -301,9 +301,13 @@ class Surat extends BaseController
         $id = $this->request->getVar('id_surat');
         $this->suratModel->set('status', '1')->where('id', $id)->update();
         $raw = $this->suratModel->getUserFromSuratDisposisi($id);
+        $rawUser = $this->suratModel->getUserUserFromSuratDisposisi($id);
         $emails = [];
         foreach ($raw as $r) {
             array_push($emails, $r['email']);
+        }
+        foreach ($rawUser as $u) {
+            array_push($emails, $u['email']);
         }
 
         $surat = $this->suratModel->getSurat($id);

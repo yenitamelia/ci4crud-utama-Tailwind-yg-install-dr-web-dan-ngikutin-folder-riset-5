@@ -43,14 +43,17 @@ class SuratKeluar extends BaseController
         // Mengambil semua data dari tabel surat
         // $surat = $this->suratModel->findAll();
         // Diganti dibawah pake method ifelse di file SuratModel
+        $roleId = $this->request->getVar("role");
+        $suratKeluar = $this->suratKeluarModel->getSuratKeluarKepala($roleId);
 
         $data = [
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
-            'surat_keluar' => $this->suratKeluarModel->getSuratKeluarKepala(),
+            'surat_keluar' => $suratKeluar,
             'surat_keluar_revisi' => $this->suratKeluarRevisiModel->getSuratKeluarRevisi(),
             'role' => $this->groupsModel->getGroups(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
+            'roleId' => $roleId
         ];
 
         return view('kepala/index_suratkeluar', $data);
@@ -253,7 +256,7 @@ class SuratKeluar extends BaseController
         }
 
         $this->suratKeluarModel->set('status_revisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
-        session()->setFlashdata('pesan', 'Pesan revisi berhasil disimpan, tunggu update revisi');
+        session()->setFlashdata('pesan', 'Pesan revisi berhasil dikirim, <b>tunggu update revisi</b>');
 
         return redirect()->to('/Kepala/SuratKeluar');
     }

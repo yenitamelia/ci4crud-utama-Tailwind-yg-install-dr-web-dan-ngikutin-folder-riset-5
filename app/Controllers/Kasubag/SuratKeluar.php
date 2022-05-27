@@ -398,6 +398,12 @@ class SuratKeluar extends BaseController
         return redirect()->to('/Kasubag/SuratKeluar');
     }
 
+    public function downloadttd($id)
+    {
+        $surat_keluar = $this->suratKeluarModel->find($id);
+        return $this->response->download('gambar/' . $surat_keluar['tanda_tangan'], null);
+    }
+
     // public function read($id)
     // {
     //     $surat = $this->suratModel->find($id);

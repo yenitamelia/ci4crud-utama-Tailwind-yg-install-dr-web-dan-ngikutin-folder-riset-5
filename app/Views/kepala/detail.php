@@ -224,5 +224,14 @@
         <!-- <a href="/surat" class="text-blue-500">Kembali ke daftar surat</a> -->
     </div>
 
+    <script>
+        $('#filterRole').on('change', function(e) {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            const parser = new URL(window.location);
+            parser.searchParams.set('role', valueSelected);
+            window.location = parser.href;
+        });
+    </script>
 
     <?= $this->endSection(); ?>

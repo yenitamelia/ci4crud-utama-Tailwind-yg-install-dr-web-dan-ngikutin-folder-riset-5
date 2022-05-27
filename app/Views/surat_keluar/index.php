@@ -149,7 +149,7 @@
                                     <div class="flex items-center">
                                         <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Disetujui</div>
                                         <div class="flex-auto py-2">
-                                            <a href="/Kasubag/SuratKeluar/download/<?= $s['id']; ?>" class="flex bg-yellow-500 hover:bg-yellow-400 rounded pl-3 pr-4 py-2">
+                                            <a href="/Kasubag/SuratKeluar/downloadttd/<?= $s['id']; ?>" class="flex bg-yellow-500 hover:bg-yellow-400 rounded pl-3 pr-4 py-2">
                                                 <img src="/img/download.png" class="flex-auto w-1 h-3 mr-1" alt="gambar">
                                             </a>
                                         </div>
