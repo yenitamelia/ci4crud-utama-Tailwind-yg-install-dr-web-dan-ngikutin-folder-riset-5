@@ -15,6 +15,7 @@
             <div class="mt-5 md:mt-0 max-w-lg">
                 <form action="/Tim/Surat/saveTandai" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_disposisi" id="idDisposisi">
+                    <input type="hidden" name="id_surat" id="idSurat">
                     <div class="shadow overflow-y-auto sm:rounded-md">
                         <div class="bg-white py-4 px-6">
                             <div class="">
@@ -89,9 +90,11 @@
                         <td><?= $s['perihal']; ?></td>
                         <td class="text-center flex">
                             <a href="/Tim/Surat/detail/<?= $s['id']; ?>" class="bg-blue-500 hover:bg-blue-600 text-xs rounded text-white px-3 py-1">Detail</a>
-                            <?php if ($s['sudah_diteruskan'] == false) { ?>
-                                <div id="disposisi-btn<?= $s['id_disposisi']; ?>" class="flex items-center bg-green-500 cursor-pointer hover:bg-green-600 text-xs rounded text-white px-3 py-1" onclick="modalDisposisiKetuaTim('<?= $s['id_disposisi']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">Teruskan</div>
-                            <?php } ?>
+                            <?php if ($s['status_diteruskan_tim'] == 0) : ?>
+                                <div id="disposisi-btn<?= $s['id_disposisi']; ?>" class="flex items-center bg-yellow-500 cursor-pointer hover:bg-yellow-600 text-xs rounded text-white px-3 py-1" onclick="modalDisposisiKetuaTim('<?= $s['id_disposisi']; ?>','<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">Teruskan</div>
+                            <?php else : ?>
+                                <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Terkirim</div>
+                            <?php endif; ?>
                         </td>
                         <!-- <td>
                         <a href="/surat/viewpdf/<= $s->id; ?>" class="bg-blue-500 rounded-xl text-sm text-white px-3 py-1">View Kepala</a>

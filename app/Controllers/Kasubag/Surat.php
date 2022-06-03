@@ -69,25 +69,25 @@ class Surat extends BaseController
         $role = $this->groupsModel->getRole(session('id'));
         $surats = $this->suratModel->getSuratTim($role);
 
-        $disposisiIds = [];
-        foreach ($surats as $surat) {
-            array_push($disposisiIds, $surat['id_disposisi']);
-        }
+        // $disposisiIds = [];
+        // foreach ($surats as $surat) {
+        //     array_push($disposisiIds, $surat['id_disposisi']);
+        // }
 
 
-        $disposisiIdsDiserahkan = $this->disposisiUserModel->getByDisposisiIdsDistinct($disposisiIds);
-        $disposisiMap = array();
-        foreach ($disposisiIdsDiserahkan as $disposisiIdDiserahkan) {
-            $disposisiMap[$disposisiIdDiserahkan['id_disposisi']] = true;
-        }
+        // $disposisiIdsDiserahkan = $this->disposisiUserModel->getByDisposisiIdsDistinct($disposisiIds);
+        // $disposisiMap = array();
+        // foreach ($disposisiIdsDiserahkan as $disposisiIdDiserahkan) {
+        //     $disposisiMap[$disposisiIdDiserahkan['id_disposisi']] = true;
+        // }
 
-        for ($i = 0; $i < count($surats); $i++) {
-            if (isset($disposisiMap[$surats[$i]['id_disposisi']])) {
-                $surats[$i]['sudah_diteruskan'] = true;
-            } else {
-                $surats[$i]['sudah_diteruskan'] = false;
-            }
-        }
+        // for ($i = 0; $i < count($surats); $i++) {
+        //     if (isset($disposisiMap[$surats[$i]['id_disposisi']])) {
+        //         $surats[$i]['sudah_diteruskan'] = true;
+        //     } else {
+        //         $surats[$i]['sudah_diteruskan'] = false;
+        //     }
+        // }
 
         $data = [
             'title' => 'Daftar Surat',
@@ -358,6 +358,8 @@ class Surat extends BaseController
             }
         }
 
+        $id = $this->request->getVar('id_surat');
+        $this->suratModel->set('status_diteruskan_kasubbag', '1')->where('id', $id)->update();
         $users = $this->userModel->getUserWhereIdIn($tags);
         $emails = [];
         foreach ($users as $r) {
@@ -374,7 +376,7 @@ class Surat extends BaseController
 
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
-        return redirect()->to('/tim/surat');
+        return redirect()->to('/kasubag/surat/indexx');
     }
 
 

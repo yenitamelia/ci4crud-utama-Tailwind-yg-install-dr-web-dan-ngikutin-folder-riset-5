@@ -163,20 +163,20 @@ class Surat extends BaseController
                 }
             }
 
-            $tags = explode(",", $this->request->getVar('tags'));
+            // $tags = explode(",", $this->request->getVar('tags'));
 
-            foreach ($tags as $tag) {
-                $roleDisposisiModel = new RoleDisposisiModel();
-                $this->roleDisposisiModel->insert([
-                    "id_disposisi" => $insert_id,
-                    "id_user" => $tag,
-                ]);
-            }
+            // foreach ($tags as $tag) {
+            //     $roleDisposisiModel = new RoleDisposisiModel();
+            //     $this->roleDisposisiModel->insert([
+            //         "id_disposisi" => $insert_id,
+            //         "id_user" => $tag,
+            //     ]);
+            // }
         }
         $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
-        return redirect()->to('/kepala/surat');
+        return redirect()->to('/Kepala/Surat');
     }
 
     public function download($id)

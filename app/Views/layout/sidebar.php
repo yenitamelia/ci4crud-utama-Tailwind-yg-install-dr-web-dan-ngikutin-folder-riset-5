@@ -495,7 +495,7 @@
 </script>
 
 <script>
-    function modalDisposisiKetuaTim(idDisposisi, perihal, dari, no) {
+    function modalDisposisiKetuaTim(idDisposisi, idSurat, perihal, dari, no) {
 
         const overlay = document.querySelector('#overlay')
         const disposisiBtn = document.querySelector('#disposisi-btn' + idDisposisi)
@@ -519,6 +519,7 @@
         }
 
         $("#idDisposisi").val(idDisposisi);
+        $("#idSurat").val(idSurat);
         $("#perihalSurat").val(perihal);
         $("#dariSurat").val(dari);
         document.getElementById("noSurat").textContent += no;

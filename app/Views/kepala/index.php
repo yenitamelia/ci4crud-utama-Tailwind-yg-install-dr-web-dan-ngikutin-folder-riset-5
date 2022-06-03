@@ -44,12 +44,12 @@
                                                 </div>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
-                                        <div id="tags-container">
+                                        <!-- <div id="tags-container">
                                             <div class="control-group">
                                                 <select id="tags" class="tags font-heading text-xs" placeholder="Tandai orang"></select>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="tags" id="tags_form">
+                                        <input type="hidden" name="tags" id="tags_form"> -->
                                     </div>
                                 </div>
                                 <div class="mb-3 sm:col-span-4">
