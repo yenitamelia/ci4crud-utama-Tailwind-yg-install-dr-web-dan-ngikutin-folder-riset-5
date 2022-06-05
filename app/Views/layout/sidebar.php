@@ -76,15 +76,15 @@
     <div class="sidebar open">
         <div class="logo-details">
             <i class='bx bxl-c-plus-plus icon'></i>
-            <div class="logo_name">SIMRAT</div>
+            <div class="logo_name">SIMA</div>
             <i class='bx bx-menu' id="btn"></i>
         </div>
         <ul class="nav-list">
-            <li>
+            <!-- <li>
                 <i class='bx bx-search'></i>
                 <input type="text" placeholder="Search...">
                 <span class="tooltip">Search</span>
-            </li>
+            </li> -->
             <li>
                 <?php if (in_array(session()->auth_groups_id, [1, 2, 3, 4, 5, 6, 7, 8, 9])) : ?>
                     <a href="/Kasubag/Home">
@@ -110,27 +110,6 @@
                     </a>
                 <?php endif; ?>
             </li>
-            <!-- <li>
-                <a href="#">
-                    <i class='bx bx-user'></i>
-                    <span class="links_name">User</span>
-                </a>
-                <span class="tooltip">User</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-chat'></i>
-                    <span class="links_name">Messages</span>
-                </a>
-                <span class="tooltip">Messages</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bx-pie-chart-alt-2'></i>
-                    <span class="links_name">Analytics</span>
-                </a>
-                <span class="tooltip">Analytics</span>
-            </li> -->
             <li>
                 <?php if (session('auth_groups_id') == 1) : ?>
                     <a href="/kepala/surat">
@@ -186,20 +165,19 @@
                                     <span class="links_name">Surat Keluar</span>
                                 </a>
                             </a>
+                        <?php endif; ?>
                         </a>
-                    <?php endif; ?>
             </li>
             <li class="profile">
-                <div class="profile-details">
-                    <!--<img src="profile.jpg" alt="profileImg">-->
-                    <div class="name_job">
-                        <div class="name text-xs"><?php echo session('email') ?></div>
-                        <div class="job text-base"><?php echo session('role_name') ?></div>
-                    </div>
+                <!-- <div class="profile-details"> -->
+                <div class="name_job">
+                    <div class="name text-xs"><?php echo session('email') ?></div>
+                    <div class="job text-base"><?php echo session('role_name') ?></div>
                 </div>
                 <a href="<?= base_url('Logout'); ?>">
                     <i class='bx bx-log-out' id="log_out"></i>
                 </a>
+                <!-- </div> -->
             </li>
         </ul>
     </div>
@@ -550,21 +528,17 @@
             overlay.style.display = "none";
         }
 
-        // const toggleModal = () => {
-        //     overlay.classList.toggle('hidden')
-        //     overlay.classList.toggle('flex')
-        // }
-
-        // disposisiBtn.addEventListener('click', toggleModal)
-
-        // closeBtn.addEventListener('click', toggleModal)
 
         $.get('/Kasubag/Surat/modaldisposisikepada', {
             surat_id: id
         }, (data) => {
             li = ''
             data.forEach(d => {
-                li += `<li>${d.description}</li>`
+                if (d["auth_groups_id"] == 8) {
+                    li += `<li>${d.fullname}</li>`
+                } else {
+                    li += `<li>${d.description}</li>`
+                }
             })
             $('#showRole').html(`<ul>${li}</ul>`)
             $("#isi-disposisi").val(data[0]['isi_disposisi']);

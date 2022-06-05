@@ -79,7 +79,13 @@
                     <div id="diteruskan">
                         <?php $i = 1;
                         foreach ($role as $r) : ?>
-                            <?= $i . '. ' . $r['description'] . '<br>';  ?>
+                            <?php if ($r['status_disposisi'] == 1) : ?>
+                                <?php if ($r['auth_groups_id'] == 8) : ?>
+                                    <?= $i . '. ' . $r['fullname'] . '<br>';  ?>
+                                <?php else : ?>
+                                    <?= $i . '. ' . $r['description'] . '<br>';  ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
                         <?php $i++;
                         endforeach; ?>
                     </div>
@@ -182,7 +188,13 @@
                             <td class="text-left p-3 content-start items-start" colspan="6">
                                 <?php $i = 1;
                                 foreach ($role as $r) : ?>
-                                    <?= $i . '. ' . $r['description'] . '<br>';  ?>
+                                    <?php if ($r['status_disposisi'] == 1) : ?>
+                                        <?php if ($r['auth_groups_id'] == 8) : ?>
+                                            <?= $i . '. ' . $r['fullname'] . '<br>';  ?>
+                                        <?php else : ?>
+                                            <?= $i . '. ' . $r['description'] . '<br>';  ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 <?php $i++;
                                 endforeach; ?>
                             </td>

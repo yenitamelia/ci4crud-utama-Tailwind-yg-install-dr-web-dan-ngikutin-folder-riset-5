@@ -15,6 +15,7 @@ class GroupsModel extends Model
     public function getGroups($id = false)
     {
         if ($id == false) {
+            // $this->join('users', 'auth_gropus.id=users.auth_groups_id');
             return $this->findAll();
         }
 

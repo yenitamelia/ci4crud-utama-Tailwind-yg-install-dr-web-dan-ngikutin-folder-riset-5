@@ -60,13 +60,6 @@ class SuratKeluar extends BaseController
     }
 
 
-    public function modaldisposisikepada()
-    {
-        $surat_id = $this->request->getGet('surat_id');
-        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $surat_id)->get()->getResultArray();
-        return $this->respond($query);
-    }
-
     public function disposisiKepada($id)
     {
         return $this->disposisiModel->getIdRole($id);

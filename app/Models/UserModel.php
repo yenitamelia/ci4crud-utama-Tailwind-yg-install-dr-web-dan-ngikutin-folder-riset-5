@@ -36,6 +36,14 @@ class UserModel extends Model
         return $builder->get()->getResultArray();
     }
 
+    public function getUsersByRoleIdNew($roleId)
+    {
+        $builder = $this->db->table('users');
+        $builder->select('*');
+        $builder->where('auth_groups_id', $roleId);
+        return $this->findAll();
+    }
+
     public function getUserByEmail($email)
     {
         $this->join('auth_groups', 'users.auth_groups_id=auth_groups.id');

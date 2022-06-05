@@ -103,7 +103,8 @@ class Surat extends BaseController
     public function modaldisposisikepada()
     {
         $surat_id = $this->request->getGet('surat_id');
-        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $surat_id)->get()->getResultArray();
+        // $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $surat_id)->get()->getResultArray();
+        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('auth_groups', 'auth_groups.id=users.auth_groups_id')->where('disposisi.id_surat', $surat_id)->get()->getResultArray();
         return $this->respond($query);
     }
 
@@ -116,7 +117,7 @@ class Surat extends BaseController
     public function detail($id)
     {
 
-        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $id)->get()->getResultArray();
+        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('auth_groups', 'auth_groups.id=users.auth_groups_id')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
@@ -299,16 +300,18 @@ class Surat extends BaseController
     public function saveDisposisi()
     {
         $id = $this->request->getVar('id_surat');
+        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('auth_groups', 'auth_groups.id=users.auth_groups_id')->where('disposisi.id_surat', $id)->select('users.email')->get()->getResultArray();
+        // dd($query);
         $this->suratModel->set('status', '1')->where('id', $id)->update();
-        $raw = $this->suratModel->getUserFromSuratDisposisi($id);
-        $rawUser = $this->suratModel->getUserUserFromSuratDisposisi($id);
+        $raw = $query;
+        // $rawUser = $this->suratModel->getUserUserFromSuratDisposisi($id);
         $emails = [];
         foreach ($raw as $r) {
             array_push($emails, $r['email']);
         }
-        foreach ($rawUser as $u) {
-            array_push($emails, $u['email']);
-        }
+        // foreach ($rawUser as $u) {
+        //     array_push($emails, $u['email']);
+        // }
 
         $surat = $this->suratModel->getSurat($id);
 

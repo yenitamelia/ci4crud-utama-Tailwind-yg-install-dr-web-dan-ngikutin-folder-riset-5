@@ -39,16 +39,16 @@ class SuratModel extends Model
 
     public function getSuratTim($idTim)
     {
-        $query = "SELECT surat_masuk.*, disposisi.id as id_disposisi FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN role_disposisi on disposisi.id = role_disposisi.id_disposisi WHERE role_disposisi.id_role = $idTim AND surat_masuk.status = 1";
+        $query = "SELECT surat_masuk.*, disposisi.id as id_disposisi FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN disposisi_user on disposisi.id = disposisi_user.id_disposisi JOIN users on disposisi_user.id_user=users.id JOIN auth_groups on users.auth_groups_id=auth_groups.id WHERE users.auth_groups_id = $idTim AND surat_masuk.status = 1";
         return $this->db->query($query)->getResultArray();
     }
 
     public function getUserFromSuratDisposisi($idSurat)
     {
         $this->where('surat_masuk.id', $idSurat);
-        $this->join('disposisi', 'surat_masuk.id=disposisi.id_surat');
-        $this->join('role_disposisi', 'disposisi.id=role_disposisi.id_disposisi');
-        $this->join('users', 'role_disposisi.id_role=users.auth_groups_id');
+        $this->join('disposisi', 'disposisi.id_surat=surat_masuk.id');
+        $this->join('disposisi_user', 'disposisi_user.id_disposisi=disposisi.id');
+        $this->join('users', 'users.auth_groups_id=disposisi_user.id_user');
         $this->select('users.email');
         return $this->findAll();
     }
@@ -57,8 +57,8 @@ class SuratModel extends Model
     {
         $this->where('surat_masuk.id', $idSurat);
         $this->join('disposisi', 'surat_masuk.id=disposisi.id_surat');
-        $this->join('role_disposisi', 'disposisi.id=role_disposisi.id_disposisi');
-        $this->join('users', 'role_disposisi.id_role=users.id');
+        $this->join('disposisi_user', 'disposisi.id=disposisi_user.id_disposisi');
+        $this->join('users', 'disposisi_user.id_user=users.auth_groups_id');
         $this->select('users.email');
         return $this->findAll();
     }

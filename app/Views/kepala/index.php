@@ -33,7 +33,7 @@
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Disposisi Kepada</label>
                                     <div class="mt-2 space-y-2">
                                         <?php foreach ($role as $row) : ?>
-                                            <?php if (($row["id"]) > 1 && ($row["id"]) < 8) : ?>
+                                            <?php if (($row["auth_groups_id"]) > 1 && ($row["auth_groups_id"]) < 8) : ?>
                                                 <div class="flex items-start">
                                                     <div class="flex items-center h-5">
                                                         <input type="checkbox" id="<?= $row["name"]; ?>" name="<?= $row["id"]; ?>" value="<?= $row["id"]; ?>" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
@@ -44,12 +44,12 @@
                                                 </div>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
-                                        <!-- <div id="tags-container">
+                                        <div id="tags-container">
                                             <div class="control-group">
                                                 <select id="tags" class="tags font-heading text-xs" placeholder="Tandai orang"></select>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="tags" id="tags_form"> -->
+                                        <input type="hidden" name="tags" id="tags_form">
                                     </div>
                                 </div>
                                 <div class="mb-3 sm:col-span-4">
@@ -99,10 +99,10 @@
             <select id="filterRole" name="role" class="rounded-md">
                 <option value="" class="rounded-md">Semua</option>
                 <?php foreach ($role as $r) : ?>
-                    <?php if ($r['id'] > 1 && $r['id'] < 8) : ?>
-                        <option value="<?= $r['id'] ?>" <?php if ($r['id'] == $roleId) {
-                                                            echo 'selected';
-                                                        } ?>><?= $r['description'] ?>
+                    <?php if ($r['auth_groups_id'] > 1 && $r['auth_groups_id'] < 8) : ?>
+                        <option value="<?= $r['auth_groups_id'] ?>" <?php if ($r['auth_groups_id'] == $roleId) {
+                                                                        echo 'selected';
+                                                                    } ?>><?= $r['description'] ?>
                         </option>
                     <?php endif ?>
                 <?php endforeach ?>
@@ -135,6 +135,7 @@
                         <td><?= $s['tanggal']; ?></td>
                         <td><?= $s['perihal']; ?></td>
                         <?php if ($s['disposisi'] == 0) : ?>
+
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
                                 <div class="flex items-center">
                                     <div class="px-2 py-1 w-11 mr-2 cursor-pointer text-center flex-auto justify-center justify-content-center bg-yellow-500 hover:bg-yellow-600 text-gray-100 rounded-lg shadow text-xs" id="disposisi-btn<?= $s['id']; ?>" onclick="modalDisposisi('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">

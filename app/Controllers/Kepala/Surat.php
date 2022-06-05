@@ -8,6 +8,7 @@ use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
 use App\Models\UserModel;
 use App\Models\RoleDisposisiModel;
+use App\Models\DisposisiUserModel;
 use DateTime;
 use PhpParser\Node\Stmt\Echo_;
 
@@ -21,6 +22,7 @@ class Surat extends BaseController
     protected $groupsModel;
     protected $userModel;
     protected $roleDisposisiModel;
+    protected $disposisiUserModel;
     // Memakai construct supaya manggilnya cukup sekali, karena nnti kalau upddate, delete butuh lagi
     public function __construct()
     {
@@ -30,6 +32,7 @@ class Surat extends BaseController
         $this->groupsModel = new GroupsModel();
         $this->userModel = new UserModel();
         $this->roleDisposisiModel = new RoleDisposisiModel();
+        $this->disposisiUserModel = new DisposisiUserModel();
     }
 
     public function index()
@@ -39,12 +42,12 @@ class Surat extends BaseController
         // Diganti dibawah pake method ifelse di file SuratModel
         $roleId = $this->request->getVar("role");
         $surat = $this->suratModel->getSuratKepala($roleId);
-
+        // dd($this->groupsModel->join('users', 'auth_groups.id=users.auth_groups_id', 'left')->get()->getResultArray());
         $data = [
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $surat,
-            'role' => $this->groupsModel->getGroups(),
+            'role' => $this->groupsModel->join('users', 'auth_groups.id=users.auth_groups_id', 'left')->get()->getResultArray(),
             'users' => $this->userModel->getUserAnggota(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
             'roleId' => $roleId
@@ -56,7 +59,7 @@ class Surat extends BaseController
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
-        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $id)->get()->getResultArray();
+        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('auth_groups', 'auth_groups.id=users.auth_groups_id')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
@@ -130,8 +133,6 @@ class Surat extends BaseController
             $fileGambar->move('gambar');
             // Ambil nama file
             $namaGambar = $fileGambar->getName();
-            $role = $this->groupsModel->getGroups();
-
 
 
             $query = $this->disposisiModel->save([
@@ -150,29 +151,37 @@ class Surat extends BaseController
                 echo json_encode(['code' => 0, 'msg' => 'Terjadi kesalahan']);
             }
 
+
+            $role = $this->groupsModel->join('users', 'auth_groups.id=users.auth_groups_id', 'left')->get()->getResultArray();
+
             foreach ($role as $row) {
                 if (($row["id"]) > 1) {
-                    // dd($this->request->getPost($row["id"]) !== null);
-                    $roleDisposisiModel = new RoleDisposisiModel();
-                    if ($this->request->getPost($row["id"]) !== null) {
-                        $roleDisposisiModel->insert([
+                    $disposisiUserModel = new DisposisiUserModel();
+                    $userId = $this->request->getPost($row["id"]);
+                    if ($userId != null) {
+                        // dd($userId);
+                        // dd($this->request->getPost($row["id"]));
+                        $disposisiUserModel->insert([
                             'id_disposisi' => $insert_id,
-                            'id_role' => $row["id"]
+                            'id_user' => intval($userId),
+                            'status_disposisi' => 1,
                         ]);
                     }
                 }
             }
 
-            // $tags = explode(",", $this->request->getVar('tags'));
+            $tags = explode(",", $this->request->getVar('tags'));
 
-            // foreach ($tags as $tag) {
-            //     $roleDisposisiModel = new RoleDisposisiModel();
-            //     $this->roleDisposisiModel->insert([
-            //         "id_disposisi" => $insert_id,
-            //         "id_user" => $tag,
-            //     ]);
-            // }
+            foreach ($tags as $tag) {
+                $disposisiUserModel = new DisposisiUserModel();
+                $this->disposisiUserModel->insert([
+                    "id_disposisi" => $insert_id,
+                    "id_user" => $tag,
+                    "status_disposisi" => 1,
+                ]);
+            }
         }
+        // dd($this->request->getVar('id_surat'));
         $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
