@@ -41,6 +41,19 @@ class SuratKeluarModel extends Model
         return $this->orderBy('status_persetujuan ASC, status_revisi ASC')->findAll();
     }
 
+    public function getNomorUrut($tahun = 0, $bulan = 0)
+    {
+        if ($tahun ==  0 && $bulan == 0) {
+            $query = "SELECT surat_keluar.* FROM `surat_keluar` ORDER BY created_at DESC";
+        } else {
+            $query = "SELECT surat_keluar.* FROM `surat_keluar` WHERE YEAR(tanggal_keluar) = $tahun AND MONTH(tanggal_keluar) = $bulan ORDER BY created_at DESC";
+        }
+        // $this->where('MONTH(tanggal_keluar)', $bulan);
+        // $this->where('YEAR(tanggal_keluar)', $tahun);
+        return $this->db->query($query)->getResultArray();
+    }
+
+
     public function getSuratKeluarRole($id_role)
     {
         $query = "SELECT surat_keluar.* FROM `surat_keluar` WHERE surat_keluar.role = $id_role";

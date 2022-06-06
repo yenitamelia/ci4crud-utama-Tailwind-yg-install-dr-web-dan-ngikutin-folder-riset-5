@@ -721,32 +721,19 @@
         <?php } else if ((in_array(session('auth_groups_id'), [3, 4, 5, 6, 7]))) { ?>
             let url = '/Tim/SuratKeluar/getNomorUrut'
         <?php } ?>
+        let isLate = false;
+        if (now.getYear() > tahun) {
+            isLate = true;
+        } else if (now.getMonth() + 1 > bulan) {
+            isLate = true;
+        }
         $.get(url, {
-            bulan: $('#bulan').val()
+            bulan: $('#bulan').val(),
+            tahun: $('#tahun').val(),
+            isLate: isLate
         }, (data) => {
-            if (data == 0) {
-                nomor = "001"
-            } else if (data < 9) {
-                nomor = parseInt(data) + 1
-                nomor = "00" + nomor
-            } else if (data < 99) {
-                nomor = parseInt(data) + 1
-                nomor = "0" + nomor
-            } else {
-                nomor = parseInt(data) + 1
-            }
-
-            let isLate = false;
-            if (now.getYear() > tahun) {
-                isLate = true;
-            } else if (now.getMonth() + 1 > bulan) {
-                isLate = true;
-            }
-
-
-            $('#label_nomor_urut').html(`B.3523.${nomor}${isLate ? '.A' : ''}/928${role}/${bulan}/${tahun}`)
-            // $('#label_nomor_urut').val("3523" + $('#role').val() + "." + nomor)
-            $('#nomor_urut').val(`B.3523${role}.${nomor}${isLate ? '.A' : ''}/928${role}/${bulan}/${tahun}`)
+            $('#label_nomor_urut').html(`B.3523.${data}/928${role}/${bulan}/${tahun}`)
+            $('#nomor_urut').val(`B.3523${role}.${data}/928${role}/${bulan}/${tahun}`)
         })
     }
 </script>

@@ -110,9 +110,31 @@ class SuratKeluar extends BaseController
 
     public function getNomorUrut()
     {
-        $query = $this->suratKeluarModel
-            ->countAllResults();
-        return $this->respond($query);
+        // $role = $this->request->getGet('role');
+        // $query = $this->suratModel
+        //     ->like('nomor_agenda', '3523' . $role)
+        //     ->countAllResults();
+        // return $this->respond($query);
+        // B35230.001.A
+
+        $isLate = $this->request->getGet('isLate');
+        $bulan = $this->request->getGet('bulan');
+        $tahun = $this->request->getGet('tahun');
+
+        if ($isLate == 'false') {
+            $query = $this->suratKeluarModel->getNomorUrut();
+            $nomor_urut = $query[0]['nomor_urut'];
+            return $this->respond(substr($nomor_urut, 7, 3) + 1);
+        } else {
+            $query = $this->suratKeluarModel->getNomorUrut($tahun, $bulan);
+            $nomor_urut = $query[0]['nomor_urut'];
+            $abjadableChar = substr($nomor_urut, 11, 1);
+            $lateSuratFound = ctype_alpha($abjadableChar);
+            $abjadUsed = $lateSuratFound ? chr(ord($abjadableChar) + 1) : '.A';
+            $usedLength = $lateSuratFound ? 4 : 3;
+            $result = substr($nomor_urut, 7, $usedLength) . $abjadUsed;
+            return $this->respond($result);
+        }
     }
 
     // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel

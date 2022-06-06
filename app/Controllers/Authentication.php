@@ -53,7 +53,7 @@ class Authentication extends BaseController
 
         $userModel = new UserModel();
         $user = $userModel->getUserByEmail($respond['email']);
-        if (!$user) {
+        if (!$user || $user["status_active"] == 0) {
             return redirect()->to('Login');
         }
 
