@@ -98,124 +98,6 @@ class SuratKeluar extends BaseController
         return view('surat/lembar', $data);
     }
 
-    public function create()
-    {
-        // Pake session agar tampilan errornya muncul
-        // Biar ga lupa2 makanya dipindah aja di BaseController
-        // session();
-        $role = 'durung ngerti';
-        $query = "SELECT COUNT(*) AS jumlah FROM `surat` WHERE nomor_agenda Like '3523$role%'";
-        dd($query);
-        $nomor_agenda = (int) $this->suratModel->query($query)->getRow()->jumlah;
-
-
-        $data = [
-            'title' => 'Form Tambah Surat Masuk',
-            'validation' => \Config\Services::validation(),
-            'nomor_agenda' => '3523' . $role . '.0' . $nomor_agenda + 1
-        ];
-
-        return view('kasubag/create', $data);
-    }
-
-    // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel
-    public function save()
-    {
-        // validasi input
-        if (!$this->validate([
-            'nomor_agenda' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tanggal_penerimaan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tk_keamanan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'tanggal' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'nomor_surat' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'dari' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'perihal' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
-            'lampiran' => [
-                // Kalau filenya boleh null uploadednya hapus aja
-                'rules' => 'uploaded[lampiran]|max_size[lampiran, 2048]|ext_in[lampiran,doc,docx,pdf]',
-                'errors' => [
-                    // Kalau filenya boleh null uploadednya hapus aja
-                    'uploaded' => 'Pilih file terlebih dahulu',
-                    'max_size' => 'Ukuran file harus dibawah 2Mb',
-                    'ext_in' => 'File hanya boleh berupa doc, docx dan pdf'
-                ]
-            ]
-        ])) {
-            // Mengambil pesan kesalahan
-            // Ini ngga perlu karena sebenernya udah ada didalam session
-            // $validation = \Config\Services::validation();
-            // Mengirimkan inputan beserta validasinya, inputnya ini dikirim ke session, makanya perlu aktifin session dulu
-            // return redirect()->to('/surat/edit/' . $id)->withInput()->with('validation', $validation);
-            // gaperlu ->with('validation',$validation karena withInput() aja udah cukup)
-            return redirect()->to('/Kasubag/Surat/create')->withInput();
-        }
-
-        // Mengambil semua data yg telah diinput
-        // $this->request->getVar();
-        $now = new DateTime();
-        // dd($now->format('Y-m-d H:i:s'));
-
-        // Ambil file
-        $fileLampiran = $this->request->getFile('lampiran');
-        // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
-        $fileLampiran->move('lampiran');
-        // Ambil nama file
-        $namaLampiran = $fileLampiran->getName();
-
-        $this->suratModel->save([
-            'nomor_agenda' => $this->request->getVar('nomor_agenda'),
-            'tanggal_penerimaan' => $this->request->getVar('tanggal_penerimaan'),
-            'tk_keamanan' => $this->request->getVar('tk_keamanan'),
-            'tanggal_penyelesaian' => $this->request->getVar('tanggal_penyelesaian'),
-            'tanggal' => $this->request->getVar('tanggal'),
-            'nomor_surat' => $this->request->getVar('nomor_surat'),
-            'dari' => $this->request->getVar('dari'),
-            'perihal' => $this->request->getVar('perihal'),
-            'lampiran' => $namaLampiran,
-            'created_at' => $now->format('Y-m-d H:i:s'),
-            'updated_at' => $now->format('Y-m-d H:i:s')
-        ]);
-
-        session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
-
-        return redirect()->to('/Kasubag/Surat');
-    }
-
     public function saveRevisi()
     {
 
@@ -241,11 +123,19 @@ class SuratKeluar extends BaseController
             // Mengambil semua data yg telah diinput
 
             // dd($this->request->getVar());
-            $this->suratKeluarRevisiModel->save([
-                // 'id' => $id,
-                'id_surat_keluar' => $this->request->getVar('id_surat'),
-                'pesan_revisi' => $this->request->getVar('pesan-revisi'),
-            ]);
+            $id_surat = $this->request->getVar('id_surat');
+            $revisi = $this->suratKeluarRevisiModel->where('id_surat_keluar', $id_surat)->first();
+            $pesan_revisi = $this->request->getVar('pesan-revisi');
+
+            if (isset($revisi['pesan_revisi'])) {
+                $this->suratKeluarRevisiModel->set('pesan_revisi', $pesan_revisi)->where('id_surat_keluar', $id_surat)->update();
+            } else {
+                // $this->suratKeluarRevisiModel->insert('pesan_revisi', $pesan_revisi);
+                $this->suratKeluarRevisiModel->save([
+                    'id_surat_keluar' => $this->request->getVar('id_surat'),
+                    'pesan_revisi' => $pesan_revisi,
+                ]);
+            }
         }
 
         $this->suratKeluarModel->set('status_revisi', 1)->where('id', $this->request->getVar('id_surat'))->update();

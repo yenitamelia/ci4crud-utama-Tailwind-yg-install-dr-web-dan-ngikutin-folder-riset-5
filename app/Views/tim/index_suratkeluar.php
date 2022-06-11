@@ -15,7 +15,8 @@
 
             <div class="mt-5 md:mt-0 md:col-span-2">
                 <form action="/Tim/SuratKeluar/saveUploadRevisi" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id_surat" id="idSurat">
+                    <input type="hidden" name="surat_id" id="Suratid">
+                    <input type="hidden" name="nomor_urut" id="nomor_urut">
                     <div class="shadow overflow-y-auto h-96 sm:rounded-md">
                         <div class="bg-white py-4 px-6">
                             <div class="grid gap-3">
@@ -146,12 +147,16 @@
                                     <div class="py-1 text-xs flex-auto bg-yellow-400 rounded-lg">Menunggu</div>
                                 <?php else : ?>
                                     <div class="flex items-center">
-                                        <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Disetujui</div>
-                                        <div class="flex-auto py-2">
-                                            <a href="/Tim/SuratKeluar/downloadttd/<?= $s['id']; ?>" class="flex bg-yellow-500 hover:bg-yellow-400 rounded pl-3 pr-4 py-2">
-                                                <img src="/img/download.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
-                                            </a>
-                                        </div>
+                                        <div class="py-1 text-xs mr-1 flex-auto px-2 bg-green-400 rounded-lg">Disetujui</div>
+                                        <?php if ($s['status_download'] == 0) : ?>
+                                            <div class="flex-auto py-2 rounded-xl text-xs">
+                                                <a href="/Tim/SuratKeluar/downloadttd/<?= $s['id']; ?>" class="bg-yellow-500 hover:bg-yellow-400 rounded-lg pl-3 pr-3 py-1">
+                                                    Download TTD
+                                                </a>
+                                            </div>
+                                        <?php else : ?>
+                                            <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Terdownload</div>
+                                        <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
                             </td>

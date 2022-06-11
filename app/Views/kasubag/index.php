@@ -129,7 +129,7 @@
                 <?php endforeach ?>
             </select>
         </div>
-        <?php if (session('auth_groups_id') == 2) : ?>
+        <?php if (session('role_id') == 2) : ?>
             <!-- Tombol Tambah Surat -->
             <a href="/Kasubag/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
         <?php endif; ?>
@@ -154,7 +154,7 @@
                         <td><?= $s['nomor_agenda']; ?></td>
                         <td><?= $s['tanggal']; ?></td>
                         <td><?= $s['perihal']; ?></td>
-                        <?php if ($s['disposisi'] == 0) : ?>
+                        <?php if ($s['status_disposisi'] == 0) : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
                                 <div class="flex items-center">
                                     <div class="py-1 text-xs flex-auto bg-yellow-400 rounded-lg">Menunggu</div>
@@ -162,7 +162,7 @@
                             </td>
                         <?php else : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
-                                <?php if ($s['status'] == 0) : ?>
+                                <?php if ($s['status_distribusi'] == 0) : ?>
                                     <div class="px-2 py-1 cursor-pointer text-center flex-auto justify-center justify-content-center bg-blue-400 hover:bg-blue-600 text-gray-100 rounded-lg shadow text-xs" id="disposisi-btn<?= $s['id']; ?>" onclick="modalDisposisiKasubag('<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">
                                         Kirim
                                     </div>

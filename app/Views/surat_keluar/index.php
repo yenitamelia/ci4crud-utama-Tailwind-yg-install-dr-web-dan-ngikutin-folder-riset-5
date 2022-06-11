@@ -7,7 +7,7 @@
     <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-center items-center z-30 w-full h-sceen" id="overlay">
         <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-12 z-20">
             <div class="flex justify-between items-center p-3">
-                <h4 class="font-bold">Nomor Urut</h4>
+                <h4 class="font-bold">Revisi Surat Keluar</h4>
                 <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
@@ -99,7 +99,7 @@
         </div>
     <?php endif; ?>
 
-    <?php if (session('auth_groups_id') == 2) : ?>
+    <?php if (session('role_id') == 2) : ?>
         <!-- Tombol Tambah Surat -->
         <a href="/Kasubag/suratKeluar/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Keluar</a>
     <?php endif; ?>
@@ -147,12 +147,16 @@
                                     <div class="py-1 text-xs flex-auto bg-yellow-400 rounded-lg">Menunggu</div>
                                 <?php else : ?>
                                     <div class="flex items-center">
-                                        <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Disetujui</div>
-                                        <div class="flex-auto py-2">
-                                            <a href="/Kasubag/SuratKeluar/downloadttd/<?= $s['id']; ?>" class="flex bg-yellow-500 hover:bg-yellow-400 rounded pl-3 pr-4 py-2">
-                                                <img src="/img/download.png" class="flex-auto w-1 h-3 mr-1" alt="gambar">
-                                            </a>
-                                        </div>
+                                        <div class="py-1 text-xs px-1 mr-1 flex-auto bg-green-400 rounded-lg">Disetujui</div>
+                                        <?php if ($s['status_download'] == 0) : ?>
+                                            <div class="flex-auto py-2 rounded-xl text-xs">
+                                                <a href="/Kasubag/SuratKeluar/downloadttd/<?= $s['id']; ?>" class="bg-yellow-500 hover:bg-yellow-400 rounded-lg pl-3 pr-3 py-1">
+                                                    Download TTD
+                                                </a>
+                                            </div>
+                                        <?php else : ?>
+                                            <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Terdownload</div>
+                                        <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
                             </td>

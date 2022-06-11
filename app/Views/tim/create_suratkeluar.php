@@ -10,27 +10,28 @@
         <form action="/Tim/SuratKeluar/saveSuratKeluar" method="post" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <!-- Menyimpan file lampiran lama biar ga bermasalah waktu yg diganti cuman judulnya aja, dst -->
-            <div class="grid grid-cols-5">
-                <label for="nomor_urut">Nomor Urut</label>
-                <label class="col-span-2 " id="label_nomor_urut"><?= $nomor_urut; ?></label>
+            <input type="text" id="id_role" name="id_role" value="<?= session('role_id') ?>" hidden>
+            <div class="grid grid-cols-12">
+                <label class="col-span-2" for="nomor_urut">Nomor Urut</label>
+                <label class="col-span-4 text-left" id="label_nomor_urut"><?= $nomor_urut; ?></label>
                 <input type="text" id="nomor_urut" name="nomor_urut" class="col-span-2 border-2 rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= $nomor_urut ?>" hidden>
-                <div class="col-span-2 grid grid-cols-3">
-                    <div class="grid grid-cols-2">
+                <div class="col-span-6 grid grid-cols-3">
+                    <div class="grid grid-cols-3">
                         <label for="role">Role</label>
-                        <select id="role" name="role">
+                        <select class="col-span-2" id="role" name="role" style="width:80px;">
                             <option value="0">Kepala</option>
                             <option value="1">Kasubbag Umum/Ketua Tim</option>
                         </select>
                     </div>
                     <div class="grid grid-cols-2">
-                        <label for="tahun">Tahun</label>
+                        <label class="ml-1" for="tahun">Tahun</label>
                         <input type="number" min="1" id="tahun" name="tahun"></input>
                     </div>
                     <div class="grid grid-cols-2">
-                        <label for="bulan">Bulan</label>
+                        <label class="ml-1" for="bulan">Bulan</label>
                         <select id="bulan" name="bulan">
                             <?php for ($x = 1; $x <= 12; $x++) : ?>
-                                <option value=" <?= '0' . $x ?> "><?= $x ?></option>
+                                <option value="<?= '0' . $x ?>"><?= $x ?></option>
                             <?php endfor ?>
                         </select>
                     </div>

@@ -59,22 +59,22 @@ class Authentication extends BaseController
 
         session()->set($user);
         session()->set('log', true);
-        if ($user['auth_groups_id'] == 1) {
+        if ($user['role_id'] == 1) {
 
             return redirect()->to(base_url('Kepala/Surat'));
-        } elseif ($user['auth_groups_id'] == 2) {
+        } elseif ($user['role_id'] == 2) {
 
             return redirect()->to(base_url('Kasubag/Surat'));
-        } elseif (in_array($user['auth_groups_id'], [3, 4, 5, 6, 7])) {
+        } elseif (in_array($user['role_id'], [3, 4, 5, 6, 7])) {
 
             return redirect()->to(base_url('Tim/Surat'));
-        } elseif ($user['auth_groups_id'] == 8) {
+        } elseif ($user['role_id'] == 8) {
 
             return redirect()->to(base_url('AnggotaTim/Surat'));
-        } elseif ($user['auth_groups_id'] == 9) {
+        } elseif ($user['role_id'] == 9) {
 
             return redirect()->to(base_url('Admin/User'));
-        } elseif ($user['auth_groups_id'] == 10) {
+        } elseif ($user['role_id'] == 10) {
 
             return redirect()->to(base_url('Operator/Surat'));
         }

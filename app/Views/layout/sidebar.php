@@ -75,8 +75,9 @@
 <body id="page-top">
     <div class="sidebar open">
         <div class="logo-details">
-            <i class='bx bxl-c-plus-plus icon'></i>
-            <div class="logo_name">SIMA</div>
+            <i class='bx bx-mail-send icon'></i>
+            <!-- <i class='bx bxl-c-plus-plus icon'></i> -->
+            <div class="logo_name">E-Surat</div>
             <i class='bx bx-menu' id="btn"></i>
         </div>
         <ul class="nav-list">
@@ -86,7 +87,7 @@
                 <span class="tooltip">Search</span>
             </li> -->
             <li>
-                <?php if (in_array(session()->auth_groups_id, [1, 2, 3, 4, 5, 6, 7, 8, 9])) : ?>
+                <?php if (session('role_id') == 2) : ?>
                     <a href="/Kasubag/Home">
                         <i class='bx bx-grid-alt'></i>
                         <span class="links_name">Dashboard</span>
@@ -95,7 +96,7 @@
                 <?php endif; ?>
             </li>
             <li>
-                <?php if (session('auth_groups_id') == 9) : ?>
+                <?php if (session('role_id') == 9) : ?>
                     <a href="/Admin/Role">
                         <i class='bx bx-user'></i>
                         <span class="links_name">Role</span>
@@ -103,7 +104,7 @@
                 <?php endif; ?>
             </li>
             <li>
-                <?php if (session('auth_groups_id') == 9) : ?>
+                <?php if (session('role_id') == 9) : ?>
                     <a href="/Admin/User">
                         <i class='bx bx-group'></i>
                         <span class="links_name">All User</span>
@@ -111,23 +112,23 @@
                 <?php endif; ?>
             </li>
             <li>
-                <?php if (session('auth_groups_id') == 1) : ?>
+                <?php if (session('role_id') == 1) : ?>
                     <a href="/kepala/surat">
                         <i class='bx bx-archive-in'></i>
                         <span class="links_name">Surat Masuk</span>
-                    <?php elseif (session('auth_groups_id') == 2) : ?>
+                    <?php elseif (session('role_id') == 2) : ?>
                         <a href="/kasubag/surat">
                             <i class='bx bx-archive-in'></i>
                             <span class="links_name">Surat Masuk</span>
-                        <?php elseif (in_array(session()->auth_groups_id, [3, 4, 5, 6, 7])) : ?>
+                        <?php elseif (in_array(session()->role_id, [3, 4, 5, 6, 7])) : ?>
                             <a href="/tim/surat/">
                                 <i class='bx bx-archive-in'></i>
                                 <span class="links_name">Surat Masuk</span>
-                            <?php elseif (session('auth_groups_id') == 8) : ?>
+                            <?php elseif (session('role_id') == 8) : ?>
                                 <a href="/anggotaTim/surat/">
                                     <i class='bx bx-archive-in'></i>
                                     <span class="links_name">Surat Masuk</span>
-                                <?php elseif (session('auth_groups_id') == 10) : ?>
+                                <?php elseif (session('role_id') == 10) : ?>
                                     <a href="/operator/surat/">
                                         <i class='bx bx-archive-in'></i>
                                         <span class="links_name">Surat Masuk</span>
@@ -139,7 +140,7 @@
                 <?php endif; ?>
             </li>
             <li>
-                <?php if (session('auth_groups_id') == 2) : ?>
+                <?php if (session('role_id') == 2) : ?>
                     <a href="/Kasubag/Surat/indexx">
                         <i class='bx bx-archive'></i>
                         <span class="links_name">Menerima Disposisi</span>
@@ -147,19 +148,19 @@
                 <?php endif; ?>
             </li>
             <li>
-                <?php if (session('auth_groups_id') == 1) : ?>
+                <?php if (session('role_id') == 1) : ?>
                     <a href="/Kepala/SuratKeluar">
                         <i class='bx bx-archive-out'></i>
                         <span class="links_name">Surat Keluar</span>
-                    <?php elseif (session('auth_groups_id') == 2) : ?>
+                    <?php elseif (session('role_id') == 2) : ?>
                         <a href="/Kasubag/SuratKeluar">
                             <i class='bx bx-archive-in'></i>
                             <span class="links_name">Surat Keluar</span>
-                        <?php elseif (in_array(session()->auth_groups_id, [3, 4, 5, 6, 7])) : ?>
+                        <?php elseif (in_array(session()->role_id, [3, 4, 5, 6, 7])) : ?>
                             <a href="/Tim/SuratKeluar/">
                                 <i class='bx bx-archive-in'></i>
                                 <span class="links_name">Surat Keluar</span>
-                            <?php elseif (session('auth_groups_id') == 10) : ?>
+                            <?php elseif (session('role_id') == 10) : ?>
                                 <a href="/Operator/SuratKeluar/">
                                     <i class='bx bx-archive-out'></i>
                                     <span class="links_name">Surat Keluar</span>
@@ -534,7 +535,7 @@
         }, (data) => {
             li = ''
             data.forEach(d => {
-                if (d["auth_groups_id"] == 8) {
+                if (d["role_id"] == 8) {
                     li += `<li>${d.fullname}</li>`
                 } else {
                     li += `<li>${d.description}</li>`
@@ -641,6 +642,25 @@
             overlay.style.display = "none";
         }
 
+        <?php if (session('role_id') == 2) { ?>
+            let urlRevisi = '/Kasubag/SuratKeluar/modalRevisi'
+        <?php } else if ((in_array(session('role_id'), [3, 4, 5, 6, 7]))) { ?>
+            let urlRevisi = '/Tim/SuratKeluar/modalRevisi'
+        <?php } ?>
+        $.get(urlRevisi, {
+            surat_id: id
+        }, (data) => {
+            $("#pesan-revisi").val(data[0]['pesan_revisi']);
+            console.log(data);
+        })
+
+        // $.get('/Tim/SuratKeluar/modalRevisi', {
+        //     surat_id: id
+        // }, (data) => {
+        //     $("#pesan-revisi").val(data[0]['pesan_revisi']);
+        //     console.log(data);
+        // })
+
         $("#Suratid").val(id);
         $("#nomor_urut").val(nomor_urut);
         $("#perihalSurat").val(perihal);
@@ -716,9 +736,9 @@
         let bulan = $('#bulan').val();
         let role = $('#role').val();
 
-        <?php if (session('auth_groups_id') == 2) { ?>
+        <?php if (session('role_id') == 2) { ?>
             let url = '/Kasubag/SuratKeluar/getNomorUrut'
-        <?php } else if ((in_array(session('auth_groups_id'), [3, 4, 5, 6, 7]))) { ?>
+        <?php } else if ((in_array(session('role_id'), [3, 4, 5, 6, 7]))) { ?>
             let url = '/Tim/SuratKeluar/getNomorUrut'
         <?php } ?>
         let isLate = false;
@@ -733,7 +753,7 @@
             isLate: isLate
         }, (data) => {
             $('#label_nomor_urut').html(`B.3523.${data}/928${role}/${bulan}/${tahun}`)
-            $('#nomor_urut').val(`B.3523${role}.${data}/928${role}/${bulan}/${tahun}`)
+            $('#nomor_urut').val(`B.3523.${data}/928${role}/${bulan}/${tahun}`)
         })
     }
 </script>

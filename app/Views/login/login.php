@@ -21,7 +21,7 @@
 
             <div class="bg-white shadow-2xl rounded-md w-full py-14 px-20 my-auto">
                 <div class="space-y-4">
-                    <p tabindex="0" class="mb-7 focus:outline-none text-center text-xl font-extrabold leading-6 text-gray-800">Login to SIMRAT</p>
+                    <p tabindex="0" class="mb-7 focus:outline-none text-center text-xl font-extrabold leading-6 text-gray-800">Login to E-SURAT</p>
                     <div class="flex items-center justify-center">
                         <img src="/img/bps.png" class="w-40 h-32" alt="logo BPS">
                     </div>

@@ -20,8 +20,8 @@ class DisposisiModel extends Model
     public function getIdRole($id)
     {
         $builder = $this->db->table('disposisi');
-        $builder->join('auth_groups', 'disposisi.id_role=auth_groups.id');
-        $builder->select('disposisi.*,auth_groups.description');
+        $builder->join('role', 'disposisi.id_role=role.id');
+        $builder->select('disposisi.*,role.description');
         $builder->where('disposisi.id_surat', $id);
         return $builder->get()->getResultArray();
     }

@@ -10,6 +10,7 @@ use App\Models\GroupsModel;
 use App\Models\UserModel;
 use App\Models\RoleDisposisiModel;
 use App\Models\DisposisiUserModel;
+use CodeIgniter\API\ResponseTrait;
 use DateTime;
 use PhpParser\Node\Stmt\Echo_;
 
@@ -18,6 +19,7 @@ use PhpParser\Node\Stmt\Echo_;
 class Surat extends BaseController
 {
     // protected karena biar bisa dipanggil dikelas ini maupun kelas turunannya
+    use ResponseTrait;
     protected $suratModel;
     protected $disposisiModel;
     protected $groupsModel;
@@ -79,7 +81,7 @@ class Surat extends BaseController
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
-        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('auth_groups', 'auth_groups.id=users.auth_groups_id')->where('disposisi.id_surat', $id)->get()->getResultArray();
+        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('role', 'role.id=users.role_id')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
@@ -114,7 +116,15 @@ class Surat extends BaseController
     public function download($id)
     {
         $surat = $this->suratModel->find($id);
-        return $this->response->download('lampiran/' . $surat['lampiran'], null);
+        return $this->response->download('file_masuk/' . $surat['file_masuk'], null);
+    }
+
+    public function modaldisposisikepada()
+    {
+        $surat_id = $this->request->getGet('surat_id');
+        // $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('role', 'role.id=role_disposisi.id_role')->where('disposisi.id_surat', $surat_id)->get()->getResultArray();
+        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('role', 'role.id=users.role_id')->where('disposisi.id_surat', $surat_id)->get()->getResultArray();
+        return $this->respond($query);
     }
 
     public function saveTandai()
@@ -141,6 +151,7 @@ class Surat extends BaseController
         if ($validation->run() == FALSE) {
             $errors = $validation->getErrors();
             echo json_encode(['code' => 0, 'error' => $errors]);
+            return;
         } else {
             $id_disposisi = $this->request->getVar('id_disposisi');
             $tags = explode(",", $this->request->getVar('tags'));

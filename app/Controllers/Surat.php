@@ -283,7 +283,7 @@ class Surat extends BaseController
                 }
             }
         }
-        $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
+        $this->suratModel->set('status_disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
         return redirect()->to('/surat');

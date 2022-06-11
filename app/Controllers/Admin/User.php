@@ -72,7 +72,7 @@ class User extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'auth_groups_id' => [
+            'role_id' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} harus diisi.'
@@ -98,7 +98,7 @@ class User extends BaseController
         $this->userModel->insert([
             'email' => $this->request->getVar('email'),
             'fullname' => $this->request->getVar('fullname'),
-            'auth_groups_id' => $this->request->getVar('auth_groups_id'),
+            'role_id' => $this->request->getVar('role_id'),
             'created_at' => $now->format('Y-m-d H:i:s'),
             'updated_at' => $now->format('Y-m-d H:i:s')
         ]);
@@ -140,7 +140,7 @@ class User extends BaseController
                     'required' => '{field} harus diisi.'
                 ]
             ],
-            'auth_groups_id' => [
+            'role_id' => [
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} harus diisi.'
@@ -164,7 +164,7 @@ class User extends BaseController
             'id' => $id,
             'email' => $this->request->getVar('email'),
             'fullname' => $this->request->getVar('fullname'),
-            'auth_groups_id' => $this->request->getVar('auth_groups_id'),
+            'role_id' => $this->request->getVar('role_id'),
             'updated_at' => $now->format('Y-m-d H:i:s')
         ]);
 

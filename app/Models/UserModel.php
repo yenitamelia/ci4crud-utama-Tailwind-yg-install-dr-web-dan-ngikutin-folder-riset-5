@@ -10,7 +10,7 @@ class UserModel extends Model
     protected $userTimestamps = true;
     // Karena ditabel surat ada beberapa atribut yg gadipakai misalnya id, updated_at, delete_at
     // Maka harus diberitahu mana fields yg boleh diisi
-    protected $allowedFields = ['id', 'email', 'fullname', 'auth_groups_id', 'status_active', 'created_at', 'updated_at'];
+    protected $allowedFields = ['id', 'email', 'fullname', 'role_id', 'status_active', 'created_at', 'updated_at'];
 
     public function getUser($id = false)
     {
@@ -24,7 +24,7 @@ class UserModel extends Model
     public function getUserAnggota()
     {
         $builder = $this->db->table('users');
-        $builder->where('auth_groups_id', 8);
+        $builder->where('role_id', 8);
         return $builder->get()->getResultArray();
     }
 
@@ -32,7 +32,7 @@ class UserModel extends Model
     {
         $builder = $this->db->table('users');
         $builder->select('*');
-        $builder->where('auth_groups_id', $roleId);
+        $builder->where('role_id', $roleId);
         return $builder->get()->getResultArray();
     }
 
@@ -40,22 +40,22 @@ class UserModel extends Model
     {
         $builder = $this->db->table('users');
         $builder->select('*');
-        $builder->where('auth_groups_id', $roleId);
+        $builder->where('role_id', $roleId);
         return $this->findAll();
     }
 
     public function getUserByEmail($email)
     {
-        $this->join('auth_groups', 'users.auth_groups_id=auth_groups.id');
-        $this->select('users.*, auth_groups.description as role_name');
-        $this->select('users.*, auth_groups.id as role_id');
+        $this->join('role', 'users.role_id=role.id');
+        $this->select('users.*, role.description as role_name');
+        $this->select('users.*, role.id as role_id');
         $this->where('email', $email);
         return $this->first();
     }
 
     public function getUsers()
     {
-        $query = "SELECT auth_groups.*, users.* FROM auth_groups JOIN users on auth_groups.id = users.auth_groups_id";
+        $query = "SELECT role.*, users.* FROM role JOIN users on role.id = users.role_id";
         return $this->db->query($query)->getResultArray();
     }
 

@@ -34,10 +34,10 @@
                 </div>
             </div>
             <div class="mb-3 grid grid-cols-3">
-                <label for="auth_groups_id">Role</label>
-                <select id="auth_groups_id" name="auth_groups_id">
+                <label for="role_id">Role</label>
+                <select id="role_id" name="role_id">
                     <?php foreach ($groups as $r) : ?>
-                        <?php if ($r['id'] == $users['auth_groups_id']) : ?>
+                        <?php if ($r['id'] == $users['role_id']) : ?>
                             <option value="<?= $r['id'] ?>" selected><?= $r['description']; ?></option>
                         <?php else : ?>
                             <option value="<?= $r['id'] ?>"><?= $r['description']; ?></option>
@@ -48,7 +48,7 @@
             <div class="mb-3 grid grid-cols-3">
                 <div></div>
                 <div class="items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-                    <?= $validation->getError('auth_groups_id'); ?>
+                    <?= $validation->getError('role_id'); ?>
                 </div>
             </div>
             <div class="flex justify-end">

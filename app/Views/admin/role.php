@@ -46,7 +46,7 @@
         </div>
     <?php endif; ?>
 
-    <?php if (session('auth_groups_id') == 2) : ?>
+    <?php if (session('role_id') == 2) : ?>
         <!-- Tombol Tambah Surat -->
         <a href="/Admin/role/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Role Baru</a>
     <?php endif; ?>

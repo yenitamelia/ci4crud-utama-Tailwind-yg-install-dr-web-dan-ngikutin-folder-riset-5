@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="flex py-2 ml-1">
-                    <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
+                    <a href="/Tim/Surat/download/<?= $surat['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
                         <img src="/img/download.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
                         <span class="flex-auto text-xs">Download</span>
                     </a>
@@ -84,7 +84,7 @@
                         <?php $i = 1;
                         foreach ($role as $r) : ?>
                             <?php if ($r['status_disposisi'] == 1) : ?>
-                                <?php if ($r['auth_groups_id'] == 8) : ?>
+                                <?php if ($r['role_id'] == 8) : ?>
                                     <?= $i . '. ' . $r['fullname'] . '<br>';  ?>
                                 <?php else : ?>
                                     <?= $i . '. ' . $r['description'] . '<br>';  ?>
@@ -101,7 +101,7 @@
     <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-end items-left z-30 w-full h-screen" id="overlay">
         <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-2 z-20 w-4/5 h-screen">
             <div class="flex justify-between items-center p-1">
-                <h4 class="font-bold" id="noSurat">Surat No. </h4>
+                <h4 class="font-bold" id="noSurat"></h4>
                 <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
@@ -191,7 +191,7 @@
                                 <?php $i = 1;
                                 foreach ($role as $r) : ?>
                                     <?php if ($r['status_disposisi'] == 1) : ?>
-                                        <?php if ($r['auth_groups_id'] == 8) : ?>
+                                        <?php if ($r['role_id'] == 8) : ?>
                                             <?= $i . '. ' . $r['fullname'] . '<br>';  ?>
                                         <?php else : ?>
                                             <?= $i . '. ' . $r['description'] . '<br>';  ?>
@@ -211,7 +211,7 @@
 
 
 
-        <?php if (session('auth_groups_id') == 1) : ?>
+        <?php if (session('role_id') == 1) : ?>
 
             <div class="mt-5">
                 <!-- <iframe src="lampiran/" height="100%" width="100%" title="W3Schools Free Online Web Tutorials"></iframe> -->
@@ -225,7 +225,7 @@
         <!-- <a href="/surat/edit/?= $surat['id']; ?>" class="mb-5 bg-yellow-500 rounded-xl text-sm text-white px-3 py-1">Edit</a> -->
         <!-- <a href="/Kasubag/surat/lembar/?= $surat['id']; ?>" class="mb-5 bg-blue-700 rounded-xl text-sm text-white px-3 py-1">Lembar</a> -->
 
-        <!-- <?php if (session('auth_groups_id') != 2) : ?>
+        <!-- <?php if (session('role_id') != 2) : ?>
             <a href="/Kasubag/Surat/download/<?= $surat['id']; ?>" class="mb-5 bg-blue-300 rounded-xl text-sm text-white px-3 py-1">Download File</a>
         <?php endif; ?> -->
 

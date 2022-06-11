@@ -54,7 +54,7 @@ class Surat extends BaseController
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
-        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('auth_groups', 'auth_groups.id=role_disposisi.id_role')->where('disposisi.id_surat', $id)->get()->getResultArray();
+        $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('role', 'role.id=role_disposisi.id_role')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),

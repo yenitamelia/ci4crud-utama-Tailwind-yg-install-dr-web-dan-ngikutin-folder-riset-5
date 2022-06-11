@@ -14,8 +14,9 @@
             <input type="hidden" name="file_keluarLama" value="<?= $surat_keluar['file_keluar']; ?>">
             <div class="grid grid-cols-3">
                 <label for="nomor_urut">Nomor Urut</label>
+                <label for="nomor_urut"><?= (old('nomor_urut')) ? old('nomor_urut') : $surat_keluar['nomor_urut'] ?></label>
                 <!-- valuenya dikasih pengkondisian,biar apabila ada data yg diubah, trus misal gagal waktu mencet ubah data, biar data yg udah diubah barusan tadi ga ilang/balik ke value aslinya sebelum diubah, alias data yg diubah terakhir ini masih kesimpan-->
-                <input type="text" id="nomor_urut" name="nomor_urut" class="col-span-2 border-2 <?= ($validation->hasError('nomor_urut')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= (old('nomor_urut')) ? old('nomor_urut') : $surat_keluar['nomor_urut'] ?>">
+                <input type="text" id="nomor_urut" name="nomor_urut" class="col-span-2 border-2 <?= ($validation->hasError('nomor_urut')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= (old('nomor_urut')) ? old('nomor_urut') : $surat_keluar['nomor_urut'] ?>" hidden>
             </div>
             <div class="mb-3 grid grid-cols-3">
                 <div></div>

@@ -31,8 +31,8 @@
                 </div>
             </div>
             <div class="mb-3 grid grid-cols-3">
-                <label for="auth_groups_id">Role</label>
-                <select id="auth_groups_id" name="auth_groups_id">
+                <label for="role_id">Role</label>
+                <select id="role_id" name="role_id">
                     <?php foreach ($groups as $r) : ?>
                         <?php if ($r['id']) : ?>
                             <option value=" <?= $r['id'] ?> "><?= $r['description'] ?></option>

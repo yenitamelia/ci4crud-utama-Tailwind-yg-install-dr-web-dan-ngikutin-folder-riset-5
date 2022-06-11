@@ -6,7 +6,7 @@
     <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-center items-center z-30 w-full h-sceen" id="overlay">
         <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-12 z-20">
             <div class="flex justify-between items-center p-3">
-                <h4 class="font-bold" id="noSurat">Disposisi Surat No. </h4>
+                <h4 class="font-bold" id="noSurat">Disposisi Surat</h4>
                 <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
@@ -79,7 +79,7 @@
                         <td><?= $s['nomor_agenda']; ?></td>
                         <td><?= $s['tanggal']; ?></td>
                         <td><?= $s['perihal']; ?></td>
-                        <?php if ($s['disposisi'] == 0) : ?>
+                        <?php if ($s['status_disposisi'] == 0) : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
                                 <div class="flex items-center">
                                     <div class="py-1 text-xs flex-auto bg-yellow-400 rounded-lg">Menunggu</div>
@@ -87,7 +87,7 @@
                             </td>
                         <?php else : ?>
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
-                                <?php if ($s['status'] == 0) : ?>
+                                <?php if ($s['status_distribusi'] == 0) : ?>
                                     <div class="py-1 text-xs flex-auto bg-yellow-400 rounded-lg">Menunggu</div>
                                 <?php else : ?>
                                     <div class="flex items-center">

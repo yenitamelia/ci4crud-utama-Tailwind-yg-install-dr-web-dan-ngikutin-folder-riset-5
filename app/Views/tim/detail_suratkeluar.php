@@ -16,23 +16,23 @@
                     <img src="/img/file.png" class="w-4/6 cursor-pointer" id="lihat-btn<?= $surat_keluar['id']; ?>" onclick="modalpdfSuratKeluar('<?= $surat_keluar['id']; ?>','<?= $surat_keluar['nomor_urut']; ?>')" alt="gambar">
                 </div>
                 <div class="flex pt-2 ml-5">
-                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-3 py-1 cursor-pointer">
+                    <div class="flex bg-blue-300 hover:bg-blue-400 rounded px-3 py-2 cursor-pointer" id="disposisi-btn<?= $surat_keluar['id']; ?>" onclick="modalpdfSuratKeluar('<?= $surat_keluar['id']; ?>','<?= $surat_keluar['nomor_urut']; ?>')">
                         <img src="/img/eye.png" class="flex-auto w-5 h-5 mr-1" alt="gambar">
-                        <div class="flex-auto" id="disposisi-btn<?= $surat_keluar['id']; ?>" onclick="modalpdf('<?= $surat_keluar['id']; ?>','<?= $surat_keluar['nomor_urut']; ?>')">Lihat</div>
+                        <div class="flex-auto">Lihat</div>
                     </div>
                 </div>
                 <div class="flex py-2 ml-1">
-                    <a href="/Kasubag/SuratKeluar/download/<?= $surat_keluar['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded px-3 py-1">
+                    <a href="/Tim/SuratKeluar/download/<?= $surat_keluar['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded px-3 py-1">
                         <img src="/img/download.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
                         <span class="flex-auto">Download</span>
                     </a>
                 </div>
-                <div class="flex ml-5">
+                <!-- <div class="flex ml-5">
                     <a href="/Kasubag/SuratKeluar/download/<?= $surat_keluar['id']; ?>" class="flex bg-gray-300 hover:bg-gray-400 rounded pl-3 pr-4 py-2">
                         <img src="/img/printing.png" class="flex-auto w-4 h-4 mr-1" alt="gambar">
                         <span class="flex-auto text-xs">Print</span>
                     </a>
-                </div>
+                </div> -->
             </div>
             <div class="col-span-4">
                 <div class="grid grid-cols-3 gap-8 mb-2">
@@ -74,8 +74,8 @@
     <div class="bg-black bg-opacity-50 fixed inset-0 hidden justify-end items-left z-30 w-full h-screen" id="overlay">
         <div class="bg-white py-2 px-3 rounded shadow-xl text-gray-800 absolute top-2 z-20 w-4/5 h-screen">
             <div class="flex justify-between items-center p-1">
-                <h4 class="font-bold" id="noSurat">Surat No. </h4>
-                <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal" fill="currentColor" viewBox="0 0 20 20">
+                <h4 class="font-bold" id="noSurat"></h4>
+                <svg class="h-6 w-6 cursor-pointer p-1 hover:bg-gray-300 rounded-full" id="close-modal-keluar" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
             </div>
@@ -84,7 +84,7 @@
     </div>
 
     <div class="w3-container w3-light-grey w3-padding">
-        <?php if (session('auth_groups_id') == 1) : ?>
+        <?php if (session('role_id') == 1) : ?>
             <div class="text-2xl mt-2">Form Disposisi</div>
             <!-- Nampilin pesan error di view -->
             <form action="/surat/saveDisposisi/<?= $surat['id']; ?>" method="post" enctype="multipart/form-data" id="saveDisposisi">

@@ -5,6 +5,7 @@ namespace App\Controllers\Tim;
 use App\Controllers\BaseController;
 use App\Models\SuratModel;
 use App\Models\SuratKeluarModel;
+use App\Models\SuratKeluarRevisiModel;
 use App\Models\DisposisiModel;
 use App\Models\GroupsModel;
 use App\Models\RoleDisposisiModel;
@@ -21,6 +22,7 @@ class SuratKeluar extends BaseController
     use ResponseTrait;
     protected $suratModel;
     protected $suratKeluarModel;
+    protected $suratKeluarRevisiModel;
     protected $disposisiModel;
     protected $groupsModel;
     protected $roleDisposisiModel;
@@ -31,6 +33,7 @@ class SuratKeluar extends BaseController
         // Memanggil/menghubungkan dari file SuratModel
         $this->suratModel = new SuratModel();
         $this->suratKeluarModel = new SuratKeluarModel();
+        $this->suratKeluarRevisiModel = new SuratKeluarRevisiModel();
         $this->disposisiModel = new DisposisiModel();
         $this->groupsModel = new GroupsModel();
         $this->roleDisposisiModel = new RoleDisposisiModel();
@@ -74,9 +77,24 @@ class SuratKeluar extends BaseController
 
     public function getNomorUrut()
     {
-        $query = $this->suratKeluarModel
-            ->countAllResults();
-        return $this->respond($query);
+        $isLate = $this->request->getGet('isLate');
+        $bulan = $this->request->getGet('bulan');
+        $tahun = $this->request->getGet('tahun');
+
+        if ($isLate == 'false') {
+            $query = $this->suratKeluarModel->getNomorUrut();
+            $nomor_urut = $query[0]['nomor_urut'];
+            return $this->respond(substr($nomor_urut, 7, 3) + 1);
+        } else {
+            $query = $this->suratKeluarModel->getNomorUrut($tahun, $bulan);
+            $nomor_urut = $query[0]['nomor_urut'];
+            $abjadableChar = substr($nomor_urut, 11, 1);
+            $lateSuratFound = ctype_alpha($abjadableChar);
+            $abjadUsed = $lateSuratFound ? chr(ord($abjadableChar) + 1) : '.A';
+            $usedLength = $lateSuratFound ? 4 : 3;
+            $result = substr($nomor_urut, 7, $usedLength) . $abjadUsed;
+            return $this->respond($result);
+        }
     }
 
     public function lembar($id)
@@ -191,11 +209,12 @@ class SuratKeluar extends BaseController
         // Ambil file
         $fileLampiran = $this->request->getFile('file_keluar');
         // Ambil nama file
-        $namaLampiran = $this->request->getVar('nomor_urut') . ' ' . $fileLampiran->getName();
+        $namaLampiran =  str_replace("/", "", $this->request->getVar('nomor_urut')) . ' ' . $fileLampiran->getName();
         // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
         $fileLampiran->move('file_keluar', $namaLampiran);
 
         $this->suratKeluarModel->insert([
+            'role' => $this->request->getVar('id_role'),
             'nomor_urut' => $this->request->getVar('nomor_urut'),
             'alamat' => $this->request->getVar('alamat'),
             'perihal' => $this->request->getVar('perihal'),
@@ -211,6 +230,47 @@ class SuratKeluar extends BaseController
         session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
 
         return redirect()->to('/Tim/SuratKeluar');
+    }
+
+    public function saveUploadRevisi()
+    {
+        // validasi input
+        if (!$this->validate([
+            'file_keluar' => [
+                // Kalau filenya boleh null uploadednya hapus aja
+                'rules' => 'max_size[file_keluar, 2048]|ext_in[file_keluar,pdf]',
+                'errors' => [
+                    // Kalau filenya boleh null uploadednya hapus aja
+                    'max_size' => 'Ukuran file harus dibawah 2Mb',
+                    'ext_in' => 'File hanya boleh berupa pdf'
+                ]
+            ]
+
+        ])) {
+        }
+
+        // Mengambil file lampiran
+        $fileLampiran = $this->request->getFile('file_keluar');
+        // Ambil nama file
+        $namaLampiran = str_replace("/", "", $this->request->getVar('nomor_urut')) . ' ' . $fileLampiran->getName();
+
+        // Pindahkan file ke folder lampiran, masuk ke folder public folder lampiran
+        $fileLampiran->move('file_keluar/', $namaLampiran);
+
+        $this->suratKeluarModel->set(['status_revisi' => 0, 'file_keluar' => $namaLampiran])
+            ->where('id', $this->request->getVar('surat_id'))->update();
+
+        session()->setFlashdata('pesan', 'Revisi surat berhasil dikirim.');
+
+        return redirect()->to('/Tim/SuratKeluar');
+    }
+
+    public function modalRevisi()
+    {
+        $surat_id = $this->request->getGet('surat_id');
+        // $query = $this->roleDisposisiModel->join('disposisi', 'disposisi.id=role_disposisi.id_disposisi')->join('role', 'role.id=role_disposisi.id_role')->where('disposisi.id_surat', $surat_id)->get()->getResultArray();
+        $query = $this->suratKeluarRevisiModel->join('surat_keluar', 'surat_keluar.id=surat_keluar_revisi.id_surat_keluar')->where('surat_keluar_revisi.id_surat_keluar', $surat_id)->get()->getResultArray();
+        return $this->respond($query);
     }
 
     public function delete($id)
@@ -246,12 +306,6 @@ class SuratKeluar extends BaseController
     {
         // validasi input
         if (!$this->validate([
-            'nomor_urut' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi.'
-                ]
-            ],
             'alamat' => [
                 'rules' => 'required',
                 'errors' => [
@@ -311,7 +365,7 @@ class SuratKeluar extends BaseController
         // Mengambil file lampiran
         $fileLampiran = $this->request->getFile('file_keluar');
         // Ambil nama file
-        $namaLampiran = $this->request->getVar('nomor_urut') . ' ' . $fileLampiran->getName();
+        $namaLampiran =  str_replace("/", "", $this->request->getVar('nomor_urut')) . ' ' . $fileLampiran->getName();
 
         // Cek lampiran, apakah tetap lampiran yg lama
         // Dicek apakah user upload file baru ngga, kalau ngga berarti errornya 4 (filenya kosong)
@@ -359,6 +413,7 @@ class SuratKeluar extends BaseController
     public function downloadttd($id)
     {
         $surat_keluar = $this->suratKeluarModel->find($id);
+        $this->suratKeluarModel->set('status_download', '1')->where('id', $id)->update();
         return $this->response->download('gambar/' . $surat_keluar['tanda_tangan'], null);
     }
 

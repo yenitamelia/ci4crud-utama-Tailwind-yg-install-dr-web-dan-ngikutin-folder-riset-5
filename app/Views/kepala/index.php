@@ -33,7 +33,7 @@
                                     <label for="dari" class="block text-sm font-medium text-gray-700">Disposisi Kepada</label>
                                     <div class="mt-2 space-y-2">
                                         <?php foreach ($role as $row) : ?>
-                                            <?php if (($row["auth_groups_id"]) > 1 && ($row["auth_groups_id"]) < 8) : ?>
+                                            <?php if (($row["role_id"]) > 1 && ($row["role_id"]) < 8) : ?>
                                                 <div class="flex items-start">
                                                     <div class="flex items-center h-5">
                                                         <input type="checkbox" id="<?= $row["name"]; ?>" name="<?= $row["id"]; ?>" value="<?= $row["id"]; ?>" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
@@ -99,16 +99,16 @@
             <select id="filterRole" name="role" class="rounded-md">
                 <option value="" class="rounded-md">Semua</option>
                 <?php foreach ($role as $r) : ?>
-                    <?php if ($r['auth_groups_id'] > 1 && $r['auth_groups_id'] < 8) : ?>
-                        <option value="<?= $r['auth_groups_id'] ?>" <?php if ($r['auth_groups_id'] == $roleId) {
-                                                                        echo 'selected';
-                                                                    } ?>><?= $r['description'] ?>
+                    <?php if ($r['role_id'] > 1 && $r['role_id'] < 8) : ?>
+                        <option value="<?= $r['role_id'] ?>" <?php if ($r['role_id'] == $roleId) {
+                                                                    echo 'selected';
+                                                                } ?>><?= $r['description'] ?>
                         </option>
                     <?php endif ?>
                 <?php endforeach ?>
             </select>
         </div>
-        <?php if (session('auth_groups_id') == 2) : ?>
+        <?php if (session('role_id') == 2) : ?>
             <!-- Tombol Tambah Surat -->
             <a href="/Kasubag/surat/create" class="mb-5 bg-blue-500 hover:bg-blue-600 rounded text-sm text-white px-3 py-1">+ Tambah Surat Masuk</a>
         <?php endif; ?>
@@ -134,7 +134,7 @@
                         <td><?= $s['nomor_agenda'];; ?></td>
                         <td><?= $s['tanggal']; ?></td>
                         <td><?= $s['perihal']; ?></td>
-                        <?php if ($s['disposisi'] == 0) : ?>
+                        <?php if ($s['status_disposisi'] == 0) : ?>
 
                             <td class="text-center justify content-center items-center justify-center justify-content-center align-items-center">
                                 <div class="flex items-center">

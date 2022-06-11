@@ -27,6 +27,6 @@ class DisposisiUserModel extends Model
         $builder->join('surat_masuk', 'disposisi.id_surat=surat_masuk.id');
         $builder->select('surat_masuk.*');
         $builder->where('id_user', $userId);
-        return $builder->get()->getResultArray();
+        return $builder->orderBy('tanggal DESC')->get()->getResultArray();
     }
 }

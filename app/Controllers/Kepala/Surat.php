@@ -42,12 +42,12 @@ class Surat extends BaseController
         // Diganti dibawah pake method ifelse di file SuratModel
         $roleId = $this->request->getVar("role");
         $surat = $this->suratModel->getSuratKepala($roleId);
-        // dd($this->groupsModel->join('users', 'auth_groups.id=users.auth_groups_id', 'left')->get()->getResultArray());
+        // dd($this->groupsModel->join('users', 'role.id=users.role_id', 'left')->get()->getResultArray());
         $data = [
             'title' => 'Daftar Surat',
             'validation' => \Config\Services::validation(),
             'surat' => $surat,
-            'role' => $this->groupsModel->join('users', 'auth_groups.id=users.auth_groups_id', 'left')->get()->getResultArray(),
+            'role' => $this->groupsModel->join('users', 'role.id=users.role_id', 'left')->get()->getResultArray(),
             'users' => $this->userModel->getUserAnggota(),
             // 'disposisi' => $this->disposisiModel->getDisposisi("id")
             'roleId' => $roleId
@@ -59,7 +59,7 @@ class Surat extends BaseController
     // Bisa aja ngambil dari slug
     public function detail($id)
     {
-        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('auth_groups', 'auth_groups.id=users.auth_groups_id')->where('disposisi.id_surat', $id)->get()->getResultArray();
+        $query = $this->disposisiUserModel->join('disposisi', 'disposisi.id=disposisi_user.id_disposisi')->join('users', 'users.id=disposisi_user.id_user')->join('role', 'role.id=users.role_id')->where('disposisi.id_surat', $id)->get()->getResultArray();
         $data = [
             'title' => 'Detail Surat',
             'validation' => \Config\Services::validation(),
@@ -152,7 +152,7 @@ class Surat extends BaseController
             }
 
 
-            $role = $this->groupsModel->join('users', 'auth_groups.id=users.auth_groups_id', 'left')->get()->getResultArray();
+            $role = $this->groupsModel->join('users', 'role.id=users.role_id', 'left')->get()->getResultArray();
 
             foreach ($role as $row) {
                 if (($row["id"]) > 1) {
@@ -182,7 +182,7 @@ class Surat extends BaseController
             }
         }
         // dd($this->request->getVar('id_surat'));
-        $this->suratModel->set('disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
+        $this->suratModel->set('status_disposisi', 1)->where('id', $this->request->getVar('id_surat'))->update();
         session()->setFlashdata('pesan', 'Surat berhasil didisposisi.');
 
         return redirect()->to('/Kepala/Surat');
@@ -191,7 +191,7 @@ class Surat extends BaseController
     public function download($id)
     {
         $surat = $this->suratModel->find($id);
-        return $this->response->download('lampiran/' . $surat['lampiran'], null);
+        return $this->response->download('file_masuk/' . $surat['file_masuk'], null);
     }
 
     // public function read($id)
