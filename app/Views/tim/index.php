@@ -75,7 +75,7 @@
                     <th class="w-1/7">Tanggal Surat</th>
                     <th class="w-1/7">Asal</th>
                     <th class="w-1/3">Perihal</th>
-                    <th class="w-1/8">Aksi</th>
+                    <th class="w-1/8">Opsi</th>
                     <!-- <th class="w-1/5">Aksi 2</th> -->
                 </tr>
             </thead>
@@ -93,7 +93,7 @@
                             <?php if ($s['status_diteruskan_tim'] == 0) : ?>
                                 <div id="disposisi-btn<?= $s['id_disposisi']; ?>" class="flex-auto items-center bg-yellow-500 cursor-pointer hover:bg-yellow-600 text-xs rounded text-white px-3 py-1" onclick="modalDisposisiKetuaTim('<?= $s['id_disposisi']; ?>','<?= $s['id']; ?>','<?= $s['perihal']; ?>','<?= $s['dari']; ?>','<?= $s['nomor_surat']; ?>')">Teruskan</div>
                             <?php else : ?>
-                                <div class="py-1 text-xs flex-auto bg-green-400 rounded-lg">Terkirim</div>
+                                <div class="py-1 text-xs flex-auto bg-green-400 rounded">Terkirim</div>
                             <?php endif; ?>
                         </td>
                         <!-- <td>

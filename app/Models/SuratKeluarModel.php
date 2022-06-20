@@ -38,7 +38,7 @@ class SuratKeluarModel extends Model
         if ($role != '') {
             $this->like('role', $role);
         }
-        return $this->orderBy('status_persetujuan ASC, status_revisi ASC')->findAll();
+        return $this->orderBy('status_persetujuan ASC, status_revisi ASC, tanggal_keluar DESC')->findAll();
     }
 
     public function getNomorUrut($tahun = 0, $bulan = 0)

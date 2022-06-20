@@ -93,7 +93,7 @@
                     <th class="w-1/6">Tanggal Diterima</th>
                     <th class="w-1/3">Perihal</th>
                     <th class="w-1/5">Disposisi Saat Ini</th>
-                    <th class="w-1/5">Aksi</th>
+                    <th class="w-1/5">Opsi</th>
                     <!-- <th class="w-1/5">Aksi 2</th> -->
                 </tr>
             </thead>

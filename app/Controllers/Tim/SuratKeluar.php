@@ -72,7 +72,7 @@ class SuratKeluar extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Surat ' . $id . ' tidak ditemukan.');
         }
 
-        return view('surat_keluar/detail', $data);
+        return view('Tim/detail_suratkeluar', $data);
     }
 
     public function getNomorUrut()
@@ -84,7 +84,7 @@ class SuratKeluar extends BaseController
         if ($isLate == 'false') {
             $query = $this->suratKeluarModel->getNomorUrut();
             $nomor_urut = $query[0]['nomor_urut'];
-            return $this->respond(substr($nomor_urut, 7, 3) + 1);
+            return $this->respond('00' . substr($nomor_urut, 9, 1) + 1);
         } else {
             $query = $this->suratKeluarModel->getNomorUrut($tahun, $bulan);
             $nomor_urut = $query[0]['nomor_urut'];
@@ -130,7 +130,7 @@ class SuratKeluar extends BaseController
             // 'nomor_agenda' => '3523' . $role . '.0' . $nomor_agenda + 1
         ];
 
-        return view('surat_keluar/create', $data);
+        return view('Tim/create_suratkeluar', $data);
     }
 
     // Berfungsi u/ mengelola data yg dikirim dari create u/ diinsert kedalam tabel

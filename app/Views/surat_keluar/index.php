@@ -113,7 +113,7 @@
                     <th class="w-1/3">Perihal Surat</th>
                     <th class="w-1/6">Keluar Tanggal Nomor</th>
                     <th class="w-1/6">Status</th>
-                    <th class="w-1/3">Aksi</th>
+                    <th class="w-1/3">Opsi</th>
                 </tr>
             </thead>
             <tbody>

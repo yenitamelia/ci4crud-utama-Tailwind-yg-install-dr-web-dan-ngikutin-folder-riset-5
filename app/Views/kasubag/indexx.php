@@ -75,7 +75,7 @@
                     <th class="w-1/7">Tanggal Surat</th>
                     <th class="w-1/7">Asal</th>
                     <th class="w-1/3">Perihal</th>
-                    <th class="w-1/8">Aksi</th>
+                    <th class="w-1/8">Opsi</th>
                     <!-- <th class="w-1/5">Aksi 2</th> -->
                 </tr>
             </thead>

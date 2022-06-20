@@ -24,7 +24,7 @@ class SuratModel extends Model
     public function getSuratKasubag($role = '')
     {
         if ($role != '') {
-            $this->like('nomor_agenda', '3523' . $role . '%');
+            $this->like('nomor_agenda', '3523' . $role - 1 . '%');
         }
         return $this->orderBy('status_distribusi ASC, status_disposisi DESC, tanggal DESC')->findAll();
     }
@@ -32,14 +32,18 @@ class SuratModel extends Model
     public function getSuratKepala($role = '')
     {
         if ($role != '') {
-            $this->like('nomor_agenda', '3523' . $role . '%');
+            $this->like('nomor_agenda', '3523' . $role - 1 . '%');
         }
         return $this->orderBy('status_disposisi ASC, tanggal DESC')->findAll();
     }
 
     public function getSuratTim($idTim)
     {
-        $query = "SELECT surat_masuk.*, disposisi.id as id_disposisi FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN disposisi_user on disposisi.id = disposisi_user.id_disposisi JOIN users on disposisi_user.id_user=users.id JOIN role on users.role_id=role.id WHERE users.role_id = $idTim AND surat_masuk.status_distribusi = 1";
+        if ($idTim == 2) {
+            $query = "SELECT surat_masuk.*, disposisi.id as id_disposisi FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN disposisi_user on disposisi.id = disposisi_user.id_disposisi JOIN users on disposisi_user.id_user=users.id JOIN role on users.role_id=role.id WHERE users.role_id = $idTim AND surat_masuk.status_distribusi = 1 ORDER BY status_diteruskan_kasubbag ASC, tanggal DESC";
+        } else {
+            $query = "SELECT surat_masuk.*, disposisi.id as id_disposisi FROM `surat_masuk` JOIN disposisi on surat_masuk.id = disposisi.id_surat JOIN disposisi_user on disposisi.id = disposisi_user.id_disposisi JOIN users on disposisi_user.id_user=users.id JOIN role on users.role_id=role.id WHERE users.role_id = $idTim AND surat_masuk.status_distribusi = 1 ORDER BY status_diteruskan_tim ASC, tanggal DESC";
+        }
         return $this->db->query($query)->getResultArray();
     }
 

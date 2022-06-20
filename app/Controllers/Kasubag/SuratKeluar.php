@@ -127,7 +127,7 @@ class SuratKeluar extends BaseController
         if ($isLate == 'false') {
             $query = $this->suratKeluarModel->getNomorUrut();
             $nomor_urut = $query[0]['nomor_urut'];
-            return $this->respond(substr($nomor_urut, 7, 3) + 1);
+            return $this->respond('00' . substr($nomor_urut, 9, 1) + 1);
         } else {
             $query = $this->suratKeluarModel->getNomorUrut($tahun, $bulan);
             $nomor_urut = $query[0]['nomor_urut'];

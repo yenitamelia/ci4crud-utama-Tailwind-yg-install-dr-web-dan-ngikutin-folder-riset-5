@@ -45,7 +45,7 @@
             </div>
             <div class="grid grid-cols-3">
                 <label for="alamat">Alamat Yang Dituju</label>
-                <input type="text" id="alamat" name="alamat" class="border-2 col-span-2 <?= ($validation->hasError('alamat')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('alamat'); ?>">
+                <input type="text" id="alamat" name="alamat" required class="border-2 col-span-2 <?= ($validation->hasError('alamat')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('alamat'); ?>">
             </div>
             <div class="mb-3 grid grid-cols-3">
                 <div></div>
@@ -55,7 +55,7 @@
             </div>
             <div class="grid grid-cols-3">
                 <label for="perihal">Perihal Surat</label>
-                <input type="text" id="perihal" name="perihal" class="border-2 col-span-2 <?= ($validation->hasError('perihal')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('perihal'); ?>">
+                <input type="text" id="perihal" name="perihal" required class="border-2 col-span-2 <?= ($validation->hasError('perihal')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('perihal'); ?>">
             </div>
             <div class="mb-3 grid grid-cols-3">
                 <div></div>
@@ -65,7 +65,7 @@
             </div>
             <div class="mb-3 grid grid-cols-3">
                 <label for="tanggal_keluar">Keluar Tanggal Nomor</label>
-                <input type="date" id="tanggal_keluar" name="tanggal_keluar" class="border-2 col-span-2 <?= ($validation->hasError('tanggal_keluar')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('tanggal_keluar'); ?>">
+                <input type="date" id="tanggal_keluar" name="tanggal_keluar" required class="border-2 col-span-2 <?= ($validation->hasError('tanggal_keluar')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('tanggal_keluar'); ?>">
             </div>
             <div class="mb-3 grid grid-cols-3">
                 <div></div>
@@ -75,7 +75,7 @@
             </div>
             <div class="grid grid-cols-3">
                 <label for="lampiran">Lampiran</label>
-                <input type="text" id="lampiran" name="lampiran" class="border-2 col-span-2 <?= ($validation->hasError('lampiran')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('lampiran'); ?>">
+                <input type="text" id="lampiran" name="lampiran" class="border-2 col-span-2 <?= ($validation->hasError('lampiran')) ? 'border-red-500' : 'border-blue-500'; ?> rounded-lg focus:outline-none focus:ring focus:border-blue-300 px-2" value="<?= old('lampiran'); ?>" required>
             </div>
             <div class="mb-3 grid grid-cols-3">
                 <div></div>
@@ -106,7 +106,7 @@
             <p class="text-blue-500 font-bold">Unggah File</p>
             <div class="flex mt-5">
                 <div class="flex justify-start items-center mb-1 w-full relative">
-                    <input type="file" hidden accept=".pdf" title="Pilih File" id='file_keluar' name="file_keluar" onchange="label_keluar()">
+                    <input type="file" hidden accept=".pdf" title="Pilih File" required id='file_keluar' name="file_keluar" onchange="label_keluar()">
                     <label for="file_keluar" title="Harus Diisi" class="bg-blue-500 text-white rounded-full w-24 py-1 text-center cursor-pointer hover:bg-blue-400 transition-colors duration-300 text-sm mr-4 outline-none">Pilih File</label>
                     <span class="customLabel text-blue-500 absolute md:left-28 left-28 select-none cursor-default cursor md:text-sm text-sm" id="labelfile_keluar"><?= old('file_keluarLama'); ?></span>
                 </div>
